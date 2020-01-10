@@ -2,151 +2,161 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>quarkus-cafe-web - 1.0-SNAPSHOT</title>
-    <style>
-        h1, h2, h3, h4, h5, h6 {
-            margin-bottom: 0.5rem;
-            font-weight: 400;
-            line-height: 1.5;
-        }
+    <title>Queue</title>
 
-        h1 {
-            font-size: 2.5rem;
-        }
-
-        h2 {
-            font-size: 2rem
-        }
-
-        h3 {
-            font-size: 1.75rem
-        }
-
-        h4 {
-            font-size: 1.5rem
-        }
-
-        h5 {
-            font-size: 1.25rem
-        }
-
-        h6 {
-            font-size: 1rem
-        }
-
-        .lead {
-            font-weight: 300;
-            font-size: 2rem;
-        }
-
-        .banner {
-            font-size: 2.7rem;
-            margin: 0;
-            padding: 2rem 1rem;
-            background-color: #00A1E2;
-            color: white;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        }
-
-        code {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 87.5%;
-            color: #e83e8c;
-            word-break: break-word;
-        }
-
-        .left-column {
-            padding: .75rem;
-            max-width: 75%;
-            min-width: 55%;
-        }
-
-        .right-column {
-            padding: .75rem;
-            max-width: 25%;
-        }
-
-        .container {
-            display: flex;
-            width: 100%;
-        }
-
-        li {
-            margin: 0.75rem;
-        }
-
-        .right-section {
-            margin-left: 1rem;
-            padding-left: 0.5rem;
-        }
-
-        .right-section h3 {
-            padding-top: 0;
-            font-weight: 200;
-        }
-
-        .right-section ul {
-            border-left: 0.3rem solid #00A1E2;
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-    </style>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
 </head>
 <body>
 
-<div class="banner lead">
-    Your new Cloud-Native application is ready!
+<div class="container">
+
+    <h1>Order</h1>
+
+    <form id="orderForm" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="customerName">Name</label>
+            <div class="col-md-6">
+                <input type="text" id="customerName" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="orderMethod">Order method</label>
+            <div class="col-md-10">
+                <select id="orderMethod">
+                    <option value="http">HTTP</option>
+                    <option value="messaging">Messaging / Kafka</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="product">Product</label>
+            <div class="col-md-10">
+                <select id="product">
+                    <option value="frappuccino">Frappuccino</option>
+                    <option value="chai">Chai</option>
+                    <option value="hot-chocolate">Hot Chocolate</option>
+                    <option value="latte">Latte</option>
+                    <option value="espresso">Espresso</option>
+                    <option value="mocha">Mocha</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button id="order-button" type="submit" class="btn btn-primary">Place order</button>
+            </div>
+        </div>
+    </form>
+
 </div>
+
+<div class="container" id="order-result-message"></div>
 
 <div class="container">
-    <div class="left-column">
-        <p class="lead"> Congratulations, you have created a new Quarkus application.</p>
 
-        <h2>Why do you see this?</h2>
+    <h1>Queue</h1>
 
-        <p>This page is served by Quarkus. The source is in
-            <code>src/main/resources/META-INF/resources/index.html</code>.</p>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Prepared By</th>
+            <th>State</th>
+        </tr>
+        </thead>
+        <tbody>
 
-        <h2>What can I do from here?</h2>
+        </tbody>
+    </table>
 
-        <p>If not already done, run the application in <em>dev mode</em> using: <code>mvn compile quarkus:dev</code>.
-        </p>
-        <ul>
-            <li>Add REST resources, Servlets, functions and other services in <code>src/main/java</code>.</li>
-            <li>Your static assets are located in <code>src/main/resources/META-INF/resources</code>.</li>
-            <li>Configure your application in <code>src/main/resources/application.properties</code>.
-            </li>
-        </ul>
-
-        <h2>How do I get rid of this page?</h2>
-        <p>Just delete the <code>src/main/resources/META-INF/resources/index.html</code> file.</p>
-    </div>
-    <div class="right-column">
-        <div class="right-section">
-            <h3>Application</h3>
-            <ul>
-                <li>GroupId: com.redhat.quarkus.cafe.wb</li>
-                <li>ArtifactId: quarkus-cafe-web</li>
-                <li>Version: 1.0-SNAPSHOT</li>
-                <li>Quarkus Version: 1.1.1.Final</li>
-            </ul>
-        </div>
-        <div class="right-section">
-            <h3>Next steps</h3>
-            <ul>
-                <li><a href="https://quarkus.io/guides/maven-tooling.html" target="_blank">Setup your IDE</a></li>
-                <li><a href="https://quarkus.io/guides/getting-started.html" target="_blank">Getting started</a></li>
-                <li><a href="https://quarkus.io" target="_blank">Quarkus Web Site</a></li>
-            </ul>
-        </div>
-    </div>
 </div>
+
+
+
 
 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/js/patternfly.min.js"></script>
+
+<script>
+
+    $("#orderForm").submit(function(event){
+        var method = $("#orderMethod option:selected").val();
+        var order = {};
+        order.name = $("#customerName").val();
+        console.log("Customer name = " + order.name);
+        order.product = $("#product option:selected").val();
+        if(method==="http") {
+            var state = {};
+            state.order = order;
+            state.state = "IN_PROGRESS";
+            $("tbody").append(line(state));
+            $("#order-button").addClass("disabled").attr("disabled", true);
+        }
+
+        event.preventDefault(); //prevent default action
+        var post_url = "/" + method; //get form action url
+        var request_method = "POST"; //get form GET/POST method
+
+        $.ajax({
+            url : post_url,
+            type: request_method,
+            data : JSON.stringify(order),
+            contentType: 'application/json',
+            cache: false
+        }).done(function(response){
+            if(method==="http") {
+                var state = {};
+                order.orderId = response.orderId;
+                state.order = order;
+                state.beverage = {};
+                state.beverage.preparedBy = response.preparedBy;
+                state.state = "READY";
+                $('tbody tr:last').replaceWith(line(state));
+                $("#order-button").removeClass("disabled").removeAttr("disabled");
+            }
+        }).fail(function(err) {
+            $("#order-result-message").append("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span class='pficon pficon-close'></span></button><span class='pficon pficon-error-circle-o'></span><strong>Error</strong>" + err.responseText + "</div>");
+            $('tbody tr:last').remove();
+            $("#order-button").removeClass("disabled").removeAttr("disabled");
+            console.error(err);
+        });
+    });
+
+    $(function () {
+        var source = new EventSource("http://localhost:8080/dashboard/stream");
+        source.onmessage = function(e) {
+            console.log(e);
+            var state = JSON.parse(e.data);
+            if(state.state=="IN_QUEUE")
+                $("tbody").append(line(state));
+            if(state.state=="READY")
+                $("#"+state.order.orderId).replaceWith(line(state));
+
+        };
+    });
+
+    function line(state) {
+        var id = state.orderId;
+        var product = state.product;
+        var customer = state.name;
+        var barista = "";
+        if (state.beverage) {
+            barista = state.beverage.preparedBy;
+        }
+        return "<tr id='" + id + "'>" +
+            "<td>" + customer + "</td>" +
+            "<td>" + product + "</td>" +
+            "<td>" + barista + "</td>" +
+            "<td>" + state.state + "</td></tr>";
+    }
+
+
+</script>
 </html>
