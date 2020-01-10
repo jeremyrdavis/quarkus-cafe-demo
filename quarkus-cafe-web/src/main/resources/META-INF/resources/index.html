@@ -137,7 +137,7 @@
             if(state.state=="IN_QUEUE")
                 $("tbody").append(line(state));
             if(state.state=="READY")
-                $("#"+state.order.orderId).replaceWith(line(state));
+                $("#"+state.orderId).replaceWith(line(state));
 
         };
     });
@@ -145,7 +145,7 @@
     function line(state) {
         var id = state.orderId;
         var product = state.product;
-        var customer = state.name;
+        var customer = state.customer;
         var barista = "";
         if (state.beverage) {
             barista = state.beverage.preparedBy;
