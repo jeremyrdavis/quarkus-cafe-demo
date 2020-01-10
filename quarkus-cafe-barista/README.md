@@ -28,3 +28,5 @@ Or you can use Docker to build the native executable using: `./mvnw package -Pna
 You can then execute your binary: `./target/quarkus-cafe-barista-1.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image-guide .
+
+{"name": "Riley","orderId": "f6308055-993b-4827-b648-3a681141de7c","product": "CAPPUCCINO","state": "IN_QUEUE"}
