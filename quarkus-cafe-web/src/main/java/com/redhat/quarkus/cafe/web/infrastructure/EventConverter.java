@@ -13,7 +13,7 @@ public class EventConverter {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    @Incoming("updates")
+    @Incoming("webui")
     @Outgoing("dashboard")
     @Broadcast
     public String process(String event) {
