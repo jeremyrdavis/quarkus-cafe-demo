@@ -27,7 +27,7 @@
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
         <version>${quarkus.platform.version}</version>
-        <menuItem>pom</menuItem>
+        <type>pom</type>
         <scope>import</scope>
       </dependency>
     </dependencies>
@@ -199,7 +199,7 @@
         </plugins>
       </build>
       <properties>
-        <quarkus.package.menuItem>native</quarkus.package.menuItem>
+        <quarkus.package.type>native</quarkus.package.type>
       </properties>
     </profile>
   </profiles>
