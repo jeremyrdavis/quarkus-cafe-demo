@@ -1,8 +1,14 @@
 package com.redhat.quarkus.cafe.domain;
 
+import java.util.UUID;
+
 public class KitchenOrderInEvent implements CafeEvent {
 
-    String orderId;
+    public String orderId;
+
+    public final String beverageId = UUID.randomUUID().toString();
+
+    public String name;
 
     Food food;
 
@@ -22,8 +28,8 @@ public class KitchenOrderInEvent implements CafeEvent {
     }
 
     @Override
-    public CafeEventType getEventType() {
-        return CafeEventType.KITCHEN;
+    public EventType getEventType() {
+        return EventType.KITCHEN_ORDER_IN;
     }
 
 }

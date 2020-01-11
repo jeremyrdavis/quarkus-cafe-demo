@@ -4,8 +4,10 @@ public class Beverage {
 
     public Type type;
 
-    public Beverage(Type typeToSet) {
-        this.type = typeToSet;
+    public String name;
+
+    public Beverage(Type typeToSet, String nameToSet) {
+        this.type = typeToSet; this.name = nameToSet;
     }
 
     public Beverage() {

@@ -6,10 +6,10 @@ public interface CafeEvent {
 
     public String getItem();
 
-    public CafeEventType getEventType();
+    public EventType getEventType();
 
-    public enum CafeEventType{
-        BEVERAGE, KITCHEN;
+    public enum EventType {
+        BEVERAGE_ORDER_IN, BEVERAGE_ORDER_UP, KITCHEN_ORDER_IN, KITCHEN_ORDER_UP;
     }
 
 }

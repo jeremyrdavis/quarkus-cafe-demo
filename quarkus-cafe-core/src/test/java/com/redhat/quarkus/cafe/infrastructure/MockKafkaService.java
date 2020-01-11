@@ -15,6 +15,9 @@ public class MockKafkaService extends KafkaService{
 
         return CompletableFuture.runAsync(() -> {
             cafeEventList.stream().forEach(cafeEvent -> {
+                switch (cafeEvent.getEventType()) {
+                    case BEVERAGE_ORDER_IN:
+                }
                 System.out.println(cafeEvent);
             });
         });
