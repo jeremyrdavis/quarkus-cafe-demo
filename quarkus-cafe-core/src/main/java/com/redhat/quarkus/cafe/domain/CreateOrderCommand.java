@@ -7,9 +7,9 @@ public class CreateOrderCommand {
 
     public String id;
 
-    public Optional<List<Beverage>> beverages = Optional.empty();
+    public Optional<List<Order>> beverages = Optional.empty();
 
-    public Optional<List<Food>> foods = Optional.empty();
+    public Optional<List<Order>> foods = Optional.empty();
 
     public CreateOrderCommand() {
     }
@@ -19,13 +19,13 @@ public class CreateOrderCommand {
         this.id = id;
     }
 
-    public CreateOrderCommand(String id, List<Beverage> beverages, List<Food> foods) {
+    public CreateOrderCommand(String id, List<Order> beverages, List<Order> foods) {
         this.id = id;
         this.beverages = Optional.ofNullable(beverages);
         this.foods = Optional.ofNullable(foods);
     }
 
-    public void addBeverages(List<Beverage> beverageList) {
+    public void addBeverages(List<Order> beverageList) {
         if (this.beverages.isPresent()) {
 
         }

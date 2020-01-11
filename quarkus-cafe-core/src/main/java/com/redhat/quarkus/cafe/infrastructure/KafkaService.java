@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.CafeEvent;
+import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
@@ -27,14 +28,14 @@ public class KafkaService {
 
     private KafkaProducer<String, String> producer;
 
-    public CompletableFuture<Void> produce(List<CafeEvent> cafeEventList) {
+    public CompletableFuture<Void> produce(List<OrderInEvent> cafeEventList) {
 
         return CompletableFuture.runAsync(() -> {
             cafeEventList.stream().forEach(cafeEvent -> {
                 System.out.println(cafeEvent);
                 KafkaProducerRecord<String, String> record = KafkaProducerRecord.create(
                         TOPIC,
-                        cafeEvent.getOrderId().toString(),
+                        cafeEvent.orderId,
                         jsonb.toJson(cafeEvent).toString());
                 System.out.println(record);
                 producer.send(record, res ->{

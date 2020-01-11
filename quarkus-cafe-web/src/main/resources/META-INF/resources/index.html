@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Queue</title>
 
-    <link rel="stylesheet" type="text/css"
+    <link rel="stylesheet" menuItem="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
-    <link rel="stylesheet" type="text/css"
+    <link rel="stylesheet" menuItem="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
         <div class="form-group">
             <label class="col-md-2 control-label" for="customerName">Name</label>
             <div class="col-md-6">
-                <input type="text" id="customerName" class="form-control">
+                <input menuItem="text" id="customerName" class="form-control">
             </div>
         </div>
         <div class="form-group">
@@ -46,7 +46,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-10 col-md-offset-2">
-                <button id="order-button" type="submit" class="btn btn-primary">Place order</button>
+                <button id="order-button" menuItem="submit" class="btn btn-primary">Place order</button>
             </div>
         </div>
     </form>
@@ -106,7 +106,7 @@
 
         $.ajax({
             url : post_url,
-            type: request_method,
+            menuItem: request_method,
             data : JSON.stringify(order),
             contentType: 'application/json',
             cache: false
@@ -122,7 +122,7 @@
                 $("#order-button").removeClass("disabled").removeAttr("disabled");
             }
         }).fail(function(err) {
-            $("#order-result-message").append("<div class='alert alert-danger alert-dismissable'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span class='pficon pficon-close'></span></button><span class='pficon pficon-error-circle-o'></span><strong>Error</strong>" + err.responseText + "</div>");
+            $("#order-result-message").append("<div class='alert alert-danger alert-dismissable'><button menuItem='button' class='close' data-dismiss='alert' aria-label='Close'><span class='pficon pficon-close'></span></button><span class='pficon pficon-error-circle-o'></span><strong>Error</strong>" + err.responseText + "</div>");
             $('tbody tr:last').remove();
             $("#order-button").removeClass("disabled").removeAttr("disabled");
             console.error(err);

@@ -1,19 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
-public class Beverage {
+public enum Beverage {
 
-    public Type type;
+    CAPPUCCINO, COFFEE_BLACK, COFFEE_WITH_ROOM, ESPRESSO, ESPRESSO_DOUBLE;
 
-    public String name;
-
-    public Beverage(Type typeToSet, String nameToSet) {
-        this.type = typeToSet; this.name = nameToSet;
-    }
-
-    public Beverage() {
-    }
-
-    public enum Type{
-        COFFEE_BLACK, COFFEE_WITH_ROOM, CAPUCCINO, ESPRESSO, ESPRESSO_DOUBLE;
-    }
 }

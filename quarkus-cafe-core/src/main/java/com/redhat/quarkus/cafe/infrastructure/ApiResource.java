@@ -1,8 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.Beverage;
-import com.redhat.quarkus.cafe.domain.BeverageOrderInEvent;
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.*;
 import org.jboss.logging.Logger;
 
 import javax.ws.rs.Consumes;
@@ -34,21 +32,16 @@ public class ApiResource {
     @Path("/beverageOrderInEvent")
     public Response getOrderInEvent() {
 
-        BeverageOrderInEvent retVal = new BeverageOrderInEvent(UUID.randomUUID().toString(), Beverage.Type.ESPRESSO, "Jeremy");
+        BeverageOrderInEvent retVal = new BeverageOrderInEvent(UUID.randomUUID().toString(), "Goofy", Item.ESPRESSO);
         return Response.ok().entity(retVal).build();
 
     }
 
-    private List<Beverage> createBeverages() {
-        List<Beverage> beverages = new ArrayList(2);
-        beverages.add(new Beverage(Beverage.Type.CAPUCCINO, "Mickey"));
-        beverages.add(new Beverage(Beverage.Type.COFFEE_BLACK, "Minnie"));
+    private List<Order> createBeverages() {
+        List<Order> beverages = new ArrayList(2);
+        beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Mickey"));
+        beverages.add(new Order(Item.COFFEE_BLACK, "Minnie"));
         return beverages;
     }
 
-    @GET
-    @Path("/beverage")
-    public Beverage getBeverageJson() {
-        return new Beverage(Beverage.Type.COFFEE_BLACK, "Donald");
-    }
 }

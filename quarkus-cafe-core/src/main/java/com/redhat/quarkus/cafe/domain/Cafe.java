@@ -21,14 +21,14 @@ public class Cafe {
     KafkaService kafkaService;
 
     //TODO Create and persist an Order
-    public CompletableFuture<List<CafeEvent>> orderIn(CreateOrderCommand createOrderCommand) {
+    public CompletableFuture<List<OrderInEvent>> orderIn(CreateOrderCommand createOrderCommand) {
 
-        List<CafeEvent> allEvents = new ArrayList<>();
+        List<OrderInEvent> allEvents = new ArrayList<>();
         createOrderCommand.beverages.ifPresent(beverages -> {
-            allEvents.addAll(createOrderCommand.beverages.get().stream().map(b -> new BeverageOrderInEvent(createOrderCommand.id, b)).collect(Collectors.toList()));
+            allEvents.addAll(createOrderCommand.beverages.get().stream().map(b -> new BeverageOrderInEvent(createOrderCommand.id, b.name, b.item)).collect(Collectors.toList()));
         });
         createOrderCommand.foods.ifPresent(foods -> {
-            allEvents.addAll(createOrderCommand.foods.get().stream().map(f -> new KitchenOrderInEvent(createOrderCommand.id, f)).collect(Collectors.toList()));
+            allEvents.addAll(createOrderCommand.foods.get().stream().map(f -> new KitchenOrderInEvent(createOrderCommand.id, f.name, f.item)).collect(Collectors.toList()));
         });
 
         return kafkaService.produce(allEvents).thenApply(v -> {

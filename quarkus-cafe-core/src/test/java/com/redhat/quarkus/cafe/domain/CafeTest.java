@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,12 +21,11 @@ public class CafeTest {
     @Test
     public void testOrderInBeverageOnly() throws ExecutionException, InterruptedException {
 
-        List<Beverage> beverages = new ArrayList<>();
-        List<Food> foods = new ArrayList<>();
+        List<Order> beverages = new ArrayList<>();
 
-        beverages.add(new Beverage());
-        beverages.add(new Beverage());
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, foods);
+        beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Kirk"));
+        beverages.add(new Order(Item.ESPRESSO_DOUBLE, "Spock"));
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, null);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
             assertNotNull(cafeEvents);
             assertEquals(2, cafeEvents.size());
@@ -42,9 +39,9 @@ public class CafeTest {
     @Test
     public void testOrderInFoodOnly() {
 
-        List<Food> foods = new ArrayList<>();
-        foods.add(new Food(Food.Type.MUFFIN));
-        foods.add(new Food(Food.Type.CAKEPOP));
+        List<Order> foods = new ArrayList<>();
+        foods.add(new Order(Item.MUFFIN, "Kirk"));
+        foods.add(new Order(Item.CAKEPOP, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), null, foods);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
             assertNotNull(cafeEvents);
@@ -59,12 +56,13 @@ public class CafeTest {
     @Test
     public void testOrderInBeveragesAndFood() {
 
-        List<Food> foods = new ArrayList<>();
-        foods.add(new Food(Food.Type.MUFFIN));
-        foods.add(new Food(Food.Type.CAKEPOP));
-        List<Beverage> beverages = new ArrayList<>();
-        beverages.add(new Beverage(Beverage.Type.CAPUCCINO));
-        beverages.add(new Beverage(Beverage.Type.COFFEE_BLACK));
+        List<Order> foods = new ArrayList<>();
+        foods.add(new Order(Item.MUFFIN, "Kirk"));
+        foods.add(new Order(Item.CAKEPOP, "Spock"));
+
+        List<Order> beverages = new ArrayList<>();
+        beverages.add(new Order(Item.CAPPUCCINO, "Kirk"));
+        beverages.add(new Order(Item.COFFEE_BLACK, "Spock"));
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, foods);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
