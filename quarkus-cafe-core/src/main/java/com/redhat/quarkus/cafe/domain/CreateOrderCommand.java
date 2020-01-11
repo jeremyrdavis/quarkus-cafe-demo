@@ -26,14 +26,6 @@ public class CreateOrderCommand {
     }
 
     public void addBeverages(List<Order> beverageList) {
-        if (this.beverages.isPresent()) {
-
-        }
         this.beverages.ifPresent(b -> b.addAll(beverageList));
-        if (this.beverages.isPresent()) {
-            this.beverages = Optional.of(beverageList);
-        }else{
-            this.beverages = Optional.of(beverageList);
-        }
     }
 }

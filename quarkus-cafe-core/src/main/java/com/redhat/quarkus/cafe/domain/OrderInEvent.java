@@ -18,7 +18,7 @@ public abstract class OrderInEvent implements CafeEvent{
 
     public String getOrderId(){
         return orderId;
-    };
+    }
 
     public Item getItem() {
         return item;
@@ -26,8 +26,7 @@ public abstract class OrderInEvent implements CafeEvent{
 
     public EventType getEventType(){
         return eventType;
-    };
-
+    }
 
 
 }

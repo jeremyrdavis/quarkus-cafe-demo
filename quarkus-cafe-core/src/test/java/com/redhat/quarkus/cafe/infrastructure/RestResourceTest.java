@@ -43,7 +43,7 @@ public class RestResourceTest {
 
         System.out.println(jsonb.toJson(createOrderCommand));
         given()
-                .body(jsonb.toJson(createOrderCommand).toString())
+                .body(jsonb.toJson(createOrderCommand))
                 .contentType(ContentType.JSON)
                 .when().post("/order")
                 .then()

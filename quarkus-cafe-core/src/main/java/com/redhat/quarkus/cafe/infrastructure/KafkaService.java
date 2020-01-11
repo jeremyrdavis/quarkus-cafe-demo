@@ -1,6 +1,5 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CafeEvent;
 import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
@@ -36,7 +35,7 @@ public class KafkaService {
                 KafkaProducerRecord<String, String> record = KafkaProducerRecord.create(
                         TOPIC,
                         cafeEvent.orderId,
-                        jsonb.toJson(cafeEvent).toString());
+                        jsonb.toJson(cafeEvent));
                 System.out.println(record);
                 producer.send(record, res ->{
                     if (res.failed()) {

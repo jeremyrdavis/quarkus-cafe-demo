@@ -1,6 +1,5 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.Beverage;
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.domain.Item;
 import com.redhat.quarkus.cafe.domain.Order;
@@ -15,7 +14,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +37,7 @@ public class RestResourceIT extends BaseTestContainersIT{
 
         System.out.println(jsonb.toJson(createOrderCommand));
         given()
-                .body(jsonb.toJson(createOrderCommand).toString())
+                .body(jsonb.toJson(createOrderCommand))
                 .contentType(ContentType.JSON)
                 .when().post("/order")
                 .then()

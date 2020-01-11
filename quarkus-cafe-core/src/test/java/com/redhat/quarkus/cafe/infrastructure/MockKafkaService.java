@@ -1,9 +1,7 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CafeEvent;
 import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.quarkus.test.Mock;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.List;
