@@ -36,6 +36,7 @@ public class RestResourceIT extends BaseTestContainersIT{
         createOrderCommand.addBeverages(beverageList);
 
         System.out.println(jsonb.toJson(createOrderCommand));
+
         given()
                 .body(jsonb.toJson(createOrderCommand))
                 .contentType(ContentType.JSON)
