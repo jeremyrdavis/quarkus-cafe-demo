@@ -21,6 +21,9 @@ public class OrderEvent {
         this.itemId = itemId;
     }
 
+    public OrderEvent() {
+    }
+
     public String getOrderId(){
         return orderId;
     }
