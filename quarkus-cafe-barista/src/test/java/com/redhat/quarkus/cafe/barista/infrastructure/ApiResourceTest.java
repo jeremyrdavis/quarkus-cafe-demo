@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.GET;
@@ -14,10 +15,10 @@ public class ApiResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/api")
+          .when().get("/api/orderInEvent")
           .then()
              .statusCode(200)
-             .body(is("hello"));
+                .contentType(ContentType.JSON);
     }
 
 }

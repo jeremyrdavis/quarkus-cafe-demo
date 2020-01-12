@@ -1,11 +1,6 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
-import com.redhat.quarkus.cafe.barista.domain.Beverage;
-import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
-import com.redhat.quarkus.cafe.barista.domain.Status;
-import com.redhat.quarkus.cafe.barista.domain.Beverage;
-import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
-import com.redhat.quarkus.cafe.barista.domain.Status;
+import com.redhat.quarkus.cafe.barista.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
 import org.apache.kafka.clients.admin.DescribeClusterResult;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -27,7 +22,7 @@ public class BaristaIT extends BaseTestContainersIT {
     @Test
     public void testBlackCoffeeOrderInFromKafka() throws ExecutionException, InterruptedException {
 
-        BeverageOrder beverageOrder = new BeverageOrder(UUID.randomUUID().toString(), "Jeremy", Beverage.BLACK_COFFEE, Status.IN_QUEUE);
+        OrderInEvent beverageOrder = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
         kafkaProducer.send(new ProducerRecord<>(CONSUMER_TOPIC, beverageOrder.orderId, jsonb.toJson(beverageOrder).toString())).get();
 //        ConsumerRecords<String, String> initialRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
 //        assertEquals(1, initialRecords.count());
@@ -47,7 +42,7 @@ public class BaristaIT extends BaseTestContainersIT {
 //            assertEquals(beverageOrder.toString(), record.value());
             System.out.println(record.value().toString());
             BeverageOrder result = jsonb.fromJson(record.value(), BeverageOrder.class);
-            assertEquals(Status.READY, result.status);
+            assertEquals(EventType.BEVERAGE_ORDER_UP, result.eventType);
         }
     }
 }

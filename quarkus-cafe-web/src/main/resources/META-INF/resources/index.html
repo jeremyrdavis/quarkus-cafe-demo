@@ -115,8 +115,8 @@
                 var state = {};
                 order.orderId = response.orderId;
                 state.order = order;
-                state.beverage = {};
-                state.beverage.preparedBy = response.preparedBy;
+                state.item = {};
+                state.item.preparedBy = response.preparedBy;
                 state.state = "READY";
                 $('tbody tr:last').replaceWith(line(state));
                 $("#order-button").removeClass("disabled").removeAttr("disabled");
@@ -148,8 +148,8 @@
         var customer = state.customer;
         var barista = "";
 /*
-        if (state.beverage) {
-            barista = state.beverage.preparedBy;
+        if (state.item) {
+            barista = state.item.preparedBy;
         }
 */
         return "<tr id='" + id + "'>" +

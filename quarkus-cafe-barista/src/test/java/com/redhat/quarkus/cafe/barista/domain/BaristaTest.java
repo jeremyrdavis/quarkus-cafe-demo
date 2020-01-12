@@ -20,7 +20,7 @@ public class BaristaTest {
     @Test
     public void testBlackCoffeeOrder() throws ExecutionException, InterruptedException {
 
-        BeverageOrder beverageOrder = new BeverageOrder(UUID.randomUUID().toString(),"Jeremy", Beverage.BLACK_COFFEE);
+        OrderInEvent beverageOrder = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
         barista.orderIn(beverageOrder).thenAccept(result -> {
             assertEquals(result, Status.READY);
         });
@@ -29,7 +29,7 @@ public class BaristaTest {
     @Test
     public void testLatteOrder() throws ExecutionException, InterruptedException {
 
-        BeverageOrder beverageOrder = new BeverageOrder(UUID.randomUUID().toString(),"Jeremy", Beverage.LATTE);
+        OrderInEvent beverageOrder = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.LATTE);
         barista.orderIn(beverageOrder).thenAccept(result -> {
             assertEquals(result, Status.READY);
         });

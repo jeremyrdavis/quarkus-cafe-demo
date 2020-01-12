@@ -1,28 +1,22 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
-import com.redhat.quarkus.cafe.barista.domain.Beverage;
-import com.redhat.quarkus.cafe.barista.domain.CafeEventType;
-import com.redhat.quarkus.cafe.barista.domain.Status;
-
 public class OrderInEvent {
 
-    public CafeEventType eventType = CafeEventType.BEVERAGE_ORDER_IN;
+    public EventType eventType = EventType.BEVERAGE_ORDER_IN;
 
     public String orderId;
 
-    public String beverageId;
+    public String itemId;
 
     public String name;
 
-    public Beverage beverage;
+    public Item item;
 
-    public Status status;
-
-    public OrderInEvent(String orderId, String beverageId, String name, Beverage beverage, Status status) {
+    public OrderInEvent(String orderId, String itemId, String name, Item item) {
         this.orderId = orderId;
-        this.beverageId = beverageId;
+        this.itemId = itemId;
         this.name = name;
-        this.beverage = beverage;
+        this.item = item;
     }
 
     public OrderInEvent() {

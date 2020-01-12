@@ -11,13 +11,13 @@ public class Barista {
 
     Logger logger = Logger.getLogger(Barista.class);
 
-    public CompletionStage<BeverageOrder> orderIn(BeverageOrder beverageOrder) {
+    public CompletionStage<BeverageOrder> orderIn(OrderInEvent beverageOrder) {
 
         logger.debug("orderIn: " + beverageOrder.toString());
 
         return CompletableFuture.supplyAsync(() -> {
 
-            switch(beverageOrder.product){
+            switch(beverageOrder.item){
                 case BLACK_COFFEE:
                     return prepare(beverageOrder, 5);
                 case COFFEE_WITH_ROOM:
@@ -32,13 +32,13 @@ public class Barista {
         });
     }
 
-    private BeverageOrder prepare(final BeverageOrder beverageOrder, int seconds) {
+    private BeverageOrder prepare(final OrderInEvent beverageOrder, int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        BeverageOrder retVal = new BeverageOrder(beverageOrder.orderId, beverageOrder.name, beverageOrder.product, Status.READY);
+        OrderUpEvent retVal = new OrderUpEvent(beverageOrder.orderId, beverageOrder.itemId, beverageOrder.name, beverageOrder.item);
         System.out.println("returning: " + retVal.toString());
         return retVal;
     }

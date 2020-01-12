@@ -1,7 +1,8 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
-import com.redhat.quarkus.cafe.barista.domain.Beverage;
+import com.redhat.quarkus.cafe.barista.domain.Item;
 import com.redhat.quarkus.cafe.barista.domain.OrderInEvent;
+import com.redhat.quarkus.cafe.barista.domain.OrderUpEvent;
 import com.redhat.quarkus.cafe.barista.domain.Status;
 
 import javax.ws.rs.Consumes;
@@ -21,7 +22,15 @@ public class ApiResource {
     @Path("/orderInEvent")
     public Response orderInEvent() {
 
-        OrderInEvent retVal = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Beverage.BLACK_COFFEE, Status.IN_QUEUE);
+        OrderInEvent retVal = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
+        return Response.ok().entity(retVal).build();
+    }
+
+    @GET
+    @Path("/orderUpEvent")
+    public Response orderUpEvent() {
+
+        OrderUpEvent retVal = new OrderUpEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
         return Response.ok().entity(retVal).build();
     }
 }

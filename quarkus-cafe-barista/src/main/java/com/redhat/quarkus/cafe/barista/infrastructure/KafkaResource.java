@@ -3,6 +3,7 @@ package com.redhat.quarkus.cafe.barista.infrastructure;
 import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
 import com.redhat.quarkus.cafe.barista.domain.Barista;
 import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
+import com.redhat.quarkus.cafe.barista.domain.OrderInEvent;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.jboss.logging.Logger;
@@ -23,15 +24,14 @@ public class KafkaResource {
 
     private Jsonb jsonb = JsonbBuilder.create();
 
-    @Incoming("coffee-orders-in")
-    @Outgoing("coffee-orders-out")
+    @Incoming("ordersin")
+    @Outgoing("ordersout")
     public CompletionStage<BeverageOrder> orderIn(String message) {
 
         logger.debug(message);
         System.out.println("order in:" + message);
-        BeverageOrder beverageOrder = jsonb.fromJson(message, BeverageOrder.class);
-        logger.debug(beverageOrder.toString());
-        return barista.orderIn(beverageOrder);
+        OrderInEvent orderInEvent = jsonb.fromJson(message, OrderInEvent.class);
+        return barista.orderIn(orderInEvent);
     }
 
     public class KafkaTopics{

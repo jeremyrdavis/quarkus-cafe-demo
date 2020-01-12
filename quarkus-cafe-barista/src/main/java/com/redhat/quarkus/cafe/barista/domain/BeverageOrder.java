@@ -1,29 +1,21 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
-public class BeverageOrder {
+public abstract class BeverageOrder {
 
+    public EventType eventType;
+    public String itemId;
     public String orderId;
-
     public String name;
-
-    public Beverage product;
-
-    public Status status;
+    public Item item;
 
     public BeverageOrder() {
     }
 
-    public BeverageOrder(String orderId, String name, Beverage product) {
+    public BeverageOrder(String orderId, String itemId, String name, Item item) {
+        this.itemId = itemId;
         this.orderId = orderId;
         this.name = name;
-        this.product = product;
-    }
-
-    public BeverageOrder(String orderId, String name, Beverage product, Status status) {
-        this.orderId = orderId;
-        this.name = name;
-        this.product = product;
-        this.status = status;
+        this.item = item;
     }
 
     @Override
@@ -32,10 +24,14 @@ public class BeverageOrder {
                 .append("BeverageOrder[")
                 .append("name=")
                 .append(name)
-                .append(",beverage=")
-                .append(product)
-                .append(",status=")
-                .append(status)
+                .append(",item=")
+                .append(item)
+                .append(",itemId=")
+                .append(itemId)
+                .append(",eventType=")
+                .append(eventType)
+                .append(",orderId=")
+                .append(orderId)
                 .append("]")
                 .toString();
     }
