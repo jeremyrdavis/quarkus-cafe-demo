@@ -3,7 +3,6 @@ package com.redhat.quarkus.cafe.barista.infrastructure;
 import com.redhat.quarkus.cafe.barista.domain.Item;
 import com.redhat.quarkus.cafe.barista.domain.OrderInEvent;
 import com.redhat.quarkus.cafe.barista.domain.OrderUpEvent;
-import com.redhat.quarkus.cafe.barista.domain.Status;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -22,7 +21,7 @@ public class ApiResource {
     @Path("/orderInEvent")
     public Response orderInEvent() {
 
-        OrderInEvent retVal = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
+        OrderInEvent retVal = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
         return Response.ok().entity(retVal).build();
     }
 
@@ -30,7 +29,7 @@ public class ApiResource {
     @Path("/orderUpEvent")
     public Response orderUpEvent() {
 
-        OrderUpEvent retVal = new OrderUpEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.BLACK_COFFEE);
+        OrderUpEvent retVal = new OrderUpEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
         return Response.ok().entity(retVal).build();
     }
 }

@@ -2,10 +2,11 @@ package com.redhat.quarkus.cafe.domain;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public class CreateOrderCommand {
 
-    public String id;
+    public final String id = UUID.randomUUID().toString();
 
     public Optional<List<Order>> beverages = Optional.empty();
 
@@ -14,13 +15,7 @@ public class CreateOrderCommand {
     public CreateOrderCommand() {
     }
 
-    public CreateOrderCommand(String id) {
-
-        this.id = id;
-    }
-
-    public CreateOrderCommand(String id, List<Order> beverages, List<Order> foods) {
-        this.id = id;
+    public CreateOrderCommand(List<Order> beverages, List<Order> foods) {
         this.beverages = Optional.ofNullable(beverages);
         this.foods = Optional.ofNullable(foods);
     }

@@ -23,7 +23,7 @@ public class ApiResource {
     @GET
     @Path("/createOrderCommand")
     public Response getCreateOrderCommandJson() {
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString());
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(createBeverages());
         return Response.ok().entity(createOrderCommand).build();
     }
@@ -32,9 +32,16 @@ public class ApiResource {
     @Path("/beverageOrderInEvent")
     public Response getOrderInEvent() {
 
-        BeverageOrderInEvent retVal = new BeverageOrderInEvent(UUID.randomUUID().toString(), "Goofy", Item.ESPRESSO);
+        BeverageOrderInEvent retVal = new BeverageOrderInEvent(UUID.randomUUID().toString(),"Goofy", Item.ESPRESSO);
         return Response.ok().entity(retVal).build();
+    }
 
+    @GET
+    @Path("/kitchenOrderInEvent")
+    public Response getKitchenOrderInEvent(){
+
+        KitchenOrderInEvent retVal = new KitchenOrderInEvent(UUID.randomUUID().toString(),"Goofy", Item.CAKEPOP);
+        return Response.ok().entity(retVal).build();
     }
 
     private List<Order> createBeverages() {

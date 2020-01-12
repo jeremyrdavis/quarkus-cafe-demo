@@ -29,6 +29,7 @@ public class KafkaResource {
     public CompletionStage<BeverageOrder> orderIn(String message) {
 
         logger.debug(message);
+
         System.out.println("order in:" + message);
         OrderInEvent orderInEvent = jsonb.fromJson(message, OrderInEvent.class);
         return barista.orderIn(orderInEvent);

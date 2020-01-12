@@ -6,7 +6,7 @@ public abstract class OrderInEvent implements CafeEvent{
 
     public final String itemId = UUID.randomUUID().toString();
     public EventType eventType;
-    public String orderId;
+    public final String orderId;
     public String name;
     public Item item;
 

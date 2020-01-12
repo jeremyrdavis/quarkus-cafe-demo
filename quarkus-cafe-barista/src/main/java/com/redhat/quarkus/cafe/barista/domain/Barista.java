@@ -18,7 +18,7 @@ public class Barista {
         return CompletableFuture.supplyAsync(() -> {
 
             switch(beverageOrder.item){
-                case BLACK_COFFEE:
+                case COFFEE_BLACK:
                     return prepare(beverageOrder, 5);
                 case COFFEE_WITH_ROOM:
                     return prepare(beverageOrder, 5);

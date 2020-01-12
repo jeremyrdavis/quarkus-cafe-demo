@@ -9,8 +9,10 @@ import javax.json.bind.JsonbBuilder;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 
 @Path("/order")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,14 +36,24 @@ public class RestResource {
 
         logger.debug(createOrderCommand);
 
-        final CompletableFuture<Response> response = new CompletableFuture<>();
-
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                List<OrderInEvent> allOrders = cafe.orderIn(createOrderCommand).get();
+                return Response.ok().build();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return Response.serverError().entity(e).build();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                return Response.serverError().entity(e).build();
+            }
+        });
+/*
         cafe.orderIn(createOrderCommand).thenApply(res -> {
             Response jaxrs = Response.accepted().entity(res).build();
-            response.complete(jaxrs);
-            return null;
+            return response.complete(jaxrs);
         });
-        return response;
+*/
     }
 
 }
