@@ -2,7 +2,6 @@ package com.redhat.quarkus.cafe.kitchen.infrastructure;
 
 import com.redhat.quarkus.cafe.kitchen.domain.EventType;
 import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
-import com.redhat.quarkus.cafe.kitchen.domain.KitchenOrder;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
@@ -15,10 +14,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParserFactory;
 import java.io.StringReader;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 
@@ -47,29 +43,21 @@ public class KafkaResource {
             logger.debug("\nKitchen Order In Received:\n");
 
             OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
-
-            logger.debug("\nKitchen Order In Received:\n" + orderEvent.toString());
-
-            System.out.println("order in:" + orderEvent.toString());
-            if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                onKitchenOrderIn(orderEvent);
-            }
+            onKitchenOrderIn(orderEvent).thenApply(res -> {
+                updateKafka(res);
+                return null;
+            });
         }
 
     }
-
 //    @Outgoing("kitchen-orders-up")
-    private void onKitchenOrderIn(final OrderEvent orderEvent) {
+    private CompletionStage<OrderEvent> onKitchenOrderIn(final OrderEvent orderEvent) {
 
-        OrderEvent orderUp = null;
-        try {
-            orderUp = kitchen.orderIn(orderEvent).get();
-            System.out.println(orderUp.toString());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        return kitchen.orderIn(orderEvent);
+    }
+
+    private void updateKafka(final OrderEvent orderEvent) {
+        System.out.println("\nNow update Kafka!");
     }
 
 }

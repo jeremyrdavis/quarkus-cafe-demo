@@ -5,13 +5,14 @@ import org.jboss.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class Kitchen {
 
     static final Logger logger = Logger.getLogger(Kitchen.class.getName());
 
-    public CompletableFuture<OrderEvent> orderIn(OrderEvent orderIn) {
+    public CompletionStage<OrderEvent> orderIn(OrderEvent orderIn) {
 
         logger.info("Received order: " + orderIn.toString());
         logger.info("Sending order at " + Instant.now().toString() + " " + orderIn.toString());
