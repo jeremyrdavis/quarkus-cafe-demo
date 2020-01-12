@@ -18,6 +18,7 @@ public class OrderEvent {
         this.orderId = orderId;
         this.name = name;
         this.item = item;
+        this.itemId = itemId;
     }
 
     public String getOrderId(){

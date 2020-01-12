@@ -26,7 +26,7 @@ public class KafkaResource {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    @Incoming("kitchen-orders-in")
+    @Incoming("orderin")
     public void orderIn(OrderEvent orderEvent) {
 
         logger.debug(orderEvent);
