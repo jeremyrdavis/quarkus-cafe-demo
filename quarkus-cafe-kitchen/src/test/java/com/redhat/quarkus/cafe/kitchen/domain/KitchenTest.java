@@ -5,6 +5,7 @@ import org.awaitility.Duration;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import static org.awaitility.Awaitility.await;
@@ -22,12 +23,9 @@ public class KitchenTest {
 
         logger.info("Test that a Cookie is ready instantly");
 
-        KitchenOrder kitchenOrder = new KitchenOrder();
-        kitchenOrder.setMenuItem(MenuItem.COOKIE);
-        kitchenOrder.setName("Jeremy");
-        kitchenOrder.setOrderNumber("1234567");
+        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
 
-        kitchen.orderIn(kitchenOrder);
+        kitchen.orderIn(orderIn);
         await()
                 .atLeast(Duration.TWO_SECONDS)
                 .atMost(Duration.FIVE_SECONDS);
@@ -38,14 +36,11 @@ public class KitchenTest {
 
         logger.info("Test that a Panini takes 5 seconds");
 
-        KitchenOrder kitchenOrder = new KitchenOrder();
-        kitchenOrder.setMenuItem(MenuItem.PANINI);
-        kitchenOrder.setName("Jeremy");
-        kitchenOrder.setOrderNumber("1234567");
+        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.PANINI, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
 
-        kitchen.orderIn(kitchenOrder).thenAccept(result -> {
+        kitchen.orderIn(orderIn).thenAccept(result -> {
 
-            assertEquals(OrderStatus.READY, result.getStatus());
+            assertEquals(EventType.KITCHEN_ORDER_UP, result.eventType);
         });
 
     }
