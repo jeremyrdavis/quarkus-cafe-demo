@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 @Path("/api")
+@Produces(MediaType.APPLICATION_JSON)
 public class ApiResource {
 
     Logger logger = Logger.getLogger(ApiResource.class);

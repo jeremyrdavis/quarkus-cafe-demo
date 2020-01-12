@@ -17,6 +17,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.1.1.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <failsafe-plugin.version>3.0.0-M4</failsafe-plugin.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -24,7 +25,7 @@
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>${quarkus.platform.artifact-id}</artifactId>
         <version>${quarkus.platform.version}</version>
-        <menuItem>pom</menuItem>
+        <type>pom</type>
         <scope>import</scope>
       </dependency>
     </dependencies>
@@ -98,7 +99,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
+            <version>${failsafe-plugin.version}</version>
             <executions>
               <execution>
                 <goals>

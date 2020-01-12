@@ -10,12 +10,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class ApiResourceTest {
 
     @Test
-    public void testHelloEndpoint() {
+    public void testOrderInEvent() {
         given()
-          .when().get("/api")
+          .when().get("/api/orderInEvent")
           .then()
-             .statusCode(200)
-             .body(is("hello"));
+             .statusCode(200);
     }
 
 }
