@@ -10,10 +10,11 @@ public abstract class OrderInEvent implements CafeEvent{
     public String name;
     public Item item;
 
-    public OrderInEvent(String orderId, String name, Item item) {
+    public OrderInEvent(String orderId, String name, Item item, EventType eventType) {
         this.orderId = orderId;
         this.name = name;
         this.item = item;
+        this.eventType = eventType;
     }
 
     public String getOrderId(){

@@ -10,8 +10,14 @@ import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.json.stream.JsonParser;
+import javax.json.stream.JsonParserFactory;
+import java.io.StringReader;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
@@ -29,14 +35,27 @@ public class KafkaResource {
     @Incoming("orderin")
     public void orderIn(String message) {
 
-        OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
+        System.out.println("\nmessage received:\n" + message);
+        logger.debug("\nOrder Received:\n" + message);
 
-        logger.debug(orderEvent);
+        JsonReader reader = Json.createReader(new StringReader(message));
+        JsonObject jsonObject = reader.readObject();
+        String eventType = jsonObject.getString("eventType");
 
-        System.out.println("order in:" + orderEvent.toString());
-        if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-            onKitchenOrderIn(orderEvent);
+        if (eventType.equals(EventType.KITCHEN_ORDER_IN.toString())) {
+
+            logger.debug("\nKitchen Order In Received:\n");
+
+            OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
+
+            logger.debug("\nKitchen Order In Received:\n" + orderEvent.toString());
+
+            System.out.println("order in:" + orderEvent.toString());
+            if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+                onKitchenOrderIn(orderEvent);
+            }
         }
+
     }
 
 //    @Outgoing("kitchen-orders-up")

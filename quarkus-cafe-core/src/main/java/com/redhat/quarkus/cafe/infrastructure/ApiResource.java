@@ -25,6 +25,7 @@ public class ApiResource {
     public Response getCreateOrderCommandJson() {
         CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(createBeverages());
+        createOrderCommand.addKitchenItems(createKitchenItems());
         return Response.ok().entity(createOrderCommand).build();
     }
 
@@ -50,5 +51,13 @@ public class ApiResource {
         beverages.add(new Order(Item.COFFEE_BLACK, "Minnie"));
         return beverages;
     }
+
+    private List<Order> createKitchenItems() {
+        List<Order> kitchenOrders = new ArrayList(2);
+        kitchenOrders.add(new Order(Item.CAKEPOP, "Mickey"));
+        kitchenOrders.add(new Order(Item.CROISSANT, "Minnie"));
+        return kitchenOrders;
+    }
+
 
 }
