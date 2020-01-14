@@ -24,9 +24,9 @@ public abstract class BaseTestContainersIT {
     static DockerComposeContainer dockerComposeContainer;
 
     //Kafka stuff
-    protected String PRODUCER_TOPIC = "orders";
+    protected String PRODUCER_TOPIC;
 
-    protected String CONSUMER_TOPIC = "orders";
+    protected String CONSUMER_TOPIC;
 
     Jsonb jsonb = JsonbBuilder.create();
 
@@ -35,6 +35,11 @@ public abstract class BaseTestContainersIT {
     KafkaConsumer<String, String> kafkaConsumer;
 
     AdminClient kafkaAdminClient;
+
+    public BaseTestContainersIT(String producerTopic, String consumerTopic) {
+        this.PRODUCER_TOPIC = producerTopic;
+        this.CONSUMER_TOPIC = consumerTopic;
+    }
 
     @BeforeAll
     public static void setUpAll() {

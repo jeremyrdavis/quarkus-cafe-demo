@@ -38,7 +38,7 @@ public class RestResourceTest {
         List<Order> beverageList = new ArrayList<>();
         beverageList.add(new Order(Item.CAPPUCCINO, "Huey"));
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString());
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(beverageList);
 
         System.out.println(jsonb.toJson(createOrderCommand));

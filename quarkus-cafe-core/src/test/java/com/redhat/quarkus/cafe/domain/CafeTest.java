@@ -25,7 +25,7 @@ public class CafeTest {
 
         beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new Order(Item.ESPRESSO_DOUBLE, "Spock"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, null);
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
             assertNotNull(cafeEvents);
             assertEquals(2, cafeEvents.size());
@@ -42,7 +42,7 @@ public class CafeTest {
         List<Order> foods = new ArrayList<>();
         foods.add(new Order(Item.MUFFIN, "Kirk"));
         foods.add(new Order(Item.CAKEPOP, "Spock"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), null, foods);
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, foods);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
             assertNotNull(cafeEvents);
             assertEquals(2, cafeEvents.size());
@@ -64,7 +64,7 @@ public class CafeTest {
         beverages.add(new Order(Item.CAPPUCCINO, "Kirk"));
         beverages.add(new Order(Item.COFFEE_BLACK, "Spock"));
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, foods);
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, foods);
         cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
             assertNotNull(cafeEvents);
             assertEquals(2, cafeEvents.size());

@@ -5,6 +5,7 @@ import com.redhat.quarkus.cafe.infrastructure.KafkaService;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -16,9 +17,9 @@ public class Cafe {
     KafkaService kafkaService;
 
     //TODO Create and persist an Order
-    public CompletableFuture<List<OrderInEvent>> orderIn(CreateOrderCommand createOrderCommand) {
+    public CompletableFuture<List<OrderEvent>> orderIn(CreateOrderCommand createOrderCommand) {
 
-        List<OrderInEvent> allEvents = new ArrayList<>();
+        List<OrderEvent> allEvents = new ArrayList<>();
         createOrderCommand.beverages.ifPresent(beverages -> {
             allEvents.addAll(createOrderCommand.beverages.get().stream().map(b -> new BeverageOrderInEvent(createOrderCommand.id, b.name, b.item)).collect(Collectors.toList()));
         });
@@ -26,8 +27,13 @@ public class Cafe {
             allEvents.addAll(createOrderCommand.kitchenOrders.get().stream().map(f -> new KitchenOrderInEvent(createOrderCommand.id, f.name, f.item)).collect(Collectors.toList()));
         });
 
-        return kafkaService.produce(allEvents).thenApply(v -> {
+        return kafkaService.updateOrders(allEvents).thenApply(v -> {
             return allEvents;
         });
+    }
+
+    public CompletableFuture<Void> orderUp(OrderUpEvent orderUpEvent) {
+
+        return kafkaService.updateUI(Arrays.asList(orderUpEvent));
     }
 }

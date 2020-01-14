@@ -45,7 +45,15 @@ public class ApiResource {
         return Response.ok().entity(retVal).build();
     }
 
+    @GET
+    @Path("/beverageOrderUpEvent")
+    public OrderUpEvent getBeverageOrderUpEvent() {
+
+        return new OrderUpEvent(UUID.randomUUID().toString(), "Moe", Item.COFFEE_BLACK, EventType.BEVERAGE_ORDER_UP);
+    }
+
     private List<Order> createBeverages() {
+
         List<Order> beverages = new ArrayList(2);
         beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Mickey"));
         beverages.add(new Order(Item.COFFEE_BLACK, "Minnie"));

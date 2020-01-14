@@ -1,6 +1,8 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.OrderEvent;
 import com.redhat.quarkus.cafe.domain.OrderInEvent;
+import com.redhat.quarkus.cafe.domain.OrderUpEvent;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
@@ -23,6 +25,8 @@ public class KafkaService {
 
     private static final String TOPIC = "orders";
 
+    private static final String TOPIC_UI = "webui";
+
     @Inject
     private Vertx vertx;
 
@@ -30,6 +34,7 @@ public class KafkaService {
 
     private KafkaProducer<String, String> producer;
 
+/*
     public CompletableFuture<Void> produce(List<OrderInEvent> cafeEventList) {
 
         return CompletableFuture.runAsync(() -> {
@@ -50,6 +55,37 @@ public class KafkaService {
         });
 
     }
+*/
+
+    public CompletableFuture<Void> updateOrders(List<OrderEvent> orderEvents) {
+
+        return sendToKafka(orderEvents, TOPIC);
+    }
+
+    public CompletableFuture<Void> updateUI(List<OrderEvent> orderEvents) {
+
+        return sendToKafka(orderEvents, TOPIC_UI);
+    }
+
+    public CompletableFuture<Void> sendToKafka(final List<OrderEvent> orderEvents, final String topic) {
+
+        return CompletableFuture.runAsync(() -> {
+            orderEvents.stream().forEach(cafeEvent -> {
+                logger.debug("\nSending:" + cafeEvent.toString());
+                System.out.println(cafeEvent);
+                KafkaProducerRecord<String, String> record = KafkaProducerRecord.create(
+                        topic,
+                        cafeEvent.itemId,
+                        jsonb.toJson(cafeEvent));
+                System.out.println(record);
+                producer.send(record, res ->{
+                    if (res.failed()) {
+                        throw new RuntimeException(res.cause());
+                    }
+                });
+            });
+        });
+    }
 
     @PostConstruct
     public void postConstruct() {
@@ -62,4 +98,5 @@ public class KafkaService {
         producer = KafkaProducer.create(vertx, config);
 
     }
+
 }

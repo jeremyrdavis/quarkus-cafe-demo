@@ -22,8 +22,13 @@ import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@QuarkusTest @Testcontainers
-public class RestResourceIT extends BaseTestContainersIT{
+@QuarkusTest
+@Testcontainers
+public class RestResourceIT extends BaseTestContainersIT {
+
+    public RestResourceIT() {
+        super("orders", "orders");
+    }
 
     @Test
     @Timeout(60)
@@ -32,7 +37,7 @@ public class RestResourceIT extends BaseTestContainersIT{
         List<Order> beverageList = new ArrayList<>();
         beverageList.add(new Order(Item.CAPPUCCINO, "Dewey"));
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString());
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(beverageList);
 
         System.out.println(jsonb.toJson(createOrderCommand));

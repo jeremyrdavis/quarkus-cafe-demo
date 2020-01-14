@@ -18,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @QuarkusTest @Testcontainers
 public class BaristaIT extends BaseTestContainersIT {
 
+    public BaristaIT() {
+        super("orders", "orders");
+    }
 
     @Test
     public void testBlackCoffeeOrderInFromKafka() throws ExecutionException, InterruptedException {
