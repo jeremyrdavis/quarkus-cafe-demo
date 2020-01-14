@@ -1,23 +1,20 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
-import com.redhat.quarkus.cafe.web.domain.Update;
+import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.reactivex.Flowable;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
-import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
 import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
 
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.Arrays;
+import java.util.List;
 
 @Path("/dashboard")
 public class DashboardResource {
@@ -46,10 +43,17 @@ public class DashboardResource {
 
     @POST
     @Path("/update")
-    public void updateDashboard(Update update) {
-        System.out.println("POST: " + jsonb.toJson(update).toString());
-        updateEmitter.send(jsonb.toJson(update).toString());
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
+        System.out.println("updates received");
+        dashboardUpdates.forEach(d -> { System.out.println(d.toString() + "\n"); });
+/*
+        Arrays.asList(dashboardUpdates).forEach(dashboardUpdate -> {
+            System.out.println(dashboardUpdate + "\n");
+            updateEmitter.send(jsonb.toJson(dashboardUpdate).toString());
+        });
+*/
+        return Response.ok().build();
     }
-
 
 }

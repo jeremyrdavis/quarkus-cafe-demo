@@ -1,6 +1,8 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
-import com.redhat.quarkus.cafe.web.domain.Update;
+import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
+import com.redhat.quarkus.cafe.web.domain.Item;
+import com.redhat.quarkus.cafe.web.domain.OrderStatus;
 import org.jboss.logging.Logger;
 
 import javax.ws.rs.GET;
@@ -19,7 +21,12 @@ public class ApiResource {
     @GET
     @Path("/update")
     public Response getCreateOrderCommandJson() {
-        Update update = new Update(UUID.randomUUID().toString(), "Jeremy", "COFFEE_BLACK", "IN_QUEUE");
-        return Response.ok().entity(update).build();
+        DashboardUpdate dashboardUpdate = new DashboardUpdate(
+                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString(),
+                "Jeremy",
+                Item.CROISSANT,
+                OrderStatus.IN_QUEUE);
+        return Response.ok().entity(dashboardUpdate).build();
     }
 }

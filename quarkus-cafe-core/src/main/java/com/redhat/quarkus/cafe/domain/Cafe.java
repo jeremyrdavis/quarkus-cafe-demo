@@ -1,9 +1,13 @@
 package com.redhat.quarkus.cafe.domain;
 
+import com.redhat.quarkus.cafe.infrastructure.DashboardService;
 import com.redhat.quarkus.cafe.infrastructure.KafkaService;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +19,12 @@ public class Cafe {
 
     @Inject
     KafkaService kafkaService;
+
+    @Inject
+    @RestClient
+    DashboardService dashboardService;
+
+    Jsonb jsonb = JsonbBuilder.create();
 
     //TODO Create and persist an Order
     public CompletableFuture<List<OrderEvent>> orderIn(CreateOrderCommand createOrderCommand) {
@@ -29,6 +39,59 @@ public class Cafe {
 
         return kafkaService.updateOrders(allEvents).thenApply(v -> {
             return allEvents;
+        }).thenCompose(this::ordersIn);
+    }
+
+    /*
+        Convert the OrderEvent JSON to the JSON that the Web UI expects and call the REST endpoint
+     */
+    private CompletableFuture<List<OrderEvent>> ordersIn(final List<OrderEvent> orderEvents) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            List<DashboardUpdate> dashboardUpdates = orderEvents.stream()
+                    .map(orderEvent -> {
+                        System.out.println("\nConverting: " + orderEvent.toString() +"\n");
+                        OrderStatus status;
+                        switch(orderEvent.eventType){
+                            case BEVERAGE_ORDER_IN:
+                                status = OrderStatus.IN_QUEUE;
+                                break;
+                            case BEVERAGE_ORDER_UP:
+                                status = OrderStatus.READY;
+                                break;
+                            case KITCHEN_ORDER_IN:
+                                status = OrderStatus.IN_QUEUE;
+                                break;
+                            case KITCHEN_ORDER_UP:
+                                status = OrderStatus.READY;
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Unknown status" + orderEvent.eventType);
+                        }
+                        return new DashboardUpdate(
+                                orderEvent.orderId,
+                                orderEvent.itemId,
+                                orderEvent.name,
+                                orderEvent.item,
+                                status);
+                    }).collect(Collectors.toList());
+            dashboardService.updatedDashboard(dashboardUpdates);
+
+/*
+            String json = jsonb.toJson(dashboardUpdates);
+            System.out.println("\n"+json+"\n");
+*/
+            return orderEvents;
+        });
+    }
+
+    private CompletableFuture<Void> updateDashboard(List<DashboardUpdate> dashboardUpdates) {
+
+        return CompletableFuture.supplyAsync(() ->{
+
+            dashboardService.updatedDashboard(dashboardUpdates);
+            return null;
         });
     }
 

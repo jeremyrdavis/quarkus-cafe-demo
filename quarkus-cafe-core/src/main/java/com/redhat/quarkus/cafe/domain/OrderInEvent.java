@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public abstract class OrderInEvent implements CafeEvent{
 
-    public final String itemId = UUID.randomUUID().toString();
+    public String itemId = UUID.randomUUID().toString();
     public EventType eventType;
     public final String orderId;
     public String name;
