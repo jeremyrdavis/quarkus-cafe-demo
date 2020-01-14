@@ -11,7 +11,8 @@ public abstract class BeverageOrder {
     public BeverageOrder() {
     }
 
-    public BeverageOrder(String orderId, String itemId, String name, Item item) {
+    public BeverageOrder(EventType eventType, String orderId, String itemId, String name, Item item) {
+        this.eventType = eventType;
         this.itemId = itemId;
         this.orderId = orderId;
         this.name = name;
