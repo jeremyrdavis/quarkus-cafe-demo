@@ -27,7 +27,7 @@ public class CustomerAppreciator {
     }
 
     private void peek() {
-        kafkaConsumer.subscribe("test", ar -> {
+        kafkaConsumer.subscribe("orders", ar -> {
 
             if (ar.succeeded()) {
                 System.out.println("Consumer subscribed");
