@@ -134,18 +134,20 @@
         source.onmessage = function(e) {
             console.log(e);
             var state = JSON.parse(e.data);
-            if(state.state=="IN_QUEUE")
+            if(state.status=="IN_QUEUE")
                 $("tbody").append(line(state));
-            if(state.state=="READY")
+            if(state.status=="READY")
                 $("#"+state.orderId).replaceWith(line(state));
 
         };
     });
 
     function line(state) {
-        var id = state.orderId;
-        var product = state.product;
-        var customer = state.customer;
+        var orderId = state.orderId;
+        var id = state.itemId;
+        var product = state.item;
+        var customer = state.name;
+        var status = state.status;
         var barista = "";
 /*
         if (state.item) {
@@ -156,7 +158,7 @@
             "<td>" + customer + "</td>" +
             "<td>" + product + "</td>" +
             "<td>" + barista + "</td>" +
-            "<td>" + state.state + "</td></tr>";
+            "<td>" + status + "</td></tr>";
     }
 
 
