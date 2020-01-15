@@ -130,7 +130,7 @@
     });
 
     $(function () {
-        var source = new EventSource("http://localhost:8080/dashboard/stream");
+        var source = new EventSource("http://localhost:8083/dashboard/stream");
         source.onmessage = function(e) {
             console.log(e);
             var state = JSON.parse(e.data);
