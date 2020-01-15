@@ -137,7 +137,7 @@
             if(state.status=="IN_QUEUE")
                 $("tbody").append(line(state));
             if(state.status=="READY")
-                $("#"+state.orderId).replaceWith(line(state));
+                $("#"+state.itemId).replaceWith(line(state));
 
         };
     });
