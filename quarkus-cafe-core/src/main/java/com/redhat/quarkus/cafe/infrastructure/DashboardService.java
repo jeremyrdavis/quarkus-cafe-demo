@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.DashboardUpdate;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.Consumes;
@@ -18,7 +19,8 @@ public interface DashboardService {
 
     @POST
     @Path("/update")
-    public void updatedDashboard(List dashboardUpdate);
+    public void updatedDashboard(List<DashboardUpdate> dashboardUpdate);
+
 
 
 }

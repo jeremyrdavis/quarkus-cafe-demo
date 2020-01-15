@@ -77,7 +77,6 @@ public class Cafe {
                                 status);
                     }).collect(Collectors.toList());
             dashboardService.updatedDashboard(dashboardUpdates);
-
 /*
             String json = jsonb.toJson(dashboardUpdates);
             System.out.println("\n"+json+"\n");
@@ -86,17 +85,49 @@ public class Cafe {
         });
     }
 
-    private CompletableFuture<Void> updateDashboard(List<DashboardUpdate> dashboardUpdates) {
+    private CompletableFuture<Void> updateDashboard(List<OrderEvent> orderEvents) {
 
         return CompletableFuture.supplyAsync(() ->{
 
-            dashboardService.updatedDashboard(dashboardUpdates);
+            dashboardService.updatedDashboard(convertOrderEventsToDashboardUpdates(orderEvents));
             return null;
         });
     }
 
-    public CompletableFuture<Void> orderUp(OrderUpEvent orderUpEvent) {
+    private List<DashboardUpdate> convertOrderEventsToDashboardUpdates(List<OrderEvent> orderEvents){
 
-        return kafkaService.updateUI(Arrays.asList(orderUpEvent));
+        return orderEvents.stream()
+                .map(orderEvent -> {
+                    System.out.println("\nConverting: " + orderEvent.toString() +"\n");
+                    OrderStatus status;
+                    switch(orderEvent.eventType){
+                        case BEVERAGE_ORDER_IN:
+                            status = OrderStatus.IN_QUEUE;
+                            break;
+                        case BEVERAGE_ORDER_UP:
+                            status = OrderStatus.READY;
+                            break;
+                        case KITCHEN_ORDER_IN:
+                            status = OrderStatus.IN_QUEUE;
+                            break;
+                        case KITCHEN_ORDER_UP:
+                            status = OrderStatus.READY;
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unknown status" + orderEvent.eventType);
+                    }
+                    return new DashboardUpdate(
+                            orderEvent.orderId,
+                            orderEvent.itemId,
+                            orderEvent.name,
+                            orderEvent.item,
+                            status);
+                }).collect(Collectors.toList());
+    }
+
+
+    public void orderUp(List<OrderEvent> orderEvents) {
+
+        dashboardService.updatedDashboard(convertOrderEventsToDashboardUpdates(orderEvents));
     }
 }
