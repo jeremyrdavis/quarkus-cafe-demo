@@ -90,7 +90,7 @@ public class KafkaResource {
     public void postConstruct() {
         // Config values can be moved to application.properties
         Map<String, String> config = new HashMap<>();
-        config.put("bootstrap.servers", "localhost:9092");
+        config.put("bootstrap.servers", "my-cluster-kafka-bootstrap.kafka:9092");
         config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         config.put("acks", "1");
