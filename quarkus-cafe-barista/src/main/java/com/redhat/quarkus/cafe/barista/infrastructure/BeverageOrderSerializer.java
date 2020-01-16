@@ -1,12 +1,14 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
 import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.kafka.common.serialization.Serializer;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.Map;
 
+@RegisterForReflection
 public class BeverageOrderSerializer implements Serializer<BeverageOrder> {
 
     private Jsonb jsonb = JsonbBuilder.create();
