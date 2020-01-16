@@ -1,6 +1,8 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Emitter;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
@@ -21,28 +23,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class KafkaService {
 
     private static final Logger logger = Logger.getLogger(KafkaService.class);
 
+/*
     private static final String TOPIC = "orders";
 
     private static final String TOPIC_UI = "webui";
+*/
+
+    @Inject @Channel("ordersout")
+    Emitter<String> ordersOutEmitter;
 
     @Inject
     Cafe cafe;
 
+/*
     @Inject
     private Vertx vertx;
+*/
 
     Jsonb jsonb = JsonbBuilder.create();
 
+/*
     private KafkaProducer<String, String> producer;
+*/
 
-    @Incoming("ordersup")
-    public void orderUp(String message) {
+    @Incoming("ordersin")
+    public void ordersIn(String message) {
 
         System.out.println("\nmessage received:\n" + message);
         logger.debug("\nOrder Received:\n" + message);
@@ -83,9 +95,17 @@ public class KafkaService {
 
     public CompletableFuture<Void> updateOrders(List<OrderEvent> orderEvents) {
 
-        return sendToKafka(orderEvents, TOPIC);
+//        return sendToKafka(orderEvents, TOPIC);
+        return CompletableFuture.supplyAsync(() -> {
+
+            orderEvents.forEach(orderEvent -> {
+                ordersOutEmitter.send(jsonb.toJson(orderEvent));
+            });
+            return null;
+        });
     }
 
+/*
     private CompletableFuture<Void> sendToKafka(final List<OrderEvent> orderEvents, final String topic) {
 
         return CompletableFuture.runAsync(() -> {
@@ -117,5 +137,6 @@ public class KafkaService {
         producer = KafkaProducer.create(vertx, config);
 
     }
+*/
 
 }
