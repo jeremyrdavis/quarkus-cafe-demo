@@ -19,4 +19,22 @@ public class CreateOrderCommand {
 
     public CreateOrderCommand() {
     }
+
+
+    public void addBeverages(List<Order> beverageList) {
+        if (this.beverages.isPresent()) {
+            this.beverages.get().addAll(beverageList);
+        }else{
+            this.beverages = Optional.of(beverageList);
+        }
+    }
+
+    public void addKitchenItems(List<Order> kitchenOrdersList) {
+        if (this.kitchenOrders.isPresent()) {
+            this.kitchenOrders.get().addAll(kitchenOrdersList);
+        }else{
+            this.kitchenOrders = Optional.ofNullable(kitchenOrdersList);
+        }
+    }
+
 }

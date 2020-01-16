@@ -7,7 +7,7 @@ file_in = open("names", "r")
 
 for line in file_in:
     name = line.split()
-    str = name[-1] + " " +  name[len(name)-1][0:1]
+    #str = name[0] + " " +  name[len(name)-1][0:1]
     #print(name[-1], name[len(name)-1][0,1])
-    print('\"'+str+'\",')
+    print('\"'+ name[0] + " " +  name[len(name)-1][0:1] +'\",')
 
