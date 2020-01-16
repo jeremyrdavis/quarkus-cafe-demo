@@ -29,6 +29,8 @@ public class CustomerMocker {
             List<CreateOrderCommand> mockOrders = mockCustomerOrders(orders);
             mockOrders.forEach(mockOrder -> {
                 orderService.placeOrders(mockOrder);
+                System.out.println("\nplaced order\n");
+                System.out.println(mockOrder.toString());
             });
         } catch (InterruptedException e) {
             e.printStackTrace();

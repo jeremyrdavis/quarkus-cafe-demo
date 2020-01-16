@@ -37,4 +37,17 @@ public class CreateOrderCommand {
         }
     }
 
+/*
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("CreateOrderCommand[id=")
+                .append(id)
+                .append(",beverages=")
+                .append(beverages.orElse("null"))
+                .append(",kitchenOrders=")
+                .append(kitchenOrders.orElse("null"))
+                .append("]").toString();
+    }
+*/
 }
