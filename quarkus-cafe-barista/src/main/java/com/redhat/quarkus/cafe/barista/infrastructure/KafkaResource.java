@@ -2,6 +2,8 @@ package com.redhat.quarkus.cafe.barista.infrastructure;
 
 import com.redhat.quarkus.cafe.barista.domain.*;
 import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Emitter;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
@@ -29,8 +31,12 @@ public class KafkaResource {
 
     Logger logger = Logger.getLogger(KafkaResource.class);
 
+    @Inject @Channel("ordersup")
+    Emitter<String> orderUpEmitter;
+
     private static final String TOPIC = "orders";
 
+/*
     @ConfigProperty(name = "mp.messaging.incoming.orderin.bootstrap.servers")
     String bootstrapServers;
 
@@ -44,6 +50,7 @@ public class KafkaResource {
     Vertx vertx;
 
     private KafkaProducer<String, String> producer;
+*/
 
 
     @Inject
@@ -52,7 +59,7 @@ public class KafkaResource {
     private Jsonb jsonb = JsonbBuilder.create();
 
 
-    @Incoming("orderin")
+    @Incoming("ordersin")
     public void orderIn(String message) {
 
         System.out.println("\nmessage received:\n" + message);
@@ -68,13 +75,15 @@ public class KafkaResource {
 
             OrderInEvent orderEvent = jsonb.fromJson(message, OrderInEvent.class);
             onOrderIn(orderEvent).thenApply(res -> {
-                updateKafka(res);
+//                updateKafka(res);
+                orderUpEmitter.send(jsonb.toJson(res));
                 return null;
             });
         }
 
     }
 
+/*
     private void updateKafka(final BeverageOrder orderEvent) {
         System.out.println("\nNow update Kafka!");
         logger.debug("\nSending:" + orderEvent.toString());
@@ -90,6 +99,7 @@ public class KafkaResource {
             }
         });
     }
+*/
 
 
     private CompletionStage<BeverageOrder> onOrderIn(OrderInEvent orderInEvent) {
@@ -116,6 +126,7 @@ public class KafkaResource {
         public static final String OUTGOING = "events";
     }
 
+/*
     @PostConstruct
     public void postConstruct() {
 
@@ -127,4 +138,5 @@ public class KafkaResource {
         config.put("acks", "1");
         producer = KafkaProducer.create(vertx, config);
     }
+*/
 }

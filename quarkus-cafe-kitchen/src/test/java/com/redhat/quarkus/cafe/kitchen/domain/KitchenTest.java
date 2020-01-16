@@ -23,7 +23,7 @@ public class KitchenTest {
 
         logger.info("Test that a Cookie is ready instantly");
 
-        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
+        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(), "Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
 
         kitchen.orderIn(orderIn);
         await()
@@ -36,7 +36,7 @@ public class KitchenTest {
 
         logger.info("Test that a Panini takes 5 seconds");
 
-        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.PANINI, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
+        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(), "Moe", Item.PANINI, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
 
         kitchen.orderIn(orderIn).thenAccept(result -> {
 
