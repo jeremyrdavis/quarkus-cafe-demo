@@ -20,10 +20,12 @@ public class ApiResource {
         return "hello";
     }
 
+/*
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String winner() {
 
         return customerAppreciator.winner();
     }
+*/
 }

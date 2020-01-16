@@ -2,17 +2,25 @@ package com.redhat.quarkus.customerappreciation.infrastructure;
 
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.inject.Inject;
 
-@QuarkusTest
-public class CustomerAppreciatorTest {
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@QuarkusTest @Testcontainers
+public class CustomerAppreciatorTest extends BaseTestContainersIT{
 
     @Inject
     CustomerAppreciator customerAppreciator;
 
     @Test
     public void testCustomerAppreciation() {
-        String name = customerAppreciator.winner();
+
+        createOrders();
+    }
+
+    private void createOrders() {
     }
 }
