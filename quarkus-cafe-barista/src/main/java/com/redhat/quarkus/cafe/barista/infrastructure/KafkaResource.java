@@ -42,7 +42,7 @@ public class KafkaResource {
     private Jsonb jsonb = JsonbBuilder.create();
 
 
-    @Incoming("ordersin")
+    @Incoming("orderin")
     public void orderIn(String message) {
 
         System.out.println("\nmessage received:\n" + message);
