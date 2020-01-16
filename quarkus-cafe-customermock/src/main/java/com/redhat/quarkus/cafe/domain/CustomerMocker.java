@@ -1,14 +1,39 @@
 package com.redhat.quarkus.cafe.domain;
 
+import com.redhat.quarkus.cafe.infrastructure.OrderService;
+import io.quarkus.scheduler.Scheduled;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @ApplicationScoped
 public class CustomerMocker {
+
+    @Inject
+    @RestClient
+    OrderService orderService;
+
+    @Scheduled(every = "30s")
+    public void placeOrder() {
+        int seconds = new Random().nextInt(20);
+        try {
+            Thread.sleep(seconds * 1000);
+            int orders = new Random().nextInt(5);
+            List<CreateOrderCommand> mockOrders = mockCustomerOrders(orders);
+            mockOrders.forEach(mockOrder -> {
+                orderService.placeOrders(mockOrder);
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public List<CreateOrderCommand> mockCustomerOrders(int desiredNumberOfOrders) {

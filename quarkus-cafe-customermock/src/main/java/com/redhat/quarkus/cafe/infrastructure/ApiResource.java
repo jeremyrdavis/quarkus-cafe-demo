@@ -3,10 +3,7 @@ package com.redhat.quarkus.cafe.infrastructure;
 import com.redhat.quarkus.cafe.domain.*;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import java.util.List;
 public class ApiResource {
 
     @GET
-    @Path("/createOrderCommand")
+    @Path("/domain/createOrderCommand")
     public Response getCreateOrderCommandJson() {
         CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(createBeverages());
