@@ -5,6 +5,7 @@ import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.jboss.logging.Logger;
@@ -29,6 +30,15 @@ public class KafkaResource {
     Logger logger = Logger.getLogger(KafkaResource.class);
 
     private static final String TOPIC = "orders";
+
+    @ConfigProperty(name = "mp.messaging.incoming.orderin.bootstrap.servers")
+    String bootstrapServers;
+
+    @ConfigProperty(name = "mp.messaging.incoming.orderin.value.serializer")
+    String serializer;
+
+    @ConfigProperty(name = "mp.messaging.incoming.orderin.value.deserializer")
+    String deserializer;
 
     @Inject
     Vertx vertx;
@@ -108,13 +118,13 @@ public class KafkaResource {
 
     @PostConstruct
     public void postConstruct() {
+
         // Config values can be moved to application.properties
         Map<String, String> config = new HashMap<>();
-        config.put("bootstrap.servers", "localhost:9092");
-        config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        config.put("bootstrap.servers", bootstrapServers);
+        config.put("key.serializer", serializer);
+        config.put("value.serializer", serializer);
         config.put("acks", "1");
         producer = KafkaProducer.create(vertx, config);
     }
-
 }
