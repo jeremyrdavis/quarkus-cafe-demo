@@ -25,7 +25,7 @@ public class BaristaIT extends BaseTestContainersIT {
     @Test
     public void testBlackCoffeeOrderInFromKafka() throws ExecutionException, InterruptedException {
 
-        OrderInEvent beverageOrder = new OrderInEvent(UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
+        BeverageOrder beverageOrder = new BeverageOrder(EventType.BEVERAGE_ORDER_IN, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
         kafkaProducer.send(new ProducerRecord<>(CONSUMER_TOPIC, beverageOrder.orderId, jsonb.toJson(beverageOrder).toString())).get();
 //        ConsumerRecords<String, String> initialRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
 //        assertEquals(1, initialRecords.count());
