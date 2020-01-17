@@ -1,5 +1,8 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
+import javax.json.bind.annotation.JsonbCreator;
+import javax.json.bind.annotation.JsonbProperty;
+
 public class BeverageOrder {
 
     public EventType eventType;
@@ -9,9 +12,15 @@ public class BeverageOrder {
     public Item item;
 
     public BeverageOrder() {
+        super();
     }
 
-    public BeverageOrder(EventType eventType, String orderId, String itemId, String name, Item item) {
+    @JsonbCreator
+    public BeverageOrder(@JsonbProperty("eventType") EventType eventType,
+                         @JsonbProperty("orderId") String orderId,
+                         @JsonbProperty("itemId") String itemId,
+                         @JsonbProperty("name") String name,
+                         @JsonbProperty("item") Item item) {
         this.eventType = eventType;
         this.itemId = itemId;
         this.orderId = orderId;
