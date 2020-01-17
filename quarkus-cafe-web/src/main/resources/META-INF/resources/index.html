@@ -130,7 +130,8 @@
     });
 
     $(function () {
-        var source = new EventSource("http://web-cafe.apps.ocp4.home.ocpcloud.com/dashboard/stream");
+/*        var source = new EventSource("http://web-cafe.apps.ocp4.home.ocpcloud.com/dashboard/stream"); */
+        var source = new EventSource("http://localhost:8083/dashboard/stream");
         source.onmessage = function(e) {
             console.log(e);
             var state = JSON.parse(e.data);
