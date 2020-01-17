@@ -62,8 +62,8 @@ public class KafkaResource {
     @Incoming("ordersin")
     public void orderIn(String message) {
 
-        System.out.println("\nmessage received:\n" + message);
-        logger.debug("\nOrder Received:\n" + message);
+        logger.debug("\nBarista Order In Received after registering for reflection:\n" + message);
+
 
         JsonReader reader = Json.createReader(new StringReader(message));
         JsonObject jsonObject = reader.readObject();
@@ -72,7 +72,7 @@ public class KafkaResource {
 
         if (eventType.equals(EventType.BEVERAGE_ORDER_IN.toString())) {
 
-            logger.debug("\nBarista Order In Received:\n");
+            logger.debug("\nBarista Order In Received after registering for reflection:\n");
             BeverageOrder beverageOrder = jsonb.fromJson(message, BeverageOrder.class);
 
 //            OrderInEvent orderEvent = jsonb.fromJson(message, OrderInEvent.class);

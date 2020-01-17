@@ -1,8 +1,11 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
+@RegisterForReflection
 public class BeverageOrder {
 
     public EventType eventType;
