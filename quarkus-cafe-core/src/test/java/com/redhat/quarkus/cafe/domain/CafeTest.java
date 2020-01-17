@@ -26,35 +26,31 @@ public class CafeTest {
         beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new Order(Item.ESPRESSO_DOUBLE, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
-        cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
-            assertNotNull(cafeEvents);
-            assertEquals(2, cafeEvents.size());
-            cafeEvents.stream().forEach(e -> {
+        List<OrderEvent> orderEvents = cafe.orderIn(createOrderCommand);
+        assertNotNull(orderEvents);
+        assertEquals(2, orderEvents.size());
+        orderEvents.stream().forEach(e -> {
                 assertEquals(BeverageOrderInEvent.class, e.getClass());
-            });
-            return null;
         });
     }
 
     @Test
-    public void testOrderInFoodOnly() {
+    public void testOrderInFoodOnly() throws ExecutionException, InterruptedException {
 
         List<Order> foods = new ArrayList<>();
         foods.add(new Order(Item.MUFFIN, "Kirk"));
         foods.add(new Order(Item.CAKEPOP, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, foods);
-        cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
-            assertNotNull(cafeEvents);
-            assertEquals(2, cafeEvents.size());
-            cafeEvents.stream().forEach(e -> {
-                assertEquals(BeverageOrderInEvent.class, e.getClass());
-            });
-            return null;
+        List<OrderEvent> orderEvents = cafe.orderIn(createOrderCommand);
+        assertNotNull(orderEvents);
+        assertEquals(2, orderEvents.size());
+        orderEvents.stream().forEach(e -> {
+            assertEquals(BeverageOrderInEvent.class, e.getClass());
         });
     }
 
     @Test
-    public void testOrderInBeveragesAndFood() {
+    public void testOrderInBeveragesAndFood() throws ExecutionException, InterruptedException {
 
         List<Order> foods = new ArrayList<>();
         foods.add(new Order(Item.MUFFIN, "Kirk"));
@@ -65,16 +61,13 @@ public class CafeTest {
         beverages.add(new Order(Item.COFFEE_BLACK, "Spock"));
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, foods);
-        cafe.orderIn(createOrderCommand).thenApply(cafeEvents -> {
-            assertNotNull(cafeEvents);
-            assertEquals(2, cafeEvents.size());
-            cafeEvents.stream().forEach(e -> {
-                assertNotNull(cafeEvents);
-                assertEquals(4, cafeEvents.size());
-                assertEquals(2, cafeEvents.stream().filter(be -> be.getClass().equals(BeverageOrderInEvent.class)).count());
-                assertEquals(2, cafeEvents.stream().filter(ke -> ke.getClass().equals(KitchenOrderInEvent.class)).count());
-            });
-            return null;
+        List<OrderEvent> orderEvents = cafe.orderIn(createOrderCommand);
+        assertNotNull(orderEvents);
+        assertEquals(4, orderEvents.size());
+        orderEvents.stream().forEach(e -> {
+            assertEquals(BeverageOrderInEvent.class, e.getClass());
+            assertEquals(2, orderEvents.stream().filter(be -> be.getClass().equals(BeverageOrderInEvent.class)).count());
+            assertEquals(2, orderEvents.stream().filter(ke -> ke.getClass().equals(KitchenOrderInEvent.class)).count());
         });
     }
 }
