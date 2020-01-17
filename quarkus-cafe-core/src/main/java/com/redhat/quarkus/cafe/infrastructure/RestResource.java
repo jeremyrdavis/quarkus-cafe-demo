@@ -38,8 +38,8 @@ public class RestResource {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                List<OrderEvent> allOrders = cafe.orderIn(createOrderCommand).get();
-                return Response.accepted().build();
+                List<OrderEvent> allOrders = cafe.orderIn(createOrderCommand);
+                return Response.accepted().entity(allOrders).build();
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return Response.serverError().entity(e).build();

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
@@ -27,7 +28,7 @@ public class Cafe {
     Jsonb jsonb = JsonbBuilder.create();
 
     //TODO Create and persist an Order
-    public CompletableFuture<List<OrderEvent>> orderIn(CreateOrderCommand createOrderCommand) {
+    public List<OrderEvent> orderIn(CreateOrderCommand createOrderCommand) throws ExecutionException, InterruptedException {
 
         List<OrderEvent> allEvents = new ArrayList<>();
         createOrderCommand.beverages.ifPresent(beverages -> {
@@ -37,9 +38,47 @@ public class Cafe {
             allEvents.addAll(createOrderCommand.kitchenOrders.get().stream().map(f -> new KitchenOrderInEvent(createOrderCommand.id, f.name, f.item)).collect(Collectors.toList()));
         });
 
-        return kafkaService.updateOrders(allEvents).thenApply(v -> {
+        CompletableFuture.runAsync(() -> {
+            kafkaService.updateOrders(allEvents);
+        }).thenRun(() -> { dashboardService.updatedDashboard(convertJson(allEvents));})
+                .get();
+        return allEvents;
+/*
+        return kafkaService.updateOrders(allEvents)
+                .thenApply(v -> {
             return allEvents;
         }).thenCompose(this::ordersIn);
+*/
+    }
+
+    private List<DashboardUpdate> convertJson(List<OrderEvent> orderEvents) {
+        return orderEvents.stream()
+                .map(orderEvent -> {
+            System.out.println("\nConverting: " + orderEvent.toString() +"\n");
+            OrderStatus status;
+            switch(orderEvent.eventType){
+                case BEVERAGE_ORDER_IN:
+                    status = OrderStatus.IN_QUEUE;
+                    break;
+                case BEVERAGE_ORDER_UP:
+                    status = OrderStatus.READY;
+                    break;
+                case KITCHEN_ORDER_IN:
+                    status = OrderStatus.IN_QUEUE;
+                    break;
+                case KITCHEN_ORDER_UP:
+                    status = OrderStatus.READY;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown status" + orderEvent.eventType);
+            }
+            return new DashboardUpdate(
+                    orderEvent.orderId,
+                    orderEvent.itemId,
+                    orderEvent.name,
+                    orderEvent.item,
+                    status);
+        }).collect(Collectors.toList());
     }
 
     /*

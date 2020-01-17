@@ -93,6 +93,11 @@ public class KafkaService {
     }
 */
 
+    public void updateOrdersStatus(List<OrderEvent> orderEvents) {
+        orderEvents.forEach(orderEvent -> {
+            ordersOutEmitter.send(jsonb.toJson(orderEvent));
+        });
+    }
     public CompletableFuture<Void> updateOrders(List<OrderEvent> orderEvents) {
 
 //        return sendToKafka(orderEvents, TOPIC);
