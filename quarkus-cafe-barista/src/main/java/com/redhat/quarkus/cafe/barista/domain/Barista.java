@@ -11,7 +11,7 @@ public class Barista {
 
     Logger logger = Logger.getLogger(Barista.class);
 
-    public CompletionStage<BeverageOrder> orderIn(OrderInEvent beverageOrder) {
+    public CompletionStage<BeverageOrder> orderIn(BeverageOrder beverageOrder) {
 
         logger.debug("orderIn: " + beverageOrder.toString());
 
@@ -32,13 +32,13 @@ public class Barista {
         });
     }
 
-    private BeverageOrder prepare(final OrderInEvent beverageOrder, int seconds) {
+    private BeverageOrder prepare(final BeverageOrder beverageOrder, int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        OrderUpEvent retVal = new OrderUpEvent(beverageOrder.orderId, beverageOrder.itemId, beverageOrder.name, beverageOrder.item);
+        BeverageOrder retVal = new BeverageOrder(EventType.BEVERAGE_ORDER_UP, beverageOrder.orderId, beverageOrder.itemId, beverageOrder.name, beverageOrder.item);
         System.out.println("returning: " + retVal.toString());
         return retVal;
     }

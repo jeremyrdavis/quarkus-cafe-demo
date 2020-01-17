@@ -1,6 +1,6 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
-public abstract class BeverageOrder {
+public class BeverageOrder {
 
     public EventType eventType;
     public String itemId;

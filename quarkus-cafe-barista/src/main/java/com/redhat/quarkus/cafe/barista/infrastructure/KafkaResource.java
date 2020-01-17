@@ -69,12 +69,14 @@ public class KafkaResource {
         JsonObject jsonObject = reader.readObject();
         String eventType = jsonObject.getString("eventType");
 
+
         if (eventType.equals(EventType.BEVERAGE_ORDER_IN.toString())) {
 
             logger.debug("\nBarista Order In Received:\n");
+            BeverageOrder beverageOrder = jsonb.fromJson(message, BeverageOrder.class);
 
-            OrderInEvent orderEvent = jsonb.fromJson(message, OrderInEvent.class);
-            onOrderIn(orderEvent).thenApply(res -> {
+//            OrderInEvent orderEvent = jsonb.fromJson(message, OrderInEvent.class);
+            onOrderIn(beverageOrder).thenApply(res -> {
 //                updateKafka(res);
                 orderUpEmitter.send(jsonb.toJson(res));
                 return null;
@@ -102,9 +104,9 @@ public class KafkaResource {
 */
 
 
-    private CompletionStage<BeverageOrder> onOrderIn(OrderInEvent orderInEvent) {
+    private CompletionStage<BeverageOrder> onOrderIn(BeverageOrder beverageOrder) {
 
-        return barista.orderIn(orderInEvent);
+        return barista.orderIn(beverageOrder);
     }
 
 /*
