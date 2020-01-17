@@ -34,6 +34,7 @@ public class RestResource {
     @POST
     @Path("/order")
     public Response orderIn(CreateOrderCommand createOrderCommand) {
+
         System.out.println("\norder in\n");
         System.out.println("\n"+ createOrderCommand +"\n");
         orderService.orderIn(createOrderCommand);
@@ -45,30 +46,13 @@ public class RestResource {
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
-        System.out.println("updates received");
-        dashboardUpdates.forEach(d -> { System.out.println(d.toString() + "\n"); });
 
-        try {
-            return CompletableFuture.supplyAsync(() -> {
-                dashboardUpdates.forEach(dashboardUpdate -> {
-                    udpateEmitter.send(jsonb.toJson(dashboardUpdate));
-                });
-                return Response.ok().build();
-            }).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return Response.serverError().entity(e).build();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return Response.serverError().entity(e).build();
-        }
-/*
-        Arrays.asList(dashboardUpdates).forEach(dashboardUpdate -> {
-            System.out.println(dashboardUpdate + "\n");
-            updateEmitter.send(jsonb.toJson(dashboardUpdate).toString());
+        System.out.println("updates received");
+        dashboardUpdates.forEach( dashboardUpdate -> {
+            System.out.println(dashboardUpdate.toString() + "\n");
+            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
         });
-*/
-//        return Response.ok().build();
+        return Response.ok().build();
     }
 
 }
