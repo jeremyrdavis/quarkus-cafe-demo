@@ -3,13 +3,9 @@ package com.redhat.quarkus.cafe.infrastructure;
 import com.redhat.quarkus.cafe.domain.*;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import io.vertx.core.Vertx;
-import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -19,11 +15,8 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.StringReader;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class KafkaService {
@@ -40,7 +33,7 @@ public class KafkaService {
     Emitter<String> ordersOutEmitter;
 
     @Inject
-    Cafe cafe;
+    CafeCore cafeCore;
 
 /*
     @Inject
@@ -66,7 +59,7 @@ public class KafkaService {
         if (eventType.equals(EventType.BEVERAGE_ORDER_UP.toString()) || eventType.equals(EventType.KITCHEN_ORDER_UP.toString())) {
 
             OrderUpEvent orderUpEvent = jsonb.fromJson(message, OrderUpEvent.class);
-            cafe.orderUp(Arrays.asList(orderUpEvent));
+            cafeCore.orderUp(Arrays.asList(orderUpEvent));
         }
     }
 

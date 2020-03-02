@@ -22,7 +22,7 @@ public class RestResource {
     Logger logger = Logger.getLogger(RestResource.class);
 
     @Inject
-    Cafe cafe;
+    CafeCore cafeCore;
 
     Jsonb jsonb = JsonbBuilder.create();
 
@@ -38,7 +38,7 @@ public class RestResource {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                List<OrderEvent> allOrders = cafe.orderIn(createOrderCommand);
+                List<OrderEvent> allOrders = cafeCore.orderIn(createOrderCommand);
                 return Response.accepted().entity(allOrders).build();
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -1,22 +1,17 @@
 package com.redhat.quarkus.cafe.domain;
 
-import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@QuarkusTest
 public class CafeTest {
 
-    @Inject
-    Cafe cafe;
+    Cafe cafe = new Cafe();
 
     @Test
     public void testOrderInBeverageOnly() throws ExecutionException, InterruptedException {
@@ -45,7 +40,7 @@ public class CafeTest {
         assertNotNull(orderEvents);
         assertEquals(2, orderEvents.size());
         orderEvents.stream().forEach(e -> {
-            assertEquals(BeverageOrderInEvent.class, e.getClass());
+            assertEquals(KitchenOrderInEvent.class, e.getClass());
         });
     }
 
@@ -64,10 +59,13 @@ public class CafeTest {
         List<OrderEvent> orderEvents = cafe.orderIn(createOrderCommand);
         assertNotNull(orderEvents);
         assertEquals(4, orderEvents.size());
+        assertEquals(2, orderEvents.stream().filter(be -> be.getClass().equals(BeverageOrderInEvent.class)).count());
+        assertEquals(2, orderEvents.stream().filter(ke -> ke.getClass().equals(KitchenOrderInEvent.class)).count());
+/*
         orderEvents.stream().forEach(e -> {
             assertEquals(BeverageOrderInEvent.class, e.getClass());
             assertEquals(2, orderEvents.stream().filter(be -> be.getClass().equals(BeverageOrderInEvent.class)).count());
-            assertEquals(2, orderEvents.stream().filter(ke -> ke.getClass().equals(KitchenOrderInEvent.class)).count());
         });
+*/
     }
 }
