@@ -50,10 +50,6 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
-            System.out.println("beverages only");
-            System.out.println("offset = %d, key = %s, value = %s\n"  + record.offset() + "\n" +
-                    record.key() + "\n" + record.value());
-            System.out.println(record.value().toString());
             OrderEvent orderEvent = jsonb.fromJson(record.value(), OrderEvent.class);
             if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                 if(orderEvent.item.equals(Item.COFFEE_WITH_ROOM)||orderEvent.item.equals(Item.ESPRESSO_DOUBLE))
@@ -84,11 +80,6 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
-            System.out.println("kitchen only");
-/*
-            System.out.println("offset = %d, key = %s, value = %s\n"  + record.offset() + "\n" +
-                    record.key() + "\n" + record.value());
-*/
             OrderEvent orderEvent = jsonb.fromJson(record.value(), OrderEvent.class);
             if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
                 if(orderEvent.item.equals(Item.MUFFIN)||orderEvent.item.equals(Item.CAKEPOP))
