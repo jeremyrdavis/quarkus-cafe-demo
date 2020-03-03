@@ -1,5 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
+import io.vertx.core.eventbus.EventBus;
+
 import java.util.UUID;
 
 public class OrderEvent {
@@ -11,6 +13,10 @@ public class OrderEvent {
     public Item item;
 
     public OrderEvent() {
+    }
+
+    public OrderEvent(EventType eventType) {
+        this.eventType = eventType;
     }
 
     public OrderEvent(EventType eventType, String orderId, String name, Item item) {

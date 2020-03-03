@@ -39,7 +39,9 @@ public class CafeCore {
         List<OrderEvent> allEvents = cafe.orderIn(createOrderCommand);
 
         try {
-            ordersOutEmitter.send(jsonb.toJson(allEvents));
+            allEvents.forEach(orderEvent -> {
+                ordersOutEmitter.send(jsonb.toJson(orderEvent));
+            });
             dashboardService.updatedDashboard(convertJson(allEvents));
         } catch (Exception e) {
             System.out.println(e);

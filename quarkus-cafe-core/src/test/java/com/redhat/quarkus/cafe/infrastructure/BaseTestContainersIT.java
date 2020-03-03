@@ -8,6 +8,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -43,6 +44,7 @@ public abstract class BaseTestContainersIT {
 
     @BeforeAll
     public static void setUpAll() {
+        System.out.println("setUpAll begun");
         dockerComposeContainer = new DockerComposeContainer(
                 new File("src/test/resources/docker-compose.yaml"))
                 .withExposedService("kafka", 9092)
@@ -66,6 +68,8 @@ public abstract class BaseTestContainersIT {
 
     @AfterEach
     public void tearDown() {
+        deleteTopics();
+        setUpTopics();
     }
 
     void setUpAdminClient() {
@@ -73,6 +77,15 @@ public abstract class BaseTestContainersIT {
         Map<String, Object> config = new HashMap<>();
         config.put("bootstrap.servers", "localhost:9092");
         kafkaAdminClient = AdminClient.create(config);
+    }
+
+    void deleteTopics() {
+
+        System.out.println("delete topics");
+        kafkaAdminClient.deleteTopics(
+                Arrays.asList(
+                    new String[] {PRODUCER_TOPIC, CONSUMER_TOPIC}));
+        kafkaAdminClient.close();
     }
 
     void setUpTopics() {

@@ -1,10 +1,12 @@
 package com.redhat.quarkus.cafe.domain;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@ApplicationScoped
 public class Cafe {
 
     public List<OrderEvent> orderIn(CreateOrderCommand createOrderCommand) throws ExecutionException, InterruptedException {

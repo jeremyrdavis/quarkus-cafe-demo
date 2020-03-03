@@ -4,7 +4,7 @@ services:
 
   db:
     image: postgres
-    container_name: "devdb"
+#    container_name: "devdb"
     restart: always
     environment:
       POSTGRES_USER: test-user
