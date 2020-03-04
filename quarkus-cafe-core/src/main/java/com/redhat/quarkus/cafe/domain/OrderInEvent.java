@@ -2,7 +2,7 @@ package com.redhat.quarkus.cafe.domain;
 
 import java.util.UUID;
 
-public abstract class OrderInEvent implements CafeEvent{
+public abstract class OrderInEvent{
 
     public String itemId = UUID.randomUUID().toString();
     public EventType eventType;
