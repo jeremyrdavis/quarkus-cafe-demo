@@ -1,11 +1,16 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Stream;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
 import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,7 +23,7 @@ public class DashboardResource {
     Logger logger = LoggerFactory.getLogger(DashboardResource.class);
 
     @Inject @Channel("dashboard")
-    Publisher<String> updates;
+    PublisherBuilder<String> updates;
 
     @GET
     @Path("/stream")
@@ -26,12 +31,7 @@ public class DashboardResource {
     @SseElementType("text/plain")
     public Publisher<String> stream() {
 
-        try {
-            return updates;
-        } catch (Exception e) {
-            logger.error("SSE Error {}", e.getMessage());
-        }
-        return null;
+        return updates.buildRs();
     }
 
 }

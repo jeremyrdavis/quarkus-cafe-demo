@@ -71,6 +71,7 @@ public class RestResource {
         } catch (Exception e) {
             logger.error("Emitter error {}", e.getMessage());
             logger.error("update failed to send");
+            e.printStackTrace();
             return Response.serverError().entity(e).build();
         }
         return Response.ok().build();
