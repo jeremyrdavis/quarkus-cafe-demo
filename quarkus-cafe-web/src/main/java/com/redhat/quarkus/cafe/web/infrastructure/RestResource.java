@@ -4,7 +4,11 @@ import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
+import io.vertx.axle.core.eventbus.EventBus;
+import io.vertx.axle.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
@@ -15,11 +19,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @Path("/")
 public class RestResource {
+
+    Logger logger = LoggerFactory.getLogger(RestResource.class);
 
     @Inject
     @Channel("dashboard")
@@ -47,12 +51,28 @@ public class RestResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
 
-        System.out.println("updates received");
+        logger.debug("{} updates received", dashboardUpdates.size());
+        udpateEmitter.send(jsonb.toJson(dashboardUpdates.get(0)));
+        dashboardUpdates.forEach( dashboardUpdate -> {
+            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
+            logger.debug("update sent {}", dashboardUpdate);
+        });
+        return Response.ok().build();
+    }
+
+/*
+    @POST
+    @Path("/update")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response singleUpdate(DashboardUpdate dashboardUpdate) {
+
+        logger.debug("update received");
         dashboardUpdates.forEach( dashboardUpdate -> {
             System.out.println(dashboardUpdate.toString() + "\n");
             udpateEmitter.send(jsonb.toJson(dashboardUpdate));
         });
         return Response.ok().build();
     }
+*/
 
 }

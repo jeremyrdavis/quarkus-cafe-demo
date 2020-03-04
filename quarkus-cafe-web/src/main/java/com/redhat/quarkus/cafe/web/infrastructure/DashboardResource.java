@@ -1,5 +1,7 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
+import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
+import io.quarkus.vertx.ConsumeEvent;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
