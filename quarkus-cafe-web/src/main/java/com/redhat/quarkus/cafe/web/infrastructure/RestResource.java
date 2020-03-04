@@ -4,8 +4,6 @@ import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import io.vertx.axle.core.eventbus.EventBus;
-import io.vertx.axle.core.eventbus.Message;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,8 +64,15 @@ public class RestResource {
     public Response singleUpdate(DashboardUpdate dashboardUpdate) {
 
         logger.debug("update received {}", dashboardUpdate);
-        udpateEmitter.send(jsonb.toJson(dashboardUpdate));
-        logger.debug("update sent {}", dashboardUpdate);
+        try {
+
+            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
+            logger.debug("update sent {}", dashboardUpdate);
+        } catch (Exception e) {
+            logger.error("Emitter error {}", e.getMessage());
+            logger.error("update failed to send");
+            return Response.serverError().entity(e).build();
+        }
         return Response.ok().build();
     }
 
