@@ -47,7 +47,7 @@ public class RestResource {
     }
 
     @POST
-    @Path("/update")
+    @Path("/updates")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
 
@@ -60,19 +60,15 @@ public class RestResource {
         return Response.ok().build();
     }
 
-/*
     @POST
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response singleUpdate(DashboardUpdate dashboardUpdate) {
 
-        logger.debug("update received");
-        dashboardUpdates.forEach( dashboardUpdate -> {
-            System.out.println(dashboardUpdate.toString() + "\n");
-            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
-        });
+        logger.debug("update received {}", dashboardUpdate);
+        udpateEmitter.send(jsonb.toJson(dashboardUpdate));
+        logger.debug("update sent {}", dashboardUpdate);
         return Response.ok().build();
     }
-*/
 
 }
