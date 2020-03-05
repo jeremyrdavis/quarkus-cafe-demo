@@ -23,7 +23,7 @@ public class DashboardResource {
     Logger logger = LoggerFactory.getLogger(DashboardResource.class);
 
     @Inject @Channel("dashboard")
-    PublisherBuilder<String> updates;
+    Publisher<String> updates;
 
     @GET
     @Path("/stream")
@@ -31,7 +31,7 @@ public class DashboardResource {
     @SseElementType("text/plain")
     public Publisher<String> stream() {
 
-        return updates.buildRs();
+        return updates;
     }
 
 }

@@ -18,6 +18,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.2.1.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <zerocode.version>1.3.17</zerocode.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -88,6 +89,12 @@
       </exclusions>
 -->
     </dependency>
+    <dependency>
+      <groupId>org.jsmart</groupId>
+      <artifactId>zerocode-tdd</artifactId>
+      <version>${zerocode.version}</version>
+    </dependency>
+
   </dependencies>
   <build>
     <plugins>

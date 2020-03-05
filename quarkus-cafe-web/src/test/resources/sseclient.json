@@ -1,0 +1,14 @@
+{
+  "scenarioName": "client making connection",
+  "steps": [
+    {
+      "name": "sse_client",
+      "url": "localhost:8081/stream",
+      "operation": "subscribeClient",
+      "request": "",
+      "assertions": {
+      }
+    }
+
+  ]
+}
