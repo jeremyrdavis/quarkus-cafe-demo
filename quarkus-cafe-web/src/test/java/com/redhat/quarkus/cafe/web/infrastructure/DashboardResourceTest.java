@@ -77,27 +77,4 @@ public class DashboardResourceTest {
                 .statusCode(200);
 
     }
-
-/*
-    @BeforeEach
-    public void setUp() throws Exception {
-        Client client = ClientBuilder.newClient();
-        target = client.target("http://localhost:8081/dashboard/stream");
-        SseEventSource msgEventSource = SseEventSource.target(target).build();
-        try (SseEventSource eventSource = msgEventSource) {
-            eventSource.register(event -> {
-                System.out.println(event.readData(String.class));
-            }, ex -> {
-                ex.printStackTrace();
-            });
-            eventSource.open();
-        }
-    }
-
-    @AfterEach
-    public void tearDown() {
-        target = null;
-    }
-*/
-
 }
