@@ -31,6 +31,12 @@ public class DashboardResourceTest {
 
         given()
                 .when()
+                .get("/stream")
+                .then()
+                .contentType("text/html;charset=UTF-8");
+
+        given()
+                .when()
                 .body(jsonb.toJson(dashboardUpdate).toString())
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)

@@ -21,7 +21,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
     static final String CONSUMER_TOPIC = "orders-test";
 
-    @Inject
+     @Inject
     CafeCore cafeCore;
 
     public CafeCoreIT() {
