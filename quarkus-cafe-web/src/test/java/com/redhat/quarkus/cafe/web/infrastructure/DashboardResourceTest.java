@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
@@ -75,6 +76,8 @@ public class DashboardResourceTest {
                 .post("/update")
                 .then()
                 .statusCode(200);
+
+        assertEquals(1, events.size());
 
     }
 }
