@@ -23,6 +23,29 @@ public class DashboardUpdate {
     public DashboardUpdate() {
     }
 
+    public DashboardUpdate(OrderEvent orderEvent) {
+        this.orderId = orderEvent.orderId;
+        this.itemId = orderEvent.itemId;
+        this.name = orderEvent.name;
+        this.item = orderEvent.item;
+        switch (orderEvent.eventType) {
+            case BEVERAGE_ORDER_IN:
+                this.status = OrderStatus.IN_QUEUE;
+                break;
+            case KITCHEN_ORDER_IN:
+                this.status = OrderStatus.IN_QUEUE;
+                break;
+            case BEVERAGE_ORDER_UP:
+                this.status = OrderStatus.READY;
+                break;
+            case KITCHEN_ORDER_UP:
+                this.status = OrderStatus.READY;
+                break;
+            default:
+                this.status = OrderStatus.IN_QUEUE;
+        }
+    }
+
     @Override
     public String toString() {
         return new StringBuilder().append("DashboardUpdate[")

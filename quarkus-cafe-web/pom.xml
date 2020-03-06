@@ -6,6 +6,7 @@
   <artifactId>quarkus-cafe-web</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
+    <awaitility.version>4.0.2</awaitility.version>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <failsafe-plugin.version>3.0.0-M4</failsafe-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
@@ -38,10 +39,6 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-health</artifactId>
     </dependency>
     <dependency>
@@ -55,10 +52,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-vertx</artifactId>
     </dependency>
     <!-- Testing -->
     <dependency>
@@ -88,13 +81,14 @@
         </exclusion>
       </exclusions>
 -->
+      <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.jsmart</groupId>
-      <artifactId>zerocode-tdd</artifactId>
-      <version>${zerocode.version}</version>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>${awaitility.version}</version>
+      <scope>test</scope>
     </dependency>
-
   </dependencies>
   <build>
     <plugins>

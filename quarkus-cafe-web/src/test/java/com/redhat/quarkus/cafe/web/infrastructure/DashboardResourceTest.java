@@ -5,9 +5,6 @@ import com.redhat.quarkus.cafe.web.domain.Item;
 import com.redhat.quarkus.cafe.web.domain.OrderStatus;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +16,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.sse.InboundSseEvent;
 import javax.ws.rs.sse.SseEventSource;
-
 import java.util.ArrayList;
 import java.util.UUID;
 

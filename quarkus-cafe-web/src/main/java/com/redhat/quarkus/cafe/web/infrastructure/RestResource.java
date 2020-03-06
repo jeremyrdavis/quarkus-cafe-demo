@@ -52,7 +52,7 @@ public class RestResource {
         logger.debug("{} updates received", dashboardUpdates.size());
         udpateEmitter.send(jsonb.toJson(dashboardUpdates.get(0)));
         dashboardUpdates.forEach( dashboardUpdate -> {
-            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
+//            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
             logger.debug("update sent {}", dashboardUpdate);
         });
         return Response.ok().build();
@@ -66,7 +66,7 @@ public class RestResource {
         logger.debug("update received {}", dashboardUpdate);
         try {
 
-            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
+//            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
             logger.debug("update sent {}", dashboardUpdate);
         } catch (Exception e) {
             logger.error("Emitter error {}", e.getMessage());
