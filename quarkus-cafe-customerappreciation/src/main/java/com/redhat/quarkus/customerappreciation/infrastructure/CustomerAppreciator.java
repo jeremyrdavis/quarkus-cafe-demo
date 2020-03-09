@@ -31,21 +31,14 @@ public class CustomerAppreciator {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    private HashMap<String, CustomerStatus> customers = new HashMap<>();
-
-/*
-    @Inject
-    Vertx vertx;
-
-    private KafkaConsumer<String, String> kafkaConsumer;
-*/
+    private HashMap<String, Customer> customers = new HashMap<>();
 
     @Incoming("ordersin")
     public void winner(String payload) {
 
         try {
             OrderEvent orderEvent = jsonb.fromJson(payload, OrderEvent.class);
-            customers.put(orderEvent.name, CustomerStatus.ENTERED);
+            customers.put(orderEvent.name, new Customer(orderEvent.name, CustomerStatus.ENTERED));
             System.out.println("\nadding customer\n");
             System.out.println(payload);
             System.out.println("\nnow with " + customers.size() + " customers\n");
@@ -54,7 +47,7 @@ public class CustomerAppreciator {
         }
     }
 
-//    @Scheduled(every="15s")
+    @Scheduled(every="15s")
     public void pickWinner() {
 
         if (customers.size() >= 1) {
@@ -65,63 +58,12 @@ public class CustomerAppreciator {
             Collections.shuffle(customerNames);
             Customer winner = customerNames.get(new Random().nextInt(customerNames.size()));
             customers.remove(winner.name);
+            winner.customerStatus = CustomerStatus.WINNER;
+            customers.put(winner.name, winner);
 
             System.out.println("\nwinner: " + winner + "\n");
             String message = jsonb.toJson(new CustomerAppreciationEvent(winner.name));
             customerAppreciationEventEmiiter.send(message);
         }
     }
-
-
-
-/*
-    public String winner() {
-
-        System.out.println("winner!");
-        peek();
-        return "Jeremy D.";
-    }
-*/
-
-/*
-    private void peek() {
-        kafkaConsumer.subscribe("orders", ar -> {
-
-            if (ar.succeeded()) {
-                System.out.println("Consumer subscribed");
-
-                vertx.setPeriodic(1000, timerId -> {
-
-                    kafkaConsumer.poll(100, ar1 -> {
-
-                        if (ar1.succeeded()) {
-
-                            KafkaConsumerRecords<String, String> records = ar1.result();
-                            for (int i = 0; i < records.size(); i++) {
-                                KafkaConsumerRecord<String, String> record = records.recordAt(i);
-                                System.out.println("key=" + record.key() + ",value=" + record.value() +
-                                        ",partition=" + record.partition() + ",offset=" + record.offset());
-                            }
-                        }
-                    });
-
-                });
-            }
-        });
-    }
-*/
-
-/*
-    @PostConstruct
-    public void postConstruct() {
-        // Config values can be moved to application.properties
-        Map<String, String> config = new HashMap<>();
-        config.put("bootstrap.servers", "localhost:9092");
-        config.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        config.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        config.put("acks", "1");
-        kafkaConsumer = KafkaConsumer.create(vertx, config);
-    }
-*/
-
 }
