@@ -66,7 +66,6 @@ public class CustomerAppreciatorTest{
 
             Customer customer = customerAppreciator.pickWinner();
             assertNotNull(customer);
-
         } catch (NoEligibleCustomersException nece) {
             exceptionThrown = true;
         }
