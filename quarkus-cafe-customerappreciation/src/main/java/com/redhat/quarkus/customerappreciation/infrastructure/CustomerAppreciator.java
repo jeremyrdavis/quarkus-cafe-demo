@@ -1,9 +1,6 @@
 package com.redhat.quarkus.customerappreciation.infrastructure;
 
-import com.redhat.quarkus.customerappreciation.domain.Customer;
-import com.redhat.quarkus.customerappreciation.domain.CustomerAppreciationEvent;
-import com.redhat.quarkus.customerappreciation.domain.CustomerStatus;
-import com.redhat.quarkus.customerappreciation.domain.OrderEvent;
+import com.redhat.quarkus.customerappreciation.domain.*;
 import io.netty.util.concurrent.OrderedEventExecutor;
 import io.quarkus.scheduler.Scheduled;
 import io.smallrye.reactive.messaging.annotations.Broadcast;
@@ -15,6 +12,8 @@ import io.vertx.kafka.client.consumer.KafkaConsumerRecord;
 import io.vertx.kafka.client.consumer.KafkaConsumerRecords;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -25,6 +24,8 @@ import java.util.*;
 
 @ApplicationScoped
 public class CustomerAppreciator {
+
+    Logger logger = LoggerFactory.getLogger(CustomerAppreciator.class);
 
     @Inject @Channel("ordersout")
     private Emitter<String> customerAppreciationEventEmiiter;
@@ -47,23 +48,41 @@ public class CustomerAppreciator {
         }
     }
 
-    @Scheduled(every="15s")
-    public void pickWinner() {
+    /**
+     * Returns a randomly selected winner.  Customers are not eligible to win twice.
+     *
+     * @return Customer
+     */
+    public Customer pickWinner() throws NoEligibleCustomersException {
 
-        if (customers.size() >= 1) {
-
+        if (customers.isEmpty()) {
+            throw new NoEligibleCustomersException();
+        }
             System.out.println("\npicking winner\n");
 
-            List<Customer> customerNames = new ArrayList(customers.keySet());
+            List<String> customerNames = new ArrayList(customers.keySet());
             Collections.shuffle(customerNames);
-            Customer winner = customerNames.get(new Random().nextInt(customerNames.size()));
+            String winningName = customerNames.get(new Random().nextInt(customerNames.size()));
+            Customer winner = customers.get(winningName);
+            logger.debug("And the winner is {}", winner.name);
             customers.remove(winner.name);
             winner.customerStatus = CustomerStatus.WINNER;
             customers.put(winner.name, winner);
 
+            logger.debug("Returning {}", winner);
+            return winner;
+/*
             System.out.println("\nwinner: " + winner + "\n");
             String message = jsonb.toJson(new CustomerAppreciationEvent(winner.name));
             customerAppreciationEventEmiiter.send(message);
-        }
+*/
+    }
+
+    public Map<String, Customer> getCustomers() {
+        return customers;
+    }
+
+    public void addCustomer(String customerName) {
+        this.customers.put(customerName, new Customer(customerName, CustomerStatus.ENTERED));
     }
 }

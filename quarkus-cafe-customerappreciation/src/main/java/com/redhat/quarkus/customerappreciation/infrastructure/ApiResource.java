@@ -1,7 +1,5 @@
 package com.redhat.quarkus.customerappreciation.infrastructure;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

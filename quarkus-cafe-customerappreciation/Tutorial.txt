@@ -1,0 +1,46 @@
+= Creating the Customer Appreciation Service
+Jeremy Davis <jeremy.davis@redhat.com>
+:Author Initials: SJR
+:toc:
+:icons:
+:numbered:
+:website: https://quarkus.io
+
+== Introduction
+== Step 1: Creating a Basic Application
+== Step 2: TDD and Hexagonal Architecture
+
+Let's start with a JUnit test:
+
+[source,java]
+----
+package com.redhat.quarkus.customerappreciation.infrastructure;
+
+import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Test;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import javax.inject.Inject;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@QuarkusTest @Testcontainers
+public class CustomerAppreciatorTest extends BaseTestContainersIT{
+
+    @Inject
+    CustomerAppreciator customerAppreciator;
+
+    @Test
+    private void addCustomer() {
+
+        customerAppreciator.addCustomer("Paul P.");
+        assertEquals(1, customerAppreciator.getCustomers().keySet().size());
+    }
+}
+----
+
+Implement our CustomerAppreciator class:
+
+[source,java]
+----
+----
