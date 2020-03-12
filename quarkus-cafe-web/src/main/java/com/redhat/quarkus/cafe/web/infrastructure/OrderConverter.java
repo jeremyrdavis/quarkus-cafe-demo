@@ -14,7 +14,7 @@ import javax.json.bind.JsonbBuilder;
 
 /**
  * A bean consuming data from the "prices" Kafka topic and applying some conversion.
- * The result is pushed to the "my-data-stream" stream which is an in-memory stream.
+ * The result is pushed to the "updates" stream which is an in-memory stream.
  */
 @ApplicationScoped
 public class OrderConverter {
@@ -29,23 +29,10 @@ public class OrderConverter {
     public String process(String payload) {
 
         OrderEvent incomingEvent = jsonb.fromJson(payload, OrderEvent.class);
-
-        logger.debug("Event received {}", incomingEvent);
-
-        DashboardUpdate dashboardUpdate = new DashboardUpdate(incomingEvent);
-
-        logger.debug(dashboardUpdate.toString());
-
-        return jsonb.toJson(dashboardUpdate).toString();
-
-/*
-        OrderEvent incomingEvent = jsonb.fromJson(payload, OrderEvent.class);
         logger.debug("Event received {}", incomingEvent);
         DashboardUpdate dashboardUpdate = new DashboardUpdate(incomingEvent);
         logger.debug(dashboardUpdate.toString());
         return jsonb.toJson(dashboardUpdate).toString();
-*/
-
     }
 
 }

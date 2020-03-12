@@ -27,12 +27,13 @@ public class CustomerAppreciator {
 
     Logger logger = LoggerFactory.getLogger(CustomerAppreciator.class);
 
-    @Inject @Channel("ordersout")
-    private Emitter<String> customerAppreciationEventEmiiter;
+    @Inject @Channel("customerappreciation-outgoing")
+    Emitter<String> customerAppreciationEventEmiiter;
 
     Jsonb jsonb = JsonbBuilder.create();
 
     private HashMap<String, Customer> customers = new HashMap<>();
+/*
 
     @Incoming("ordersin")
     public void winner(String payload) {
@@ -47,6 +48,7 @@ public class CustomerAppreciator {
             System.out.println("Error parsing: " + payload);
         }
     }
+*/
 
     /**
      * Returns a randomly selected winner.  Customers are not eligible to win twice.
@@ -82,7 +84,11 @@ public class CustomerAppreciator {
         return customers;
     }
 
+    @Incoming("add-customer")
     public void addCustomer(String customerName) {
+        System.out.println("adding customer: " + customerName);
+        customers.entrySet().forEach(c -> System.out.println(c));
+        logger.debug("adding customer {}", customerName);
         this.customers.put(customerName, new Customer(customerName, CustomerStatus.ENTERED));
     }
 }

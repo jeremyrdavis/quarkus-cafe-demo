@@ -13,6 +13,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.DockerComposeContainer;
 
 import javax.json.bind.Jsonb;
@@ -21,6 +23,8 @@ import java.io.File;
 import java.util.*;
 
 public abstract class BaseTestContainersIT {
+
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     static DockerComposeContainer dockerComposeContainer;
 
@@ -44,7 +48,6 @@ public abstract class BaseTestContainersIT {
 
     @BeforeAll
     public static void setUpAll() {
-        System.out.println("setUpAll begun");
         dockerComposeContainer = new DockerComposeContainer(
                 new File("src/test/resources/docker-compose.yaml"))
                 .withExposedService("kafka", 9092)
@@ -81,7 +84,7 @@ public abstract class BaseTestContainersIT {
 
     void deleteTopics() {
 
-        System.out.println("delete topics");
+        logger.info("delete topics");
         kafkaAdminClient.deleteTopics(
                 Arrays.asList(
                     new String[] {PRODUCER_TOPIC, CONSUMER_TOPIC}));
@@ -91,11 +94,13 @@ public abstract class BaseTestContainersIT {
     void setUpTopics() {
         //create Topics
 
+        logger.info("creating topics");
         List<NewTopic> topics = new ArrayList<>();
         topics.add(new NewTopic(PRODUCER_TOPIC, 4, (short) 1));
         topics.add(new NewTopic(CONSUMER_TOPIC, 4, (short) 1));
 
         kafkaAdminClient.createTopics(topics);
+        logger.info("topics created");
         kafkaAdminClient.close();
     }
 

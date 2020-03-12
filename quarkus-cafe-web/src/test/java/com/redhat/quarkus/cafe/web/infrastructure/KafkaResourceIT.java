@@ -32,9 +32,6 @@ public class KafkaResourceIT extends BaseTestContainersIT{
 
     WebTarget target;
 
-    @Inject
-    KafkaResource kafkaResource;
-
     public KafkaResourceIT() {
         super(PRODUCER_TOPIC, CONSUMER_TOPIC);
     }

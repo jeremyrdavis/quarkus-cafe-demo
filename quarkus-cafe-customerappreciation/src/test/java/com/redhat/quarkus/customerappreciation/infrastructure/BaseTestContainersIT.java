@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.DockerComposeContainer;
 
 import javax.json.bind.Jsonb;
@@ -21,14 +23,14 @@ import java.util.*;
 
 public abstract class BaseTestContainersIT {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     static DockerComposeContainer dockerComposeContainer;
 
     //Kafka stuff
-    protected String PRODUCER_TOPIC = "orders";
+    protected String PRODUCER_TOPIC ="customerappreciation";
 
-    protected String CONSUMER_TOPIC ="orders";
-
-    protected String bootsrapServers = "localhost:9092";
+    protected String CONSUMER_TOPIC ="orders-test";
 
     Jsonb jsonb = JsonbBuilder.create();
 
@@ -38,8 +40,14 @@ public abstract class BaseTestContainersIT {
 
     AdminClient kafkaAdminClient;
 
+    public BaseTestContainersIT(String producerTopic, String consumerTopic) {
+        this.PRODUCER_TOPIC = producerTopic;
+        this.CONSUMER_TOPIC = consumerTopic;
+    }
+
     @BeforeAll
     public static void setUpAll() {
+        System.out.println("setUpAll begun");
         dockerComposeContainer = new DockerComposeContainer(
                 new File("src/test/resources/docker-compose.yaml"))
                 .withExposedService("kafka", 9092)
@@ -63,13 +71,24 @@ public abstract class BaseTestContainersIT {
 
     @AfterEach
     public void tearDown() {
+        deleteTopics();
+        setUpTopics();
     }
 
     void setUpAdminClient() {
 
         Map<String, Object> config = new HashMap<>();
-        config.put("bootstrap.servers", bootsrapServers);
+        config.put("bootstrap.servers", "localhost:9092");
         kafkaAdminClient = AdminClient.create(config);
+    }
+
+    void deleteTopics() {
+
+        System.out.println("delete topics");
+        kafkaAdminClient.deleteTopics(
+                Arrays.asList(
+                        new String[] {PRODUCER_TOPIC, CONSUMER_TOPIC}));
+        kafkaAdminClient.close();
     }
 
     void setUpTopics() {
@@ -86,7 +105,7 @@ public abstract class BaseTestContainersIT {
     void setUpProducer(){
         //create Producer config
         Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootsrapServers);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put("input.topic.name", PRODUCER_TOPIC);
@@ -103,7 +122,7 @@ public abstract class BaseTestContainersIT {
 
         //create Consumer config
         Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootsrapServers);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "testgroup" + new Random().nextInt());
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "true");
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
