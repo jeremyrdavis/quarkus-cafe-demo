@@ -59,7 +59,7 @@ public class KafkaResource {
     private Jsonb jsonb = JsonbBuilder.create();
 
 
-    @Incoming("ordersin")
+    @Incoming("orders-in")
     public void orderIn(String message) {
 
         logger.debug("\nBarista Order In Received after registering for reflection:\n" + message);
