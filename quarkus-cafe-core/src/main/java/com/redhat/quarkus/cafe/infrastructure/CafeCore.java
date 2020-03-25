@@ -24,7 +24,7 @@ public class CafeCore {
     @Inject
     Cafe cafe;
 
-    @Inject @Channel("ordersout")
+    @Inject @Channel("orders-out")
     Emitter<String> ordersOutEmitter;
 
     @Inject
