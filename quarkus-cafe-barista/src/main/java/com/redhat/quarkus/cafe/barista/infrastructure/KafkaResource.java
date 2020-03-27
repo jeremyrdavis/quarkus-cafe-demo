@@ -31,7 +31,7 @@ public class KafkaResource {
 
     Logger logger = Logger.getLogger(KafkaResource.class);
 
-    @Inject @Channel("ordersup")
+    @Inject @Channel("orders-out")
     Emitter<String> orderUpEmitter;
 
     private static final String TOPIC = "orders";
