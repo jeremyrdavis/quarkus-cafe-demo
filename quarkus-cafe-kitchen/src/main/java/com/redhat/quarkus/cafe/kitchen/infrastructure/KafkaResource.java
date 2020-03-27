@@ -29,17 +29,17 @@ import java.util.concurrent.ExecutionException;
 @ApplicationScoped
 public class KafkaResource {
 
-    private static final String TOPIC = "orders";
+    private static final String TOPIC = "orders-topic";
 
     Logger logger = Logger.getLogger(KafkaResource.class);
 
-    @ConfigProperty(name = "mp.messaging.incoming.orderin.bootstrap.servers")
+    @ConfigProperty(name = "mp.messaging.incoming.orders-in.bootstrap.servers")
     String bootstrapServers;
 
-    @ConfigProperty(name = "mp.messaging.incoming.orderin.value.serializer")
+    @ConfigProperty(name = "mp.messaging.incoming.orders-in.value.serializer")
     String serializer;
 
-    @ConfigProperty(name = "mp.messaging.incoming.orderin.value.deserializer")
+    @ConfigProperty(name = "mp.messaging.incoming.orders-in.value.deserializer")
     String deserializer;
 
     @Inject
@@ -52,7 +52,7 @@ public class KafkaResource {
 
     private Jsonb jsonb = JsonbBuilder.create();
 
-    @Incoming("orderin")
+    @Incoming("orders-in")
     public void orderIn(String message) {
 
         System.out.println("\nmessage received:\n" + message);
