@@ -13,7 +13,7 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
 /**
- * A bean consuming data from the "prices" Kafka topic and applying some conversion.
+ * A bean consuming data from the "orders" Kafka topic and applying some conversion.
  * The result is pushed to the "updates" stream which is an in-memory stream.
  */
 @ApplicationScoped
@@ -23,7 +23,7 @@ public class OrderConverter {
 
     private Jsonb jsonb = JsonbBuilder.create();
 
-    @Incoming("orders-incoming")
+    @Incoming("orders-in")
     @Outgoing("updates")
     @Broadcast
     public String process(String payload) {
