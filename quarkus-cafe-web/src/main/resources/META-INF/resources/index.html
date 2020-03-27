@@ -131,7 +131,7 @@
 
     $(function () {
 /*        var source = new EventSource("http://web-cafe.apps.ocp4.home.ocpcloud.com/dashboard/stream"); */
-        var source = new EventSource("http://quarkus-cafe-web-quarkus-cafe.apps.cluster-virtual-1b57.virtual-1b57.sandbox1482.opentlc.com/stream");
+        var source = new EventSource("http://quarkus-cafe-web-quarkus-cafe.apps.cluster-virtual-1b57.virtual-1b57.sandbox1482.opentlc.com/dashboard/stream");
         source.onmessage = function(e) {
             console.log(e);
             var state = JSON.parse(e.data);
