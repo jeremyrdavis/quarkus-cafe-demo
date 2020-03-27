@@ -27,10 +27,6 @@ public class CafeCore {
     @Inject @Channel("orders-out")
     Emitter<String> ordersOutEmitter;
 
-    @Inject
-    @RestClient
-    DashboardService dashboardService;
-
     Jsonb jsonb = JsonbBuilder.create();
 
     /**
@@ -48,22 +44,11 @@ public class CafeCore {
             allEvents.forEach(orderEvent -> {
                 ordersOutEmitter.send(jsonb.toJson(orderEvent));
             });
-            dashboardService.updatedDashboard(convertJson(allEvents));
         } catch (Exception e) {
             System.out.println(e);
         }
         return allEvents;
     }
-
-    /**
-     * Updates the dashboard with the supplied events
-     *
-     * @param orderEvents
-     */
-    public void orderUp(List<OrderEvent> orderEvents) {
-        dashboardService.updatedDashboard(convertJson(orderEvents));
-    }
-
 
     private List<DashboardUpdate> convertJson(List<OrderEvent> orderEvents) {
         return orderEvents.stream()
