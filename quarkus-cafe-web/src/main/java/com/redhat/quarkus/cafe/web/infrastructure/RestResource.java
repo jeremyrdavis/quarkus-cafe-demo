@@ -24,10 +24,6 @@ public class RestResource {
     Logger logger = LoggerFactory.getLogger(RestResource.class);
 
     @Inject
-    @Channel("dashboard")
-    Emitter<String> udpateEmitter;
-
-    @Inject
     @RestClient
     OrderService orderService;
 
@@ -50,7 +46,6 @@ public class RestResource {
     public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
 
         logger.debug("{} updates received", dashboardUpdates.size());
-        udpateEmitter.send(jsonb.toJson(dashboardUpdates.get(0)));
         dashboardUpdates.forEach( dashboardUpdate -> {
 //            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
             logger.debug("update sent {}", dashboardUpdate);
