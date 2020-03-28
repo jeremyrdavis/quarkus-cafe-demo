@@ -53,7 +53,6 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
     </dependency>
-    <!-- Testing -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
@@ -73,14 +72,6 @@
       <groupId>org.testcontainers</groupId>
       <artifactId>junit-jupiter</artifactId>
       <version>1.12.2</version>
-<!--
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-log4j12</artifactId>
-        </exclusion>
-      </exclusions>
--->
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -88,6 +79,10 @@
       <artifactId>awaitility</artifactId>
       <version>${awaitility.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-qute</artifactId>
     </dependency>
   </dependencies>
   <build>

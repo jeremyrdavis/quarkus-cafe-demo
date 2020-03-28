@@ -42,6 +42,7 @@ public class CafeCore {
 
         try {
             allEvents.forEach(orderEvent -> {
+                logger.debug("sending: " + orderEvent);
                 ordersOutEmitter.send(jsonb.toJson(orderEvent));
             });
         } catch (Exception e) {
