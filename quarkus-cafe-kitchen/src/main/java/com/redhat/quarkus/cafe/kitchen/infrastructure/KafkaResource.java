@@ -5,15 +5,10 @@ import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import io.vertx.core.Vertx;
-import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
 import org.jboss.logging.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -22,18 +17,14 @@ import javax.json.JsonReader;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
 
 @ApplicationScoped
 public class KafkaResource {
 
     private static final String TOPIC = "orders-topic";
 
-    Logger logger = Logger.getLogger(KafkaResource.class);
+    private static final Logger logger = Logger.getLogger(KafkaResource.class);
 
     @Inject
     Kitchen kitchen;
@@ -41,7 +32,7 @@ public class KafkaResource {
     @Inject @Channel("orders-out")
     Emitter<String> orderUpEmitter;
 
-    private Jsonb jsonb = JsonbBuilder.create();
+    final Jsonb jsonb = JsonbBuilder.create();
 
     @Incoming("orders-in")
     public void orderIn(String message) {

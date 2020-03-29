@@ -2,8 +2,6 @@ package com.redhat.quarkus.cafe.kitchen.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
-import java.util.UUID;
-
 /**
  * This class represents all orders in the system
  */

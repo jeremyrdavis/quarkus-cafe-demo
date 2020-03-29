@@ -43,13 +43,4 @@ public class Kitchen {
         return retVal;
     }
 
-    private void prepare(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-
 }
