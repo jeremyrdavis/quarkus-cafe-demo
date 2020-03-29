@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @QuarkusTest
 public class KitchenTest {
+
     static final Logger logger = Logger.getLogger(KitchenTest.class.getName());
 
     @Inject

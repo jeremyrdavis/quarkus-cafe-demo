@@ -3,6 +3,8 @@ package com.redhat.quarkus.cafe.kitchen.infrastructure;
 import com.redhat.quarkus.cafe.kitchen.domain.EventType;
 import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Emitter;
 import io.vertx.core.Vertx;
 import io.vertx.kafka.client.producer.KafkaProducer;
 import io.vertx.kafka.client.producer.KafkaProducerRecord;
@@ -33,22 +35,11 @@ public class KafkaResource {
 
     Logger logger = Logger.getLogger(KafkaResource.class);
 
-    @ConfigProperty(name = "mp.messaging.incoming.orders-in.bootstrap.servers")
-    String bootstrapServers;
-
-    @ConfigProperty(name = "mp.messaging.incoming.orders-in.value.serializer")
-    String serializer;
-
-    @ConfigProperty(name = "mp.messaging.incoming.orders-in.value.deserializer")
-    String deserializer;
-
     @Inject
     Kitchen kitchen;
 
-    @Inject
-    private Vertx vertx;
-
-    private KafkaProducer<String, String> producer;
+    @Inject @Channel("orders-out")
+    Emitter<String> orderUpEmitter;
 
     private Jsonb jsonb = JsonbBuilder.create();
 
@@ -89,23 +80,7 @@ public class KafkaResource {
                 orderEvent.itemId,
                 jsonb.toJson(orderEvent));
         System.out.println(record);
-        producer.send(record, res ->{
-            if (res.failed()) {
-                throw new RuntimeException(res.cause());
-            }
-        });
+        orderUpEmitter.send(jsonb.toJson(record));
     }
-
-    @PostConstruct
-    public void postConstruct() {
-        // Config values can be moved to application.properties
-        Map<String, String> config = new HashMap<>();
-        config.put("bootstrap.servers", bootstrapServers);
-        config.put("key.serializer", serializer);
-        config.put("value.serializer", serializer);
-        config.put("acks", "1");
-        producer = KafkaProducer.create(vertx, config);
-    }
-
 
 }
