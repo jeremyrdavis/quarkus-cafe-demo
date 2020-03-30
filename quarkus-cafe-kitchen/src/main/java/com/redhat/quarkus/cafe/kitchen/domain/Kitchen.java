@@ -25,7 +25,7 @@ public class Kitchen {
                 case MUFFIN:
                     return prepare(orderIn, 3);
                 case PANINI:
-                    return prepare(orderIn, 10);
+                    return prepare(orderIn, 0);
                 default:
                     return prepare(orderIn, 5);
             }

@@ -13,12 +13,14 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.File;
 import java.util.*;
 
+@Testcontainers
 public abstract class BaseTestContainersIT {
 
     static DockerComposeContainer dockerComposeContainer;
@@ -30,9 +32,9 @@ public abstract class BaseTestContainersIT {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    KafkaProducer<String, String> kafkaProducer;
+    static KafkaProducer<String, String> kafkaProducer;
 
-    KafkaConsumer<String, String> kafkaConsumer;
+    static KafkaConsumer<String, String> kafkaConsumer;
 
     AdminClient kafkaAdminClient;
 
@@ -47,6 +49,8 @@ public abstract class BaseTestContainersIT {
 
     @AfterAll
     public static void tearDownAll() {
+        kafkaProducer.close();
+        kafkaConsumer.close();
         dockerComposeContainer.stop();
     }
 

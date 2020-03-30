@@ -67,5 +67,6 @@ public class KafkaResourceIT extends BaseTestContainersIT{
 
         await().atMost(5, TimeUnit.SECONDS).until(() -> events.size() >= 1);
         assertEquals(1, events.size());
+        logger.info(events.get(0).toString());
     }
 }

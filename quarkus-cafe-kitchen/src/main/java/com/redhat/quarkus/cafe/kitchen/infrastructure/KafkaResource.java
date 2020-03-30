@@ -49,29 +49,11 @@ public class KafkaResource {
             logger.debug("\nKitchen Order In Received:\n");
 
             OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
-            onKitchenOrderIn(orderEvent).thenApply(res -> {
-                updateKafka(res);
+            kitchen.orderIn(orderEvent).thenApply(res -> {
+                orderUpEmitter.send(jsonb.toJson(res));
                 return null;
             });
         }
 
     }
-//    @Outgoing("kitchen-orders-up")
-    private CompletionStage<OrderEvent> onKitchenOrderIn(final OrderEvent orderEvent) {
-
-        return kitchen.orderIn(orderEvent);
-    }
-
-    private void updateKafka(final OrderEvent orderEvent) {
-        System.out.println("\nNow update Kafka!");
-        logger.debug("\nSending:" + orderEvent.toString());
-        System.out.println(orderEvent);
-        KafkaProducerRecord<String, String> record = KafkaProducerRecord.create(
-                TOPIC,
-                orderEvent.itemId,
-                jsonb.toJson(orderEvent));
-        System.out.println(record);
-        orderUpEmitter.send(jsonb.toJson(record));
-    }
-
 }
