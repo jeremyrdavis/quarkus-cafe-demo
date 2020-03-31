@@ -1,8 +1,13 @@
 package com.redhat.quarkus.cafe.kitchen.domain;
 
-import org.jboss.logging.Logger;
+import com.redhat.quarkus.cafe.kitchen.infrastructure.OrderUpdater;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -10,37 +15,45 @@ import java.util.concurrent.CompletionStage;
 @ApplicationScoped
 public class Kitchen {
 
-    static final Logger logger = Logger.getLogger(Kitchen.class.getName());
+    static final Logger logger = LoggerFactory.getLogger(Kitchen.class.getName());
 
-    public CompletionStage<OrderEvent> orderIn(OrderEvent orderIn) {
+    @Inject
+    OrderUpdater orderUpdater;
 
-        logger.info("Received order: " + orderIn.toString());
-        logger.info("Sending order at " + Instant.now().toString() + " " + orderIn.toString());
+    public void orderIn(OrderEvent orderIn) {
 
-        return CompletableFuture.supplyAsync(() -> {
+        logger.debug("Received order: " + orderIn.toString());
+
+        CompletableFuture.runAsync(() -> {
 
             switch (orderIn.item) {
                 case COOKIE:
-                    return prepare(orderIn, 2);
+                    prepare(orderIn, 2).thenAccept(o -> orderUpdater.updateOrder(o) );
+                    break;
                 case MUFFIN:
-                    return prepare(orderIn, 3);
+                    prepare(orderIn, 3).thenAccept(o -> orderUpdater.updateOrder(o) );
+                    break;
                 case PANINI:
-                    return prepare(orderIn, 0);
+                    prepare(orderIn, 10).thenAccept(o -> orderUpdater.updateOrder(o) );
+                    break;
                 default:
-                    return prepare(orderIn, 5);
+                    prepare(orderIn, 5).thenAccept(o -> orderUpdater.updateOrder(o) );
             }
         });
     }
 
-    private OrderEvent prepare(final OrderEvent orderIn, int seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        OrderEvent retVal = new OrderEvent(orderIn.orderId, orderIn.name, orderIn.item, orderIn.itemId, EventType.KITCHEN_ORDER_UP);
-        logger.debug("returning: " + retVal.toString());
-        return retVal;
+    private CompletableFuture<OrderEvent> prepare(final OrderEvent orderIn, int seconds) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            try {
+                Thread.sleep(seconds * 1000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            OrderEvent retVal = new OrderEvent(orderIn.orderId, orderIn.name, orderIn.item, orderIn.itemId, EventType.KITCHEN_ORDER_UP);
+            return retVal;
+        });
     }
 
 }

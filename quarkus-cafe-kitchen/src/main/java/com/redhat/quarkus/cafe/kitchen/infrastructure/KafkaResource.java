@@ -5,11 +5,10 @@ import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -17,28 +16,20 @@ import javax.json.JsonReader;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.StringReader;
-import java.util.concurrent.CompletionStage;
 
-@ApplicationScoped
 public class KafkaResource {
 
-    private static final String TOPIC = "orders-topic";
-
-    private static final Logger logger = Logger.getLogger(KafkaResource.class);
+    private static final Logger logger = LoggerFactory.getLogger(KafkaResource.class);
 
     @Inject
     Kitchen kitchen;
-
-    @Inject @Channel("orders-out")
-    Emitter<String> orderUpEmitter;
 
     final Jsonb jsonb = JsonbBuilder.create();
 
     @Incoming("orders-in")
     public void orderIn(String message) {
 
-        System.out.println("\nmessage received:\n" + message);
-        logger.debug("\nOrder Received:\n" + message);
+        logger.debug("message received: {}", message);
 
         JsonReader reader = Json.createReader(new StringReader(message));
         JsonObject jsonObject = reader.readObject();
@@ -46,13 +37,9 @@ public class KafkaResource {
 
         if (eventType.equals(EventType.KITCHEN_ORDER_IN.toString())) {
 
-            logger.debug("\nKitchen Order In Received:\n");
-
             OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
-            kitchen.orderIn(orderEvent).thenApply(res -> {
-                orderUpEmitter.send(jsonb.toJson(res));
-                return null;
-            });
+            logger.debug("kitchen order in: {}", orderEvent);
+            kitchen.orderIn(orderEvent);
         }
 
     }

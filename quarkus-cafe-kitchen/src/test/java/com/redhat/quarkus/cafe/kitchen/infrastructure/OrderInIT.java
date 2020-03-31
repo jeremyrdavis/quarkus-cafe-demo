@@ -4,6 +4,8 @@ import com.redhat.quarkus.cafe.kitchen.domain.EventType;
 import com.redhat.quarkus.cafe.kitchen.domain.Item;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
 import io.quarkus.test.junit.QuarkusTest;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Emitter;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,6 +15,8 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.checkerframework.checker.units.qual.A;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.junit.jupiter.api.*;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -23,21 +27,19 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.File;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Testcontainers @QuarkusTest
+@Testcontainers
+@QuarkusTest
 public class OrderInIT{
 
     Jsonb jsonb = JsonbBuilder.create();
 
     @Inject
-    KafkaTestUtil kafkaTestUtil;
+    @Channel("orders-out")
+    Emitter<String> orderEmitter;
 
 /*
     @Inject
@@ -64,6 +66,12 @@ public class OrderInIT{
     @AfterEach
     public void checkResults() {
 
+        try {
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            assertNull(e);
+        }
+
         KafkaConsumer kafkaConsumer = createConsumer();
         ConsumerRecords<String, String> moreRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         assertNotNull(moreRecords);
@@ -81,8 +89,7 @@ public class OrderInIT{
     public void testOrderIn() throws InterruptedException {
 
         OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
-        kafkaTestUtil.send(jsonb.toJson(orderIn));
-        Thread.sleep(20000);
+        orderEmitter.send(jsonb.toJson(orderIn));
     }
 
     private KafkaProducer createProducer() {
