@@ -22,9 +22,9 @@ import java.io.StringReader;
 import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
-public class KafkaResource {
+public class OrderProcessor {
 
-    Logger logger = LoggerFactory.getLogger(KafkaResource.class);
+    Logger logger = LoggerFactory.getLogger(OrderProcessor.class);
 
     @Inject @Channel("orders-out")
     Emitter<KafkaRecord<String, String>> orderUpEmitter;
