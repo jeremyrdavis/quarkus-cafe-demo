@@ -14,6 +14,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -31,23 +33,42 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @QuarkusTest @QuarkusTestResource(KafkaTestResource.class)
 public class BaristaIT {
 
-    KafkaProducer<String, String> kafkaProducer;
-    KafkaConsumer<String, String> kafkaConsumer;
+    static KafkaProducer<String, String> kafkaProducer;
+    static KafkaConsumer<String, String> kafkaConsumer;
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    Collection<String> messages = new ArrayList<>();
+    @BeforeAll
+    public static void setUp() {
 
-/*
-    @Incoming("orders-in")
-    public void ordersIn(String message) {
-
-        messages.add(message);
+        createKafkaProducer();
+        createKafkaConsumer();
     }
-*/
+
+    @AfterAll
+    public static void tearDown() {
+        kafkaProducer.close();
+        kafkaConsumer.close();
+    }
 
     @Test
     public void testBlackCoffeeOrderInFromKafka() throws ExecutionException, InterruptedException {
+
+        BeverageOrder beverageOrder = new BeverageOrder(EventType.BEVERAGE_ORDER_IN, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
+        kafkaProducer.send(new ProducerRecord<>("orders", beverageOrder.orderId, jsonb.toJson(beverageOrder).toString())).get();
+
+        Thread.sleep(10000);
+
+        ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
+        for (ConsumerRecord<String, String> record : newRecords) {
+            System.out.println("offset = %d, key = %s, value = %s "  + record.offset() + " " +  record.key() + "\n" + record.value());
+            assertEquals(beverageOrder.orderId, record.key());
+            BeverageOrder result = jsonb.fromJson(record.value(), BeverageOrder.class);
+        }
+        assertEquals(2, newRecords.count());
+    }
+
+    private static void createKafkaProducer() {
 
         //create Producer config
         Properties props = new Properties();
@@ -62,7 +83,9 @@ public class BaristaIT {
                 new StringSerializer(),
                 new StringSerializer()
         );
+    }
 
+    private static void createKafkaConsumer() {
         //setup consumer
         //create Consumer config
         Properties consumerProps = new Properties();
@@ -80,21 +103,8 @@ public class BaristaIT {
 
         //subscribe
         kafkaConsumer.subscribe(Arrays.asList("orders"));
-
-        BeverageOrder beverageOrder = new BeverageOrder(EventType.BEVERAGE_ORDER_IN, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
-        kafkaProducer.send(new ProducerRecord<>("orders", beverageOrder.orderId, jsonb.toJson(beverageOrder).toString())).get();
-
-        Thread.sleep(10000);
-
-        ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
-        for (ConsumerRecord<String, String> record : newRecords) {
-            System.out.println("offset = %d, key = %s, value = %s "  + record.offset() + " " +  record.key() + "\n" + record.value());
-            assertEquals(beverageOrder.orderId, record.key());
-//            assertEquals(beverageOrder.toString(), record.value());
-            BeverageOrder result = jsonb.fromJson(record.value(), BeverageOrder.class);
-//            assertEquals(EventType.BEVERAGE_ORDER_UP, result.eventType);
-        }
-        assertEquals(2, newRecords.count());
     }
+
+
 }
 
