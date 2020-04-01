@@ -21,7 +21,7 @@ public class BeverageOrderSerializer implements Serializer<BeverageOrder> {
     public byte[] serialize(String s, BeverageOrder beverageOrder) {
         byte[] retVal = null;
         try {
-            retVal = jsonb.toJson(beverageOrder).toString().getBytes();
+            retVal = jsonb.toJson(beverageOrder).getBytes();
         } catch (Exception e) {
             e.printStackTrace();
         }
