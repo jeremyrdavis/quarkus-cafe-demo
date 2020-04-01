@@ -1,18 +1,17 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
-import com.redhat.quarkus.cafe.barista.domain.*;
+import com.redhat.quarkus.cafe.barista.domain.Barista;
 import com.redhat.quarkus.cafe.barista.domain.BeverageOrder;
+import com.redhat.quarkus.cafe.barista.domain.EventType;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
-import io.vertx.core.Vertx;
-import io.vertx.kafka.client.producer.KafkaProducer;
-import io.vertx.kafka.client.producer.KafkaProducerRecord;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import io.smallrye.reactive.messaging.kafka.KafkaMessage;
+import io.smallrye.reactive.messaging.kafka.KafkaRecord;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.reactive.messaging.Outgoing;
-import org.jboss.logging.Logger;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.Json;
@@ -20,7 +19,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.swing.plaf.basic.BasicViewportUI;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +27,10 @@ import java.util.concurrent.CompletionStage;
 @ApplicationScoped
 public class KafkaResource {
 
-    Logger logger = Logger.getLogger(KafkaResource.class);
+    Logger logger = LoggerFactory.getLogger(KafkaResource.class);
 
     @Inject @Channel("orders-out")
-    Emitter<String> orderUpEmitter;
+    Emitter<KafkaRecord<String, String>> orderUpEmitter;
 
     private static final String TOPIC = "orders";
 
@@ -60,12 +58,12 @@ public class KafkaResource {
 
 
     @Incoming("orders-in")
-    public void orderIn(String message) {
+    public CompletionStage<Void> orderIn(Message message) {
 
         logger.debug("\nBarista Order In Received after registering for reflection:\n" + message);
 
 
-        JsonReader reader = Json.createReader(new StringReader(message));
+        JsonReader reader = Json.createReader(new StringReader((String) message.getPayload()));
         JsonObject jsonObject = reader.readObject();
         String eventType = jsonObject.getString("eventType");
 
@@ -73,16 +71,16 @@ public class KafkaResource {
         if (eventType.equals(EventType.BEVERAGE_ORDER_IN.toString())) {
 
             logger.debug("\nBarista Order In Received after registering for reflection:\n");
-            BeverageOrder beverageOrder = jsonb.fromJson(message, BeverageOrder.class);
+            final BeverageOrder beverageOrder = jsonb.fromJson((String) message.getPayload(), BeverageOrder.class);
 
 //            OrderInEvent orderEvent = jsonb.fromJson(message, OrderInEvent.class);
-            onOrderIn(beverageOrder).thenApply(res -> {
-//                updateKafka(res);
-                orderUpEmitter.send(jsonb.toJson(res));
-                return null;
+            barista.orderIn(beverageOrder).thenAccept(res -> {
+
+                logger.debug("returning: {}", res);
+                orderUpEmitter.send(KafkaRecord.of(res.orderId, jsonb.toJson(res)));
             });
         }
-
+        return message.ack();
     }
 
 /*
