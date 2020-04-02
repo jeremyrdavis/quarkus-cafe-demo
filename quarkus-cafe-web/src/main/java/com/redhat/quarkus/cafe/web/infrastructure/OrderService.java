@@ -2,18 +2,27 @@ package com.redhat.quarkus.cafe.web.infrastructure;
 
 
 import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
+import io.smallrye.reactive.messaging.annotations.Channel;
+import io.smallrye.reactive.messaging.annotations.Emitter;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/order")
-@RegisterRestClient
-public interface OrderService {
+import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void orderIn(CreateOrderCommand createOrderCommand);
+@ApplicationScoped
+public class OrderService {
+
+    @Inject
+    @Channel("orders-out")
+    Emitter<String> ordersOutEmitter;
+
+    public void sendOrder(CreateOrderCommand createOrderCommand){
+
+        ordersOutEmitter.send(toJson(createOrderCommand));
+    }
 }

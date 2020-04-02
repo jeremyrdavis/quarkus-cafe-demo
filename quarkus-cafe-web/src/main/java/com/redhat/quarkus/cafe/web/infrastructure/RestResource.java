@@ -4,15 +4,10 @@ import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import io.smallrye.reactive.messaging.annotations.Channel;
-import io.smallrye.reactive.messaging.annotations.Emitter;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -30,11 +25,10 @@ public class RestResource {
     String sourceUrl;
 
     @Inject
-    @RestClient
     OrderService orderService;
 
     @Inject
-    Template cafe;
+    Template cafeTemplate;
 
     Jsonb jsonb = JsonbBuilder.create();
 
@@ -42,17 +36,15 @@ public class RestResource {
     @Path("/cafe")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getIndex(){
-        return cafe.data("sourceUrl", sourceUrl);
+        return cafeTemplate.data("sourceUrl", sourceUrl);
     }
 
     @POST
     @Path("/order")
     public Response orderIn(CreateOrderCommand createOrderCommand) {
 
-        System.out.println("\norder in\n");
-        System.out.println("\n"+ createOrderCommand +"\n");
-        orderService.orderIn(createOrderCommand);
-        System.out.println("\nsent\n");
+        logger.debug("CreateOrderCommand received: {}", createOrderCommand);
+        orderService.sendOrder(createOrderCommand);
         return Response.accepted().entity(createOrderCommand).build();
     }
 
