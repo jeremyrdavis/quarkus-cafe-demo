@@ -1,8 +1,11 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.*;
 import com.redhat.quarkus.cafe.infrastructure.OrderService;
 import io.quarkus.scheduler.Scheduled;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,8 +16,15 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.toJson;
+
+/**
+ * Creates and sends CreateOrderCommand objects to the web application
+ */
 @ApplicationScoped
 public class CustomerMocker {
+
+    final Logger logger = LoggerFactory.getLogger(CustomerMocker.class);
 
     @Inject
     @RestClient
@@ -29,8 +39,7 @@ public class CustomerMocker {
             List<CreateOrderCommand> mockOrders = mockCustomerOrders(orders);
             mockOrders.forEach(mockOrder -> {
                 orderService.placeOrders(mockOrder);
-                System.out.println("\nplaced order\n");
-                System.out.println(mockOrder.toString());
+                logger.debug("placed order: {}", toJson(mockOrder));
             });
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -43,7 +52,10 @@ public class CustomerMocker {
         return Stream.generate(() -> {
             CreateOrderCommand createOrderCommand = new CreateOrderCommand();
             createOrderCommand.addBeverages(createBeverages());
-            createOrderCommand.addKitchenItems(createKitchenItems());
+            // not all orders have kitchen items
+            if (desiredNumberOfOrders % 2 == 0) {
+                createOrderCommand.addKitchenItems(createKitchenItems());
+            }
             return createOrderCommand;
         }).limit(desiredNumberOfOrders).collect(Collectors.toList());
     }

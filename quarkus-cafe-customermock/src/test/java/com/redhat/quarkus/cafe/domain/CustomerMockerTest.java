@@ -1,10 +1,10 @@
 package com.redhat.quarkus.cafe.domain;
 
+import com.redhat.quarkus.cafe.infrastructure.CustomerMocker;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.json.JsonBuilderFactory;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.List;

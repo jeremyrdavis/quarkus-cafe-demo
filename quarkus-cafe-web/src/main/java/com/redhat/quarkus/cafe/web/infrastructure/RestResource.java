@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
+
 @Path("/")
 public class RestResource {
 
@@ -43,7 +45,7 @@ public class RestResource {
     @Path("/order")
     public Response orderIn(CreateOrderCommand createOrderCommand) {
 
-        logger.debug("CreateOrderCommand received: {}", createOrderCommand);
+        logger.debug("CreateOrderCommand received: {}", toJson(createOrderCommand));
         orderService.sendOrder(createOrderCommand);
         return Response.accepted().entity(createOrderCommand).build();
     }
