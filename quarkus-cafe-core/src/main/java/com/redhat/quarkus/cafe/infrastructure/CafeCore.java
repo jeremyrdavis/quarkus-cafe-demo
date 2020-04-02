@@ -30,6 +30,9 @@ public class CafeCore {
     @Inject @Channel("barista-out")
     Emitter<String> baristaOutEmitter;
 
+    @Inject @Channel("kitchen-out")
+    Emitter<String> kitchenOutEmitter;
+
     Jsonb jsonb = JsonbBuilder.create();
 
     /**
@@ -48,9 +51,11 @@ public class CafeCore {
                 if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                     logger.debug("sending to barista-orders topic: {}", orderEvent);
                     baristaOutEmitter.send(toJson(orderEvent));
+                } else if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+                    logger.debug("sending to kitchen-orders topic: {}", orderEvent);
+                    kitchenOutEmitter.send(toJson(orderEvent));
                 }
-                logger.debug("sending: " + orderEvent);
-                ordersOutEmitter.send(jsonb.toJson(orderEvent));
+                logger.debug("completed sending: " + orderEvent);
             });
         } catch (Exception e) {
             System.out.println(e);
