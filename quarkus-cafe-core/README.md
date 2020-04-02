@@ -10,6 +10,13 @@ You can run your application in dev mode that enables live coding using:
 ```
 ./mvnw quarkus:dev
 ```
+## Docker Compose
+
+## Kafka Command Line
+kafka-console-consumer --bootstrap-server localhost:9092 --topic orders --from-beginning
+kafka-console-producer --broker-list localhost:9092 --topic orders
+
+
 
 ## Tests
 
