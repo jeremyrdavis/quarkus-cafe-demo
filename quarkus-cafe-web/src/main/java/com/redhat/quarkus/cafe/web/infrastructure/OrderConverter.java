@@ -27,8 +27,7 @@ public class OrderConverter {
     private Jsonb jsonb = JsonbBuilder.create();
 
     @Incoming("barista-in")
-    @Outgoing("updates")
-    @Broadcast
+    @Outgoing("updates-out")
     public String onBeverageOrderIn(final String payload) {
 
         logger.debug("Barista event received {}", payload);
@@ -36,8 +35,7 @@ public class OrderConverter {
     }
 
     @Incoming("kitchen-in")
-    @Outgoing("updates")
-    @Broadcast
+    @Outgoing("updates-out")
     public String onKitchenOrderIn(final String payload) {
 
         logger.debug("Kitchen event received {}", payload);
@@ -45,13 +43,13 @@ public class OrderConverter {
     }
 
     @Incoming("orders-in")
-    @Outgoing("updates")
-    @Broadcast
+    @Outgoing("updates-out")
     public String onOrderUp(final String payload) {
 
         logger.debug("OrderUpEvent received {}", payload);
         return convertOrderEventToDashboardUpdate(payload);
     }
+
 
     /*
         Returns a properly formatted JSON DashboardUpdate

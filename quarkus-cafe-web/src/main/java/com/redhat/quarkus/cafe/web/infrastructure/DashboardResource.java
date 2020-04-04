@@ -1,8 +1,7 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
-import io.smallrye.reactive.messaging.annotations.Channel;
-import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
+import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.SseElementType;
 import org.reactivestreams.Publisher;
@@ -19,7 +18,7 @@ public class DashboardResource {
     Logger logger = Logger.getLogger(DashboardResource.class);
 
     @Inject
-    @Channel("updates")
+    @Channel("updates-in")
     Publisher<DashboardUpdate> updater;
 
     @GET
