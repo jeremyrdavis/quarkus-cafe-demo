@@ -30,20 +30,24 @@ public class CustomerMocker {
     @RestClient
     OrderService orderService;
 
-    @Scheduled(every = "30s")
+    @Scheduled(every = "5s")
     public void placeOrder() {
-        int seconds = new Random().nextInt(20);
+//        int seconds = new Random().nextInt(5);
+/*
         try {
-            Thread.sleep(seconds * 1000);
+*/
+//            Thread.sleep(seconds * 5000);
             int orders = new Random().nextInt(5);
             List<CreateOrderCommand> mockOrders = mockCustomerOrders(orders);
             mockOrders.forEach(mockOrder -> {
                 orderService.placeOrders(mockOrder);
                 logger.debug("placed order: {}", toJson(mockOrder));
             });
+/*
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+*/
     }
 
 

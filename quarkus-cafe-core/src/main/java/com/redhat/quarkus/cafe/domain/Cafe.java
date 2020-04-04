@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class Cafe {
 
-    public List<OrderEvent> orderIn(CreateOrderCommand createOrderCommand) throws ExecutionException, InterruptedException {
+    public List<OrderEvent> orderIn(CreateOrderCommand createOrderCommand) {
 
         List<OrderEvent> allEvents = new ArrayList<>();
         createOrderCommand.beverages.ifPresent(beverages -> {

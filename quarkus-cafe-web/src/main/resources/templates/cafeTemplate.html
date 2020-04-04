@@ -59,7 +59,7 @@
 
     <h1>Queue</h1>
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="orders_table">
         <thead class="thead-dark">
         <tr>
             <th>Customer</th>
@@ -151,16 +151,19 @@
         var customer = state.name;
         var status = state.status;
         var barista = "";
-        /*
-                if (state.item) {
-                    barista = state.item.preparedBy;
-                }
-        */
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
             "<td>" + product + "</td>" +
             "<td>" + barista + "</td>" +
             "<td>" + status + "</td></tr>";
+    }
+
+    function cleanup(){
+
+        //get all rows
+        var rows = $('#tblID > tbody > tr');
+
+        $("#orders_table tr").remove();
     }
 
 

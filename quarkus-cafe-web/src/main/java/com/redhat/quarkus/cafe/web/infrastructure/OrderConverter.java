@@ -12,6 +12,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
+import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.orderEventFromJson;
+import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
+
 /**
  * A bean consuming data from the "orders" Kafka topic and applying some conversion.
  * The result is pushed to the "updates" stream which is an in-memory stream.
@@ -23,16 +26,40 @@ public class OrderConverter {
 
     private Jsonb jsonb = JsonbBuilder.create();
 
+    @Incoming("barista-in")
+    @Outgoing("updates")
+    @Broadcast
+    public String onBeverageOrderIn(final String payload) {
+
+        logger.debug("Barista event received {}", payload);
+        return convertOrderEventToDashboardUpdate(payload);
+    }
+
+    @Incoming("kitchen-in")
+    @Outgoing("updates")
+    @Broadcast
+    public String onKitchenOrderIn(final String payload) {
+
+        logger.debug("Kitchen event received {}", payload);
+        return convertOrderEventToDashboardUpdate(payload);
+    }
+
     @Incoming("orders-in")
     @Outgoing("updates")
     @Broadcast
-    public String process(String payload) {
+    public String onOrderUp(final String payload) {
 
-        OrderEvent incomingEvent = jsonb.fromJson(payload, OrderEvent.class);
-        logger.debug("Event received {}", incomingEvent);
-        DashboardUpdate dashboardUpdate = new DashboardUpdate(incomingEvent);
-        logger.debug(dashboardUpdate.toString());
-        return jsonb.toJson(dashboardUpdate).toString();
+        logger.debug("OrderUpEvent received {}", payload);
+        return convertOrderEventToDashboardUpdate(payload);
     }
+
+    /*
+        Returns a properly formatted JSON DashboardUpdate
+     */
+    private String convertOrderEventToDashboardUpdate(final String payload) {
+        final OrderEvent orderEvent = orderEventFromJson(payload);
+        return toJson(new DashboardUpdate(orderEvent));
+    }
+
 
 }

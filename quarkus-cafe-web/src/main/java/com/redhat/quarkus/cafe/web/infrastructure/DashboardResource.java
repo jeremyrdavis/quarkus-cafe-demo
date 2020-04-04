@@ -27,6 +27,7 @@ public class DashboardResource {
     @Produces(MediaType.SERVER_SENT_EVENTS) // denotes that server side events (SSE) will be produced
     @SseElementType("text/plain") // denotes that the contained data, within this SSE, is just regular text/plain data
     public Publisher<DashboardUpdate> dashboardStream() {
+
         return updater;
     }
 }

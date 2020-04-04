@@ -1,8 +1,10 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
-import io.smallrye.reactive.messaging.annotations.Channel;
-import io.smallrye.reactive.messaging.annotations.Emitter;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 import org.slf4j.Logger;
@@ -10,13 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import java.io.StringReader;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -42,19 +39,60 @@ public class CafeCore {
     Emitter<String> kitchenOutEmitter;
 
     @Incoming("orders-in")
-    public CompletionStage<Void> ordersIn(final Message message) {
+    public CompletionStage<Message> ordersIn(final Message message) {
 
-        try {
-            List<OrderEvent> allEvents = cafe.orderIn(createOrderCommandFromJson(message.getPayload().toString()));
-            sendEvents(allEvents);
-        } catch (ExecutionException e) {
-            logger.error(e.getMessage());
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            logger.error(e.getMessage());
-            e.printStackTrace();
-        }
-        return null;
+        logger.debug("orderIn: {}", message.getPayload());
+        List<OrderEvent> allEvents = cafe.orderIn(createOrderCommandFromJson(message.getPayload().toString()));
+        allEvents.forEach(orderEvent -> {
+            if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
+                baristaOutEmitter.send(toJson(orderEvent));
+                logger.debug("sent to barista-orders topic: {}", toJson(orderEvent));
+/*
+                Uni.createFrom()
+                        .completionStage(baristaOutEmitter.send(toJson(orderEvent)))
+                        .subscribe()
+                        .with(  v -> logger.debug("sent {}", orderEvent),
+                                failure -> logger.error(failure.getMessage()));
+*/
+            } else if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+                kitchenOutEmitter.send(toJson(orderEvent));
+                logger.debug("sent to kitchen-orders topic: {}", toJson(orderEvent));
+
+/*
+                Uni.createFrom()
+                        .completionStage(kitchenOutEmitter.send(toJson(orderEvent)))
+                        .subscribe()
+                        .with(  v -> logger.debug("sent {}", orderEvent),
+                                failure -> logger.error(failure.getMessage()));
+*/
+            }
+        });
+        return message.ack();
+    }
+
+/*
+    public CompletableFuture<Void> sendOrders(final Message message) {
+
+        CompletableFuture<List<OrderEvent>> completableFuture = CompletableFuture.supplyAsync(() -> {
+                    return cafe.orderIn(createOrderCommandFromJson(message.getPayload().toString()));
+                });
+
+        CompletableFuture<Void> future = completableFuture.thenAccept(orderEvents -> {
+            orderEvents.forEach(o -> System.out.print(o));
+        });
+
+        return future.get();
+    }
+*/
+
+
+    private void sendToKafka(final OrderEvent orderEvent) {
+        Uni.createFrom()
+                .completionStage(baristaOutEmitter.send(toJson(orderEvent)))
+                .subscribe()
+                .with(  v -> logger.debug("sent {}", orderEvent),
+                        failure -> logger.error(failure.getMessage()));
+
     }
 
     private void sendEvents(final List<OrderEvent> orderEvents) {
@@ -62,13 +100,12 @@ public class CafeCore {
         try {
             orderEvents.forEach(orderEvent -> {
                 if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-                    logger.debug("sending to barista-orders topic: {}", orderEvent);
                     baristaOutEmitter.send(toJson(orderEvent));
+                    logger.debug("sent to barista-orders topic: {}", toJson(orderEvent));
                 } else if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                    logger.debug("sending to kitchen-orders topic: {}", orderEvent);
                     kitchenOutEmitter.send(toJson(orderEvent));
+                    logger.debug("sent to kitchen-orders topic: {}", toJson(orderEvent));
                 }
-                logger.debug("completed sending: " + orderEvent);
             });
         } catch (Exception e) {
             System.out.println(e);
