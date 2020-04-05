@@ -12,12 +12,10 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.checkerframework.checker.units.qual.A;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -27,7 +25,10 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.File;
 import java.time.Duration;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
