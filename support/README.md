@@ -57,3 +57,9 @@ Kitchen Order Only
 ```json
 {"eventType":"KITCHEN_ORDER_IN","item":"MUFFIN","itemId":"4e3e194f-961a-4a02-923b-26704cf30097","name":"Laurel","orderId":"6593f77c-8d36-4570-8b27-a0bccacf0bfb"}
 ```
+
+# Building and deploying
+
+```shell
+./mvnw clean package -Dquarkus.container-image.build=true -DskipTests
+```
