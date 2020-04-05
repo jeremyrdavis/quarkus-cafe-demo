@@ -22,6 +22,10 @@ public class Barista {
                     return prepare(beverageOrder, 5);
                 case COFFEE_WITH_ROOM:
                     return prepare(beverageOrder, 5);
+                case ESPRESSO:
+                    return prepare(beverageOrder, 7);
+                case ESPRESSO_DOUBLE:
+                    return prepare(beverageOrder, 7);
                 case LATTE:
                     return prepare(beverageOrder, 7);
                 case CAPPUCCINO:
