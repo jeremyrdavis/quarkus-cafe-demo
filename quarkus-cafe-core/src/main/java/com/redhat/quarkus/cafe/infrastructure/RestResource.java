@@ -40,29 +40,4 @@ public class RestResource {
         return Response.ok(orderRepository.listAll()).build();
     }
 
-    @POST
-    public CompletionStage<Response> orderIn(CreateOrderCommand createOrderCommand) {
-
-        logger.debug(createOrderCommand);
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                List<LineItemEvent> allOrders = cafeCore.orderIn(createOrderCommand);
-                return Response.accepted().entity(allOrders).build();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return Response.serverError().entity(e).build();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return Response.serverError().entity(e).build();
-            }
-        });
-/*
-        cafe.orderIn(createOrderCommand).thenApply(res -> {
-            Response jaxrs = Response.accepted().entity(res).build();
-            return response.complete(jaxrs);
-        });
-*/
-    }
-
 }

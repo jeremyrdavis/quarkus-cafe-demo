@@ -11,18 +11,18 @@ public class OrderFactory {
     public static Order createFromCreateOrderCommand(CreateOrderCommand createOrderCommand) {
 
         Order order = new Order();
-        if (createOrderCommand.beverages.isPresent()) {
+        if (createOrderCommand.beverages.size() >= 1) {
 
-            createOrderCommand.beverages.get().forEach(b -> {
+            createOrderCommand.beverages.forEach(b -> {
                 order.getBeverageLineItems().add(b);
             });
         }else{
             order.beverageLineItems = new ArrayList<>();
         }
 
-        if (createOrderCommand.kitchenOrders.isPresent()) {
+        if (createOrderCommand.kitchenOrders.size() >= 1) {
 
-            createOrderCommand.kitchenOrders.get().forEach(k -> {
+            createOrderCommand.kitchenOrders.forEach(k -> {
                 order.getKitchenLineItems().add(k);
             });
         }else{

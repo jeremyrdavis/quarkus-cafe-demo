@@ -4,6 +4,7 @@ import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import org.bson.types.ObjectId;
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,28 +14,15 @@ public class Order extends PanacheMongoEntity {
 
     public ObjectId id;
 
-    public List<LineItem> beverageLineItems;
+    public List<LineItem> beverageLineItems = new ArrayList<>();
 
-    public List<LineItem> kitchenLineItems;
-
-    public void addBeverageLineItem(LineItem b) {
-    }
+    public List<LineItem> kitchenLineItems = new ArrayList<>();
 
     public List<LineItem> getBeverageLineItems() {
-        if (beverageLineItems != null) {
-            return beverageLineItems;
-        }else {
-            this.beverageLineItems = new ArrayList<>();
-            return beverageLineItems;
-        }
+        return beverageLineItems;
     }
 
     public List<LineItem> getKitchenLineItems() {
-        if (kitchenLineItems != null) {
-            return kitchenLineItems;
-        }else {
-            this.kitchenLineItems = new ArrayList<>();
-            return kitchenLineItems;
-        }
+        return kitchenLineItems;
     }
 }

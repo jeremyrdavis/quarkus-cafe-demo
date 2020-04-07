@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
 @QuarkusTest
 public class RestResourceTest {
 
-    Jsonb jsonb = JsonbBuilder.create();
+    final Jsonb jsonb = JsonbBuilder.create();
 
     @Test
     public void testHelloEndpoint() {

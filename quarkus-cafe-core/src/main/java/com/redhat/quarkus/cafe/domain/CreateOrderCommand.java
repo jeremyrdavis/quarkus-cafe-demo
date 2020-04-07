@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,31 +9,31 @@ public class CreateOrderCommand {
 
     public final String id = UUID.randomUUID().toString();
 
-    public Optional<List<LineItem>> beverages = Optional.empty();
+    public List<LineItem> beverages = new ArrayList<>();
 
-    public Optional<List<LineItem>> kitchenOrders = Optional.empty();
+    public List<LineItem> kitchenOrders = new ArrayList<>();
 
     public CreateOrderCommand() {
     }
 
+    public List<LineItem> getBeverages() {
+        return beverages;
+    }
+
+    public List<LineItem> getKitchenOrders() {
+        return kitchenOrders;
+    }
+
     public CreateOrderCommand(List<LineItem> beverages, List<LineItem> kitchenOrders) {
-        this.beverages = Optional.ofNullable(beverages);
-        this.kitchenOrders = Optional.ofNullable(kitchenOrders);
+        this.beverages = beverages;
+        this.kitchenOrders = kitchenOrders;
     }
 
     public void addBeverages(List<LineItem> beverageList) {
-        if (this.beverages.isPresent()) {
-            this.beverages.get().addAll(beverageList);
-        }else{
-            this.beverages = Optional.of(beverageList);
-        }
+        this.beverages.addAll(beverageList);
     }
 
     public void addKitchenItems(List<LineItem> kitchenOrdersList) {
-        if (this.kitchenOrders.isPresent()) {
-            this.kitchenOrders.get().addAll(kitchenOrdersList);
-        }else{
-            this.kitchenOrders = Optional.ofNullable(kitchenOrdersList);
-        }
+        this.kitchenOrders.addAll(kitchenOrdersList);
     }
 }

@@ -18,7 +18,7 @@ public interface DashboardService {
 
 
     @POST
-    public void updatedDashboard(List<DashboardUpdate> dashboardUpdate);
+    void updatedDashboard(List<DashboardUpdate> dashboardUpdate);
 
 
 

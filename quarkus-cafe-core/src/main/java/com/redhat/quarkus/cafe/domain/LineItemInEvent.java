@@ -5,8 +5,8 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 @RegisterForReflection
 public class LineItemInEvent extends LineItemEvent {
 
-    public String name;
-    public Item item;
+    public final String name;
+    public final Item item;
 
     public LineItemInEvent(String orderId, Item item, String name, EventType eventType) {
         this.name = name;

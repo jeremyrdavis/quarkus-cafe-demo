@@ -18,7 +18,7 @@ import java.util.UUID;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ApiResource {
 
-    Logger logger = Logger.getLogger(ApiResource.class);
+    final Logger logger = Logger.getLogger(ApiResource.class);
 
     @GET
     @Path("/createOrderCommand")

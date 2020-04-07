@@ -1,17 +1,11 @@
 package com.redhat.quarkus.cafe.domain;
 
-import org.bson.codecs.pojo.annotations.BsonIgnore;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class Cafe {
 
+/*
 
     public List<LineItemEvent> orderIn(CreateOrderCommand createOrderCommand) {
 
@@ -26,6 +20,8 @@ public class Cafe {
         return allEvents;
     }
 
+*/
+/*
     @Transactional
     @BsonIgnore
     public OrderCreatedEvent processCreateOrderCommand(CreateOrderCommand createOrderCommand) {
@@ -56,5 +52,6 @@ public class Cafe {
         });
         return orderCreatedEvent;
     }
+*/
 
 }

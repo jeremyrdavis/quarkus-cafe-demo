@@ -1,7 +1,6 @@
 package com.redhat.quarkus.cafe.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import org.hibernate.internal.CriteriaImpl;
 
 @RegisterForReflection
 public class BeverageLineItemInEvent extends LineItemEvent {
