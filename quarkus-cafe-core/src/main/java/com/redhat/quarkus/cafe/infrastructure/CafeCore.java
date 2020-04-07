@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 
 import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.createOrderCommandFromJson;
 import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.toJson;
@@ -43,7 +42,6 @@ public class CafeCore {
         Order order = OrderFactory.createFromCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
         logger.debug("order created: {}", order);
         orderRepository.persist(order);
-//        order.persist();
         OrderCreatedEvent orderCreatedEvent = EventFactory.createFromNewOrder(order);
 
         CompletableFuture<Void> broadcast = applyEvents(orderCreatedEvent.events);
