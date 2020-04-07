@@ -137,7 +137,7 @@
             console.log(e);
             var state = JSON.parse(e.data);
             if(state.status=="IN_QUEUE")
-                $("tbody").append(line(state));
+                $("tbody").prepend(line(state));
             if(state.status=="READY")
                 $("#"+state.itemId).replaceWith(line(state));
 
