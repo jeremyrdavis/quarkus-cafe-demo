@@ -31,10 +31,10 @@ public class CafeCoreIT extends BaseTestContainersIT{
     @Test
     public void testOrderInBeveragesOnly() {
 
-        List<Order> beverages = new ArrayList<>();
+        List<LineItem> beverages = new ArrayList<>();
 
-        beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Kirk"));
-        beverages.add(new Order(Item.ESPRESSO_DOUBLE, "Spock"));
+        beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
+        beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
 
         try {
@@ -50,7 +50,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
-            OrderEvent orderEvent = jsonb.fromJson(record.value(), OrderEvent.class);
+            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
             if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                 if(orderEvent.item.equals(Item.COFFEE_WITH_ROOM)||orderEvent.item.equals(Item.ESPRESSO_DOUBLE))
                 beverageOrderInCount++;
@@ -62,9 +62,9 @@ public class CafeCoreIT extends BaseTestContainersIT{
     @Test
     public void testOrderInKitchenOnly() {
 
-        List<Order> foods = new ArrayList<>();
-        foods.add(new Order(Item.MUFFIN, "Kirk"));
-        foods.add(new Order(Item.CAKEPOP, "Spock"));
+        List<LineItem> foods = new ArrayList<>();
+        foods.add(new LineItem(Item.MUFFIN, "Kirk"));
+        foods.add(new LineItem(Item.CAKEPOP, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, foods);
 
         try {
@@ -80,7 +80,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
-            OrderEvent orderEvent = jsonb.fromJson(record.value(), OrderEvent.class);
+            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
             if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
                 if(orderEvent.item.equals(Item.MUFFIN)||orderEvent.item.equals(Item.CAKEPOP))
                 kitchenOrderInCount++;
@@ -92,13 +92,13 @@ public class CafeCoreIT extends BaseTestContainersIT{
     @Test
     public void testOrderInBeverageAndKitchen() {
 
-        List<Order> beverages = new ArrayList<>();
-        beverages.add(new Order(Item.COFFEE_BLACK, "Kirk"));
-        beverages.add(new Order(Item.CAPPUCCINO, "Spock"));
+        List<LineItem> beverages = new ArrayList<>();
+        beverages.add(new LineItem(Item.COFFEE_BLACK, "Kirk"));
+        beverages.add(new LineItem(Item.CAPPUCCINO, "Spock"));
 
-        List<Order> foods = new ArrayList<>();
-        foods.add(new Order(Item.CROISSANT, "Kirk"));
-        foods.add(new Order(Item.CROISSANT_CHOCOLATE, "Spock"));
+        List<LineItem> foods = new ArrayList<>();
+        foods.add(new LineItem(Item.CROISSANT, "Kirk"));
+        foods.add(new LineItem(Item.CROISSANT_CHOCOLATE, "Spock"));
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, foods);
 
@@ -119,7 +119,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         assertTrue(newRecords.count() >= 4);
         for (ConsumerRecord<String, String> record : newRecords) {
-            OrderEvent orderEvent = jsonb.fromJson(record.value(), OrderEvent.class);
+            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
             if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                 if(orderEvent.item.equals(Item.COFFEE_BLACK)||orderEvent.item.equals(Item.CAPPUCCINO))
                 baristaOrderInCount++;

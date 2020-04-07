@@ -33,7 +33,7 @@ public class ApiResource {
     @Path("/beverageOrderInEvent")
     public Response getOrderInEvent() {
 
-        BeverageOrderInEvent retVal = new BeverageOrderInEvent(UUID.randomUUID().toString(),"Goofy", Item.ESPRESSO);
+        BeverageLineItemInEvent retVal = new BeverageLineItemInEvent(UUID.randomUUID().toString(),"Goofy", Item.ESPRESSO);
         return Response.ok().entity(retVal).build();
     }
 
@@ -41,29 +41,29 @@ public class ApiResource {
     @Path("/kitchenOrderInEvent")
     public Response getKitchenOrderInEvent(){
 
-        KitchenOrderInEvent retVal = new KitchenOrderInEvent(UUID.randomUUID().toString(),"Goofy", Item.CAKEPOP);
+        KitchenLineItemInEvent retVal = new KitchenLineItemInEvent(UUID.randomUUID().toString(),"Goofy", Item.CAKEPOP);
         return Response.ok().entity(retVal).build();
     }
 
     @GET
     @Path("/beverageOrderUpEvent")
-    public OrderUpEvent getBeverageOrderUpEvent() {
+    public LineItemUpEvent getBeverageOrderUpEvent() {
 
-        return new OrderUpEvent(UUID.randomUUID().toString(), "Moe", Item.COFFEE_BLACK, EventType.BEVERAGE_ORDER_UP);
+        return new LineItemUpEvent(UUID.randomUUID().toString(), "Moe", Item.COFFEE_BLACK, EventType.BEVERAGE_ORDER_UP);
     }
 
-    private List<Order> createBeverages() {
+    private List<LineItem> createBeverages() {
 
-        List<Order> beverages = new ArrayList(2);
-        beverages.add(new Order(Item.COFFEE_WITH_ROOM, "Mickey"));
-        beverages.add(new Order(Item.COFFEE_BLACK, "Minnie"));
+        List<LineItem> beverages = new ArrayList(2);
+        beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Mickey"));
+        beverages.add(new LineItem(Item.COFFEE_BLACK, "Minnie"));
         return beverages;
     }
 
-    private List<Order> createKitchenItems() {
-        List<Order> kitchenOrders = new ArrayList(2);
-        kitchenOrders.add(new Order(Item.CAKEPOP, "Mickey"));
-        kitchenOrders.add(new Order(Item.CROISSANT, "Minnie"));
+    private List<LineItem> createKitchenItems() {
+        List<LineItem> kitchenOrders = new ArrayList(2);
+        kitchenOrders.add(new LineItem(Item.CAKEPOP, "Mickey"));
+        kitchenOrders.add(new LineItem(Item.CROISSANT, "Minnie"));
         return kitchenOrders;
     }
 

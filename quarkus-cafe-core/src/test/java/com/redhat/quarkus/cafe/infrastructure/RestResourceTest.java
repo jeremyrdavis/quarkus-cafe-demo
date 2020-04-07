@@ -2,7 +2,7 @@ package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.Order;
+import com.redhat.quarkus.cafe.domain.LineItem;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -13,7 +13,6 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,8 +34,8 @@ public class RestResourceTest {
     @Test @Timeout(5)
     public void testOrderIn() {
 
-        List<Order> beverageList = new ArrayList<>();
-        beverageList.add(new Order(Item.CAPPUCCINO, "Huey"));
+        List<LineItem> beverageList = new ArrayList<>();
+        beverageList.add(new LineItem(Item.CAPPUCCINO, "Huey"));
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(beverageList);

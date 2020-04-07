@@ -6,6 +6,7 @@ import org.jboss.logging.Logger;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
+
+import com.redhat.quarkus.cafe.domain.Order;
 
 @Path("/order")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,11 +27,17 @@ public class RestResource {
     @Inject
     CafeCore cafeCore;
 
+    @Inject
+    OrderRepository orderRepository;
+
     Jsonb jsonb = JsonbBuilder.create();
 
     @GET
-    public String hello() {
-        return "hello";
+    @Path("/all")
+    @Transactional
+    public Response getAllOrders() {
+
+        return Response.ok(orderRepository.listAll()).build();
     }
 
     @POST
@@ -38,7 +47,7 @@ public class RestResource {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                List<OrderEvent> allOrders = cafeCore.orderIn(createOrderCommand);
+                List<LineItemEvent> allOrders = cafeCore.orderIn(createOrderCommand);
                 return Response.accepted().entity(allOrders).build();
             } catch (InterruptedException e) {
                 e.printStackTrace();

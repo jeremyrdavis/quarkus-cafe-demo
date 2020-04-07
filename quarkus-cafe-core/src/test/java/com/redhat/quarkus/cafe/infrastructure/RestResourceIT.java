@@ -2,7 +2,7 @@ package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.Order;
+import com.redhat.quarkus.cafe.domain.LineItem;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import static io.restassured.RestAssured.given;
@@ -34,8 +33,8 @@ public class RestResourceIT extends BaseTestContainersIT {
     @Timeout(60)
     public void testSendKitchenOrder() throws ExecutionException, InterruptedException {
 
-        List<Order> beverageList = new ArrayList<>();
-        beverageList.add(new Order(Item.CAPPUCCINO, "Dewey"));
+        List<LineItem> beverageList = new ArrayList<>();
+        beverageList.add(new LineItem(Item.CAPPUCCINO, "Dewey"));
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand();
         createOrderCommand.addBeverages(beverageList);

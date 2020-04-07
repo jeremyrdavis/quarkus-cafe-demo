@@ -18,7 +18,7 @@ public class JsonTest {
     @Test
     public void testMarshallingJson() {
 
-        OrderEvent result = jsonb.fromJson(BEVERAGE_UP, OrderEvent.class);
+        LineItemEvent result = jsonb.fromJson(BEVERAGE_UP, LineItemEvent.class);
         assertNotNull(result);
         assertEquals(Item.COFFEE_BLACK, result.item);
         assertEquals(EventType.BEVERAGE_ORDER_UP, result.eventType);

@@ -3,13 +3,13 @@ package com.redhat.quarkus.cafe.domain;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
-public class KitchenOrderInEvent extends OrderEvent {
+public class KitchenLineItemInEvent extends LineItemEvent {
 
-    public KitchenOrderInEvent() {
+    public KitchenLineItemInEvent() {
         super(EventType.KITCHEN_ORDER_IN);
     }
 
-    public KitchenOrderInEvent(String orderId, String name, Item item) {
+    public KitchenLineItemInEvent(String orderId, String name, Item item) {
         super(EventType.KITCHEN_ORDER_IN, orderId, name, item);
     }
 

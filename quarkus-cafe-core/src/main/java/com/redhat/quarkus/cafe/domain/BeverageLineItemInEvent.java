@@ -1,15 +1,16 @@
 package com.redhat.quarkus.cafe.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.hibernate.internal.CriteriaImpl;
 
 @RegisterForReflection
-public class BeverageOrderInEvent extends OrderEvent {
+public class BeverageLineItemInEvent extends LineItemEvent {
 
-    public BeverageOrderInEvent() {
+    public BeverageLineItemInEvent() {
         super(EventType.BEVERAGE_ORDER_IN);
     }
 
-    public BeverageOrderInEvent(String orderId, String name, Item item) {
+    public BeverageLineItemInEvent(String orderId, String name, Item item) {
         super(EventType.BEVERAGE_ORDER_IN, orderId, name, item);
     }
 }

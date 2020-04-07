@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -9,6 +9,19 @@ services:
 #    environment:
 #      POSTGRES_USER: test-user
 #      POSTGRES_PASSWORD: redhat-19
+
+  database:
+    image:  'mongo'
+    container_name:  'quarkus-mongodb-container'
+    environment:
+      - MONGO_INITDB_DATABASE=cafedb
+      - MONGO_INITDB_ROOT_USERNAME=cafe-user
+      - MONGO_INITDB_ROOT_PASSWORD=redhat-20
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongo-volume:/data/db
+    ports:
+      - '27017-27019:27017-27019'
 
   zookeeper:
     image: strimzi/kafka:0.11.4-kafka-2.1.0

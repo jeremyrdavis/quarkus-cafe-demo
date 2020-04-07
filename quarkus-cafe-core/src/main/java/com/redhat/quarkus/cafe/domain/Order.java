@@ -1,16 +1,40 @@
 package com.redhat.quarkus.cafe.domain;
 
-public class Order {
+import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.PanacheMongoEntity;
+import org.bson.types.ObjectId;
 
-    public Item item;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-    public String name;
+@MongoEntity(collection = "Orders")
+public class Order extends PanacheMongoEntity {
 
-    public Order(Item item, String name) {
-        this.item = item;
-        this.name = name;
+    public ObjectId id;
+
+    public List<LineItem> beverageLineItems;
+
+    public List<LineItem> kitchenLineItems;
+
+    public void addBeverageLineItem(LineItem b) {
     }
 
-    public Order() {
+    public List<LineItem> getBeverageLineItems() {
+        if (beverageLineItems != null) {
+            return beverageLineItems;
+        }else {
+            this.beverageLineItems = new ArrayList<>();
+            return beverageLineItems;
+        }
+    }
+
+    public List<LineItem> getKitchenLineItems() {
+        if (kitchenLineItems != null) {
+            return kitchenLineItems;
+        }else {
+            this.kitchenLineItems = new ArrayList<>();
+            return kitchenLineItems;
+        }
     }
 }

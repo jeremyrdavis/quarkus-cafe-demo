@@ -2,8 +2,8 @@ package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.EventType;
 import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.OrderEvent;
-import com.redhat.quarkus.cafe.domain.OrderUpEvent;
+import com.redhat.quarkus.cafe.domain.LineItemEvent;
+import com.redhat.quarkus.cafe.domain.LineItemUpEvent;
 import io.quarkus.test.junit.QuarkusTest;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -28,7 +28,7 @@ public class KafkaListenerIT extends BaseTestContainersIT{
     @Test
     public void testReceivingOrders() {
 
-        OrderUpEvent beverageOrderUpEvent = new OrderUpEvent(UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK, EventType.BEVERAGE_ORDER_UP);
+        LineItemUpEvent beverageOrderUpEvent = new LineItemUpEvent(UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK, EventType.BEVERAGE_ORDER_UP);
         try {
             kafkaProducer.send(new ProducerRecord<>(CONSUMER_TOPIC, beverageOrderUpEvent.orderId, jsonb.toJson(beverageOrderUpEvent).toString())).get();
         } catch (InterruptedException e) {
@@ -44,7 +44,7 @@ public class KafkaListenerIT extends BaseTestContainersIT{
         for (ConsumerRecord<String, String> record : newRecords) {
             System.out.println("offset = %d, key = %s, value = %s\n"  + record.offset() + "\n" +
                     record.key() + "\n" + record.value());
-            OrderEvent result = jsonb.fromJson(record.value(), OrderEvent.class);
+            LineItemEvent result = jsonb.fromJson(record.value(), LineItemEvent.class);
             assertEquals(EventType.BEVERAGE_ORDER_UP, result.eventType);
             assertEquals(result.orderId, record.key());
             assertEquals("Jeremy", result.name);

@@ -8,19 +8,19 @@ public class CreateOrderCommand {
 
     public final String id = UUID.randomUUID().toString();
 
-    public Optional<List<Order>> beverages = Optional.empty();
+    public Optional<List<LineItem>> beverages = Optional.empty();
 
-    public Optional<List<Order>> kitchenOrders = Optional.empty();
+    public Optional<List<LineItem>> kitchenOrders = Optional.empty();
 
     public CreateOrderCommand() {
     }
 
-    public CreateOrderCommand(List<Order> beverages, List<Order> kitchenOrders) {
+    public CreateOrderCommand(List<LineItem> beverages, List<LineItem> kitchenOrders) {
         this.beverages = Optional.ofNullable(beverages);
         this.kitchenOrders = Optional.ofNullable(kitchenOrders);
     }
 
-    public void addBeverages(List<Order> beverageList) {
+    public void addBeverages(List<LineItem> beverageList) {
         if (this.beverages.isPresent()) {
             this.beverages.get().addAll(beverageList);
         }else{
@@ -28,7 +28,7 @@ public class CreateOrderCommand {
         }
     }
 
-    public void addKitchenItems(List<Order> kitchenOrdersList) {
+    public void addKitchenItems(List<LineItem> kitchenOrdersList) {
         if (this.kitchenOrders.isPresent()) {
             this.kitchenOrders.get().addAll(kitchenOrdersList);
         }else{

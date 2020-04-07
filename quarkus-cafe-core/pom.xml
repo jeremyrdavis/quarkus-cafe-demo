@@ -33,7 +33,6 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- Testing -->
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers</artifactId>
@@ -63,7 +62,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!-- Testing -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
@@ -121,6 +119,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-container-image-jib</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
     </dependency>
   </dependencies>
   <build>
