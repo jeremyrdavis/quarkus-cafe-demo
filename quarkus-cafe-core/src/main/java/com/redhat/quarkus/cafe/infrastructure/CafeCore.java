@@ -39,8 +39,11 @@ public class CafeCore {
     public CompletionStage<Message> handleCreateOrderCommand(final Message message) {
 
         logger.debug("orderIn: {}", message.getPayload());
+
         Order order = OrderFactory.createFromCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+
         logger.debug("order created: {}", order);
+
         orderRepository.persist(order);
         OrderCreatedEvent orderCreatedEvent = EventFactory.createFromNewOrder(order);
 
