@@ -27,6 +27,9 @@ public class Kitchen {
         CompletableFuture.runAsync(() -> {
 
             switch (orderIn.item) {
+                case CAKEPOP:
+                    prepare(orderIn, 2).thenAccept(o -> orderUpdater.updateOrder(o));
+                    break;
                 case COOKIE:
                     prepare(orderIn, 2).thenAccept(o -> orderUpdater.updateOrder(o) );
                     break;
