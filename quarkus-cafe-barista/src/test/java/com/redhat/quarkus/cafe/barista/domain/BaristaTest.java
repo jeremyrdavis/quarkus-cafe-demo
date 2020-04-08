@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
+import com.redhat.quarkus.cafe.barista.infrastructure.Barista;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 

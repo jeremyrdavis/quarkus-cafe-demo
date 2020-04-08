@@ -62,8 +62,9 @@ public class BaristaIT {
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
             System.out.println("offset = %d, key = %s, value = %s "  + record.offset() + " " +  record.key() + "\n" + record.value());
-            assertEquals(beverageOrder.orderId, record.key());
             BeverageOrder result = jsonb.fromJson(record.value(), BeverageOrder.class);
+            assertEquals(beverageOrder.orderId, result.orderId);
+
         }
         assertEquals(2, newRecords.count());
     }
