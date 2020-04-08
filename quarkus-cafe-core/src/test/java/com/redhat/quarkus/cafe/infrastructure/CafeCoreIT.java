@@ -37,13 +37,15 @@ public class CafeCoreIT extends BaseTestContainersIT{
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
 
+/*
         try {
-            cafeCore.orderIn(createOrderCommand);
+            cafeCore.handleCreateOrderCommand(createOrderCommand);
         } catch (ExecutionException e) {
             assertNull(e);
         } catch (InterruptedException e) {
             assertNull(e);
         }
+*/
 
         // We'll track the number of actual events
         int beverageOrderInCount = 0;
@@ -67,6 +69,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
         foods.add(new LineItem(Item.CAKEPOP, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, foods);
 
+/*
         try {
             cafeCore.orderIn(createOrderCommand);
         } catch (ExecutionException e) {
@@ -74,6 +77,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
         } catch (InterruptedException e) {
             assertNull(e);
         }
+*/
 
         // We'll track the number of actual events
         int kitchenOrderInCount = 0;
@@ -102,6 +106,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
 
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, foods);
 
+/*
         try {
             cafeCore.orderIn(createOrderCommand);
         } catch (ExecutionException e) {
@@ -109,6 +114,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
         } catch (InterruptedException e) {
             assertNull(e);
         }
+*/
 
         // We'll track the number of actual events
         int kitchenOrderInCount = 0;

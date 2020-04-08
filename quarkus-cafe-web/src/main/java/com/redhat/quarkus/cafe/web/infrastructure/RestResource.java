@@ -46,7 +46,7 @@ public class RestResource {
     public Response orderIn(CreateOrderCommand createOrderCommand) {
 
         logger.debug("CreateOrderCommand received: {}", toJson(createOrderCommand));
-        orderService.sendOrder(createOrderCommand);
+        orderService.placeOrder(createOrderCommand);
         return Response.accepted().entity(createOrderCommand).build();
     }
 
