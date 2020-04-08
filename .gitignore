@@ -1,3 +1,6 @@
 .DS_Store
 *.log
 */lsp/*
+.idea/
+lsp/
+support/mongo-volume/

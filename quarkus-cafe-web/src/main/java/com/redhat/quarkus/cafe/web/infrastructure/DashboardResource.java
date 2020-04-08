@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
+import io.smallrye.reactive.messaging.annotations.Merge;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.SseElementType;
@@ -18,7 +19,8 @@ public class DashboardResource {
     Logger logger = Logger.getLogger(DashboardResource.class);
 
     @Inject
-    @Channel("updates-in")
+    @Channel("web-updates")
+    @Merge(Merge.Mode.MERGE)
     Publisher<DashboardUpdate> updater;
 
     @GET
