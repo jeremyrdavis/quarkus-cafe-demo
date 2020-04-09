@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +21,7 @@ public class CafeCoreIT extends BaseTestContainersIT{
     static final String CONSUMER_TOPIC = "orders-test";
 
      @Inject
-    CafeCore cafeCore;
+     Cafe cafeCore;
 
     public CafeCoreIT() {
         super(PRODUCER_TOPIC, CONSUMER_TOPIC);

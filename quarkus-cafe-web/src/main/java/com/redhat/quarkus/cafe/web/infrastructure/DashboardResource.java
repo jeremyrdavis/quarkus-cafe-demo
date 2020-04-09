@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
+import io.smallrye.reactive.messaging.annotations.Broadcast;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.SseElementType;
@@ -19,6 +20,7 @@ public class DashboardResource {
 
     @Inject
     @Channel("web-updates")
+    @Broadcast
     Publisher<DashboardUpdate> updater;
 
     @GET

@@ -6,7 +6,7 @@ import javax.json.bind.annotation.JsonbCreator;
 import javax.json.bind.annotation.JsonbProperty;
 
 @RegisterForReflection
-public class BeverageOrder {
+public class OrderEvent {
 
     public EventType eventType;
     public String itemId;
@@ -14,16 +14,16 @@ public class BeverageOrder {
     public String name;
     public Item item;
 
-    public BeverageOrder() {
+    public OrderEvent() {
         super();
     }
 
     @JsonbCreator
-    public BeverageOrder(@JsonbProperty("eventType") EventType eventType,
-                         @JsonbProperty("orderId") String orderId,
-                         @JsonbProperty("itemId") String itemId,
-                         @JsonbProperty("name") String name,
-                         @JsonbProperty("item") Item item) {
+    public OrderEvent(@JsonbProperty("eventType") EventType eventType,
+                      @JsonbProperty("orderId") String orderId,
+                      @JsonbProperty("itemId") String itemId,
+                      @JsonbProperty("name") String name,
+                      @JsonbProperty("item") Item item) {
         this.eventType = eventType;
         this.itemId = itemId;
         this.orderId = orderId;

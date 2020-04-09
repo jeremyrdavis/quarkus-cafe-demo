@@ -19,9 +19,9 @@ import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.createOrderCommand
 import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.toJson;
 
 @ApplicationScoped
-public class CafeCore {
+public class Cafe {
 
-    final Logger logger = LoggerFactory.getLogger(CafeCore.class);
+    final Logger logger = LoggerFactory.getLogger(Cafe.class);
 
     @Inject
     OrderRepository orderRepository;

@@ -7,8 +7,6 @@ import java.util.List;
 
 public class CafeTest {
 
-    final Cafe cafe = new Cafe();
-
     @Test
     public void testOrderInBeverageOnly() {
 

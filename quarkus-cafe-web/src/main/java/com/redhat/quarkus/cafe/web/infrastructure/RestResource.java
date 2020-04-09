@@ -50,36 +50,4 @@ public class RestResource {
         return Response.accepted().entity(createOrderCommand).build();
     }
 
-    @POST
-    @Path("/updates")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateDashboard(List<DashboardUpdate> dashboardUpdates) {
-
-        logger.debug("{} updates received", dashboardUpdates.size());
-        dashboardUpdates.forEach( dashboardUpdate -> {
-//            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
-            logger.debug("update sent {}", dashboardUpdate);
-        });
-        return Response.ok().build();
-    }
-
-    @POST
-    @Path("/update")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response singleUpdate(DashboardUpdate dashboardUpdate) {
-
-        logger.debug("update received {}", dashboardUpdate);
-        try {
-
-//            udpateEmitter.send(jsonb.toJson(dashboardUpdate));
-            logger.debug("update sent {}", dashboardUpdate);
-        } catch (Exception e) {
-            logger.error("Emitter error {}", e.getMessage());
-            logger.error("update failed to send");
-            e.printStackTrace();
-            return Response.serverError().entity(e).build();
-        }
-        return Response.ok().build();
-    }
-
 }

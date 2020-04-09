@@ -1,5 +1,12 @@
 # HTTP
 
+# Kafka
+
+```shell
+kafka-console-consumer --bootstrap-server localhost:9092 --topic web-updates --from-beginning
+kafka-console-producer --broker-list localhost:9092 --topic barista-in
+```
+
 ## Create Orders
 
 ### 2 Beverages

@@ -3,7 +3,6 @@ package com.redhat.quarkus.cafe.barista.infrastructure;
 import com.redhat.quarkus.cafe.barista.domain.*;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import org.apache.kafka.clients.admin.DescribeClusterResult;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -13,12 +12,9 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -26,7 +22,6 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,16 +49,16 @@ public class BaristaIT {
     @Test
     public void testBlackCoffeeOrderInFromKafka() throws ExecutionException, InterruptedException {
 
-        BeverageOrder beverageOrder = new BeverageOrder(EventType.BEVERAGE_ORDER_IN, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
-        kafkaProducer.send(new ProducerRecord<>("orders", beverageOrder.orderId, jsonb.toJson(beverageOrder).toString())).get();
+        OrderEvent order = new OrderEvent(EventType.BEVERAGE_ORDER_IN, UUID.randomUUID().toString(), UUID.randomUUID().toString(), "Jeremy", Item.COFFEE_BLACK);
+        kafkaProducer.send(new ProducerRecord<>("orders", order.orderId, jsonb.toJson(order).toString())).get();
 
         Thread.sleep(10000);
 
         ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
         for (ConsumerRecord<String, String> record : newRecords) {
             System.out.println("offset = %d, key = %s, value = %s "  + record.offset() + " " +  record.key() + "\n" + record.value());
-            BeverageOrder result = jsonb.fromJson(record.value(), BeverageOrder.class);
-            assertEquals(beverageOrder.orderId, result.orderId);
+            OrderEvent result = jsonb.fromJson(record.value(), OrderEvent.class);
+            assertEquals(order.orderId, result.orderId);
 
         }
         assertEquals(2, newRecords.count());
