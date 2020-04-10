@@ -15,7 +15,7 @@ quarkus.container-image.name=quarkus-cafe-barista
 quarkus.container-image.tag=0.3
 
 # Ports
-%dev.quarkus.http.port=8080
+%dev.quarkus.http.port=8082
 
 # Logging
 quarkus.log.console.enable=true

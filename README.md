@@ -2,7 +2,8 @@
 
 ### Prerequisites
 * Create quarkus-cafe-demo project 
-* Deploy AMQ Operator 
+* Deploy ARed Hat Integration - AMQ Streams 
+  * Kafka Topic
 
 ### Installation Steps
 
@@ -15,9 +16,56 @@ $ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~htt
 
 **To delete quarkus-cafe-barista application**
 ```
-oc delete all --selector app=quarkus-cafe-barista
+$ oc delete all --selector app=quarkus-cafe-barista
 ```
 
+**Deploy quarkus-cafe-core on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core
+```
+
+**To delete quarkus-cafe-core application**
+```
+$ oc delete all --selector app=quarkus-cafe-core
+```
+
+**Deploy quarkus-cafe-kitchen on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-kitchen --name=quarkus-cafe-kitchen
+```
+
+**To delete quarkus-cafe-kitchen application**
+```
+$ oc delete all --selector app=quarkus-cafe-kitchen
+```
+
+**Deploy quarkus-cafe-web on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-web --name=quarkus-cafe-web
+```
+
+**To delete quarkus-cafe-web application**
+```
+$ oc delete all --selector app=quarkus-cafe-web
+```
+
+**Deploy quarkus-cafe-customermock on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-customermock --name=quarkus-cafe-customermock
+```
+
+**To delete quarkus-cafe-barista application**
+```
+$ oc delete all --selector app=quarkus-cafe-customermock
+```
 
 **Example kafka consumer and producer call**
 ```

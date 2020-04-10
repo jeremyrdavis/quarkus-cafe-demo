@@ -4,6 +4,23 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Local deveplomnent steps 
+* uncomment lines 
+```
+#quarkus.container-image.build=true
+#quarkus.container-image.push=true
+#quarkus.native.container-build=true
+#quarkus.jib.base-native-image=quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java11
+#quarkus.container-image.group=jeremydavis
+#quarkus.container-image.name=quarkus-cafe-core
+#quarkus.container-image.tag=0.3
+
+# Change 
+# HTTP Port
+%dev.quarkus.http.port=8081
+```
+
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
@@ -16,7 +33,18 @@ You can run your application in dev mode that enables live coding using:
 kafka-console-consumer --bootstrap-server localhost:9092 --topic orders --from-beginning
 kafka-console-producer --broker-list localhost:9092 --topic orders
 
+## OpenShift Deployment 
+**Deploy quarkus-cafe-core on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core
+```
 
+**To delete quarkus-cafe-core application**
+```
+$ oc delete all --selector app=quarkus-cafe-core
+```
 
 ## Tests
 
