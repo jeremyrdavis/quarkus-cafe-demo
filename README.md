@@ -11,7 +11,7 @@
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-barista --name=quarkus-cafe-barista
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-barista --name=quarkus-cafe-barista 
 ```
 
 **To delete quarkus-cafe-barista application**
@@ -23,7 +23,7 @@ $ oc delete all --selector app=quarkus-cafe-barista
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core 
 ```
 
 **To delete quarkus-cafe-core application**
@@ -35,7 +35,7 @@ $ oc delete all --selector app=quarkus-cafe-core
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-kitchen --name=quarkus-cafe-kitchen
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-kitchen --name=quarkus-cafe-kitchen
 ```
 
 **To delete quarkus-cafe-kitchen application**
@@ -47,7 +47,7 @@ $ oc delete all --selector app=quarkus-cafe-kitchen
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-web --name=quarkus-cafe-web
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-web --name=quarkus-cafe-web
 ```
 
 **To delete quarkus-cafe-web application**
@@ -59,7 +59,8 @@ $ oc delete all --selector app=quarkus-cafe-web
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-customermock --name=quarkus-cafe-customermock
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-customermock --name=quarkus-cafe-customermock
+$ oc expose svc/quarkus-cafe-web
 ```
 
 **To delete quarkus-cafe-barista application**

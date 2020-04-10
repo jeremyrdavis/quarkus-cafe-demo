@@ -22,7 +22,7 @@
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-kitchen --name=quarkus-cafe-kitchen
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-kitchen --name=quarkus-cafe-kitchen
 ```
 
 **To delete quarkus-cafe-kitchen application**
