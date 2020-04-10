@@ -32,6 +32,9 @@ ${KAFKA_BOOTSTRAP_URLS}
 ### Kitchen
 ${KAFKA_BOOTSTRAP_URLS}
 
+### Customermock
+${REST_URL}
+
 # HTTP
 
 # Kafka
