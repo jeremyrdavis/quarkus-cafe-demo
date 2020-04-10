@@ -25,6 +25,8 @@ data:
 ${MONGO_DB}
 ${MONGO_URL}
 ${KAFKA_BOOTSTRAP_URLS}
+
+### Barista
   
 # HTTP
 
