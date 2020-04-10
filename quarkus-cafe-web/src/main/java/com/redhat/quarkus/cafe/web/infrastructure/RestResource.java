@@ -4,6 +4,7 @@ import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
+@RegisterForReflection
 @Path("/")
 public class RestResource {
 

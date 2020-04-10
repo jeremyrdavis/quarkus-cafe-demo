@@ -2,10 +2,12 @@ package com.redhat.quarkus.cafe.web.infrastructure;
 
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import com.redhat.quarkus.cafe.web.domain.OrderEvent;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
+@RegisterForReflection
 public class JsonUtil {
 
     static final Jsonb jsonb = JsonbBuilder.create();

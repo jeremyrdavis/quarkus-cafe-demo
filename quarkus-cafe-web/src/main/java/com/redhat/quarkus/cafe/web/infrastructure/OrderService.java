@@ -2,6 +2,7 @@ package com.redhat.quarkus.cafe.web.infrastructure;
 
 
 import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -19,6 +20,7 @@ import javax.ws.rs.core.Response;
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.convertOrderEventToDashboardUpdate;
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
+@RegisterForReflection
 @ApplicationScoped
 public class OrderService {
 
