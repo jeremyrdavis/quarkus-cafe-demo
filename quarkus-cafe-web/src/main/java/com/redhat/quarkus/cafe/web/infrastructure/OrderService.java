@@ -17,6 +17,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.Optional;
+
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.convertOrderEventToDashboardUpdate;
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
@@ -32,7 +34,12 @@ public class OrderService {
 
     public void placeOrder(CreateOrderCommand createOrderCommand){
 
-        ordersOutEmitter.send(toJson(createOrderCommand));
+        ordersOutEmitter.send(toJson(createOrderCommand))
+            .whenCompleteAsync((result, ex) -> {
+                logger.debug("createOrderCommand sent");
+                logger.debug(ex.getMessage());
+            });
+
     }
 
     @Incoming("barista-in")
