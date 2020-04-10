@@ -1,0 +1,77 @@
+# Configuration file
+# key = value
+
+# Configuration file
+# key = value
+
+# Build
+
+quarkus.container-image.build=true
+quarkus.container-image.push=true
+quarkus.native.container-build=true
+quarkus.jib.base-native-image=quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8
+quarkus.container-image.group=jeremydavis
+quarkus.container-image.name=quarkus-cafe-barista
+quarkus.container-image.tag=0.3
+
+# Ports
+%dev.quarkus.http.port=8080
+
+# Logging
+quarkus.log.console.enable=true
+quarkus.log.console.format=%d{HH:mm:ss} %-5p [%c{2.}] (%t) %s%e%n
+quarkus.log.console.level=DEBUG
+quarkus.log.console.color=true
+quarkus.log.category."com.redhat.quarkus.cafe".level=DEBUG
+
+## Orders topic
+
+### Incoming
+
+#### Dev
+%dev.mp.messaging.incoming.orders-in.connector=smallrye-kafka
+%dev.mp.messaging.incoming.orders-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+%dev.mp.messaging.incoming.orders-in.topic=barista-in
+%dev.mp.messaging.incoming.orders-in.bootstrap.servers=localhost:9092
+%dev.mp.messaging.incoming.orders-in.group.id=barista-group
+
+#### Prod
+%prod.mp.messaging.incoming.orders-in.bootstrap.servers=cafe-cluster-kafka-bootstrap:9092
+%prod.mp.messaging.incoming.orders-in.connector=smallrye-kafka
+%prod.mp.messaging.incoming.orders-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+%prod.mp.messaging.incoming.orders-in.topic=barista-in
+%prod.mp.messaging.incoming.orders-in.bootstrap.servers=localhost:9092
+%prod.mp.messaging.incoming.orders-in.group.id=barista-group
+
+#### Test
+%test.mp.messaging.incoming.orders-in.connector=smallrye-kafka
+%test.mp.messaging.incoming.orders-in.key.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+%test.mp.messaging.incoming.orders-in.value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+%test.mp.messaging.incoming.orders-in.topic=orders
+%test.mp.messaging.incoming.orders-in.bootstrap.servers=${kafka.bootstrap.servers}
+%test.mp.messaging.incoming.orders-in.auto.offset.reset=earliest
+
+## Outgoing
+
+### Dev
+%dev.mp.messaging.outgoing.orders-out.connector=smallrye-kafka
+%dev.mp.messaging.outgoing.orders-out.value.serializer=org.apache.kafka.common.serialization.StringDeserializer
+%dev.mp.messaging.outgoing.orders-out.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+%dev.mp.messaging.outgoing.orders-out.topic=orders
+%dev.mp.messaging.outgoing.orders-out.bootstrap.servers=localhost:9092
+
+### Test
+%test.mp.messaging.outgoing.orders-out.connector=smallrye-kafka
+%test.mp.messaging.outgoing.orders-out.group.id=barista-group
+%test.mp.messaging.outgoing.orders-out.key.serializer=org.apache.kafka.common.serialization.StringSerializer
+%test.mp.messaging.outgoing.orders-out.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+%test.mp.messaging.outgoing.orders-out.topic=orders
+%test.mp.messaging.outgoing.orders-out.bootstrap.servers=${kafka.bootstrap.servers}
+
+### Prod
+%prod.mp.messaging.outgoing.orders-out.bootstrap.servers=cafe-cluster-kafka-bootstrap:9092
+%prod.mp.messaging.outgoing.orders-out.connector=smallrye-kafka
+%prod.mp.messaging.outgoing.orders-out.value.serializer=org.apache.kafka.common.serialization.StringDeserializer
+%prod.mp.messaging.outgoing.orders-out.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+%prod.mp.messaging.outgoing.orders-out.topic=orders
+%prod.mp.messaging.outgoing.orders-out.bootstrap.servers=localhost:9092
