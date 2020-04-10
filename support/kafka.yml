@@ -72,3 +72,9 @@ kind: List
 metadata:
   resourceVersion: ""
   selfLink: ""
+apiVersion: v1
+items: []
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
