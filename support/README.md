@@ -27,7 +27,11 @@ ${MONGO_URL}
 ${KAFKA_BOOTSTRAP_URLS}
 
 ### Barista
-  
+${KAFKA_BOOTSTRAP_URLS}
+
+### Kitchen
+${KAFKA_BOOTSTRAP_URLS}
+
 # HTTP
 
 # Kafka
