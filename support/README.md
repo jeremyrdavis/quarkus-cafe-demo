@@ -1,3 +1,31 @@
+# ConfigMaps
+
+# DeploymentConfig:
+
+Add the following: 
+spec:
+  containers:
+  ...
+          envFrom:
+            - configMapRef:
+                name: quarkus-configmap
+                
+# ConfigMap
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+...
+data:
+  GREETING: 'hello, OpenShift!'
+  
+## Properties
+
+### Core
+${MONGO_DB}
+${MONGO_URL}
+${KAFKA_BOOTSTRAP_URLS}
+  
 # HTTP
 
 # Kafka
@@ -64,6 +92,8 @@ Kitchen Order Only
 ```json
 {"eventType":"KITCHEN_ORDER_IN","item":"MUFFIN","itemId":"4e3e194f-961a-4a02-923b-26704cf30097","name":"Laurel","orderId":"6593f77c-8d36-4570-8b27-a0bccacf0bfb"}
 ```
+
+
 
 # Building and deploying
 
