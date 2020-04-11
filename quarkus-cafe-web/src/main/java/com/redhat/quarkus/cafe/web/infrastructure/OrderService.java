@@ -2,6 +2,7 @@ package com.redhat.quarkus.cafe.web.infrastructure;
 
 
 import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -16,9 +17,12 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.Optional;
+
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.convertOrderEventToDashboardUpdate;
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
+@RegisterForReflection
 @ApplicationScoped
 public class OrderService {
 
@@ -30,7 +34,12 @@ public class OrderService {
 
     public void placeOrder(CreateOrderCommand createOrderCommand){
 
-        ordersOutEmitter.send(toJson(createOrderCommand));
+        ordersOutEmitter.send(toJson(createOrderCommand))
+            .whenCompleteAsync((result, ex) -> {
+                logger.debug("createOrderCommand sent");
+                logger.debug(ex.getMessage());
+            });
+
     }
 
     @Incoming("barista-in")

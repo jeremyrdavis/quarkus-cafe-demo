@@ -1,0 +1,80 @@
+apiVersion: v1
+items:
+- apiVersion: kafka.strimzi.io/v1beta1
+  kind: Kafka
+  metadata:
+    creationTimestamp: "2020-04-05T17:20:38Z"
+    generation: 1
+    name: cafe-cluster
+    namespace: quarkus-cafe
+    resourceVersion: "548895"
+    selfLink: /apis/kafka.strimzi.io/v1beta1/namespaces/quarkus-cafe/kafkas/cafe-cluster
+    uid: 8fe20251-f057-4bfc-8b0f-54a9f09467b7
+  spec:
+    entityOperator:
+      topicOperator: {}
+      userOperator: {}
+    kafka:
+      config:
+        log.message.format.version: "2.4"
+        offsets.topic.replication.factor: 3
+        transaction.state.log.min.isr: 2
+        transaction.state.log.replication.factor: 3
+      listeners:
+        plain: {}
+        tls: {}
+      replicas: 3
+      storage:
+        type: ephemeral
+      version: 2.4.0
+    zookeeper:
+      replicas: 3
+      storage:
+        type: ephemeral
+  status:
+    conditions:
+    - lastTransitionTime: 2020-04-05T17:22:34+0000
+      status: "True"
+      type: Ready
+    listeners:
+    - addresses:
+      - host: cafe-cluster-kafka-bootstrap.quarkus-cafe.svc
+        port: 9092
+      type: plain
+    - addresses:
+      - host: cafe-cluster-kafka-bootstrap.quarkus-cafe.svc
+        port: 9093
+      certificates:
+      - |
+        -----BEGIN CERTIFICATE-----
+        MIIDLTCCAhWgAwIBAgIJAOm/oRMG+BAmMA0GCSqGSIb3DQEBCwUAMC0xEzARBgNV
+        BAoMCmlvLnN0cmltemkxFjAUBgNVBAMMDWNsdXN0ZXItY2EgdjAwHhcNMjAwNDA1
+        MTcyMDM5WhcNMjEwNDA1MTcyMDM5WjAtMRMwEQYDVQQKDAppby5zdHJpbXppMRYw
+        FAYDVQQDDA1jbHVzdGVyLWNhIHYwMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIB
+        CgKCAQEA0431OevWZ+FPzAYD7bV3av5gb1kOEZ8zabmCA14TkuAk4nun6QvB+FLf
+        tpYuvltBz6gHJTQ7enlSVUwWROj3iRSvVca9zXgf7B5T/9f6Gbj1LbUIgwc1/xlN
+        Ib04UZaS5jMZK4h0uFdoMtWMG+YBf2gJe9IWTbFGew1xQuGhhyLWK0OFkrgk94uD
+        qWZ4ekTa61IpjCj8DpU4PkSMWRXmZJV0GTDmDMVIN1e/NUc9nzfgitgQsAk/B0c/
+        UFWNriUQamBxSqQCq8jWaOnGIbTLGZ0f+d05Tc6MWLufnC513AT/5UQ9VLpe+wn7
+        sUUANW6oJMDvlhIsGd7x2pqntUiSPQIDAQABo1AwTjAdBgNVHQ4EFgQUicXXXAmS
+        vRhLTE3qmmJ9hR56G80wHwYDVR0jBBgwFoAUicXXXAmSvRhLTE3qmmJ9hR56G80w
+        DAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEALhEN6GKWPfZkcarazn3x
+        Mm5H0Rql7Q+tnTDJ1CC5n9dcIatjjitTDd6Y3hSVg+092uyDhvUqxVivBbtgIoi1
+        m4VqUpZd0gDRlJLJBLQ7X4aPsHe0po4ZIwgDiXnGEgekST9EKHdqxwiIwuqKr2RA
+        mnlTVtwjJxXzkwxstmrxkOQBelRBa+l0Fu2mkoTekw3wukt1SU6ucwHtwrUnTJ0w
+        OkEtLK64KmK8sKAi2ZeTkhCV9JPetxJavKFulf1x3E8RY/VgL+MKepwa1S5EjyIx
+        2/8N2nqgsMM6ERoHuvg6XMsHY2ngibKMnECGL1VfMbhlvIyrSqUHoscOx5uiOqxb
+        0w==
+        -----END CERTIFICATE-----
+      type: tls
+    observedGeneration: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+apiVersion: v1
+items: []
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
