@@ -1,8 +1,11 @@
 package com.redhat.quarkus.cafe.domain;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@RegisterForReflection
 public class OrderCreatedEvent {
 
     Order order;

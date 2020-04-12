@@ -1,8 +1,10 @@
 package com.redhat.quarkus.cafe.domain;
 
 import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.bson.types.ObjectId;
 
+@RegisterForReflection
 @MongoEntity
 public class LineItem {
 

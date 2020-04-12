@@ -1,10 +1,13 @@
 package com.redhat.quarkus.cafe.domain;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RegisterForReflection
 public class CreateOrderCommand {
 
     public final String id = UUID.randomUUID().toString();
