@@ -35,7 +35,7 @@ public class Cafe {
     @Inject @Channel("kitchen-out")
     Emitter<String> kitchenOutEmitter;
 
-    @Incoming("orders-in") @Transactional
+    @Incoming("orders-in")
     public CompletionStage<Message> handleCreateOrderCommand(final Message message) {
 
         logger.debug("orderIn: {}", message.getPayload());
