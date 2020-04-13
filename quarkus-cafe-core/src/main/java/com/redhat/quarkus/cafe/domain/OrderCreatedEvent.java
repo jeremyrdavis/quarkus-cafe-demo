@@ -8,7 +8,7 @@ import java.util.List;
 @RegisterForReflection
 public class OrderCreatedEvent {
 
-    Order order;
+    public Order order;
 
     public List<LineItemEvent> events;
 

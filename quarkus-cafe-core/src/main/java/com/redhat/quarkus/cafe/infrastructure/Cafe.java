@@ -26,9 +26,6 @@ public class Cafe {
     @Inject
     OrderRepository orderRepository;
 
-    @Inject @Channel("orders-out")
-    Emitter<String> ordersOutEmitter;
-
     @Inject @Channel("barista-out")
     Emitter<String> baristaOutEmitter;
 
@@ -40,12 +37,8 @@ public class Cafe {
 
         logger.debug("orderIn: {}", message.getPayload());
 
-        Order order = OrderFactory.createFromCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
-
-        logger.debug("order created: {}", order);
-
-        orderRepository.persist(order);
-        OrderCreatedEvent orderCreatedEvent = EventFactory.createFromNewOrder(order);
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+        logger.debug("order created: {}", orderCreatedEvent.order);
 
         CompletableFuture<Void> broadcast = applyEvents(orderCreatedEvent.events);
         return message.ack();
