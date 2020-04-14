@@ -6,7 +6,7 @@
 
 # Build
 # Ports
-%dev.quarkus.http.port=8080
+%dev.quarkus.http.port=8088
 
 # Logging
 quarkus.log.console.enable=true

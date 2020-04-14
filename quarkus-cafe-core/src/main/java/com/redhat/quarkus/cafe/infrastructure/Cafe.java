@@ -23,9 +23,6 @@ public class Cafe {
 
     final Logger logger = LoggerFactory.getLogger(Cafe.class);
 
-    @Inject
-    OrderRepository orderRepository;
-
     @Inject @Channel("barista-out")
     Emitter<String> baristaOutEmitter;
 

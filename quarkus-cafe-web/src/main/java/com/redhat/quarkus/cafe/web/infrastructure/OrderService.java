@@ -3,10 +3,12 @@ package com.redhat.quarkus.cafe.web.infrastructure;
 
 import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import io.smallrye.reactive.messaging.annotations.Broadcast;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Outgoing;
+import org.eclipse.microprofile.reactive.streams.operators.PublisherBuilder;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,26 +46,26 @@ public class OrderService {
 
     @Incoming("barista-in")
     @Outgoing("web-updates-out")
-    public String onBeverageOrderIn(final String payload) {
+    public PublisherBuilder<String> onBeverageOrderIn(PublisherBuilder<String> payload) {
 
         logger.debug("Barista event received {}", payload);
-        return convertOrderEventToDashboardUpdate(payload);
+        return payload.map(order -> convertOrderEventToDashboardUpdate(order));
 
     }
 
     @Incoming("kitchen-in")
     @Outgoing("web-updates-out")
-    public String onKitchenOrderIn(final String payload) {
+    public PublisherBuilder<String> onKitchenOrderIn(PublisherBuilder<String> payload) {
 
         logger.debug("Kitchen event received {}", payload);
-        return convertOrderEventToDashboardUpdate(payload);
+        return payload.map(order -> convertOrderEventToDashboardUpdate(order));
     }
 
     @Incoming("orders")
     @Outgoing("web-updates-out")
-    public String onOrderUp(final String payload) {
+    public PublisherBuilder<String> onOrderUp(PublisherBuilder<String> payload) {
 
         logger.debug("OrderUpEvent received {}", payload);
-        return convertOrderEventToDashboardUpdate(payload);
+        return payload.map(order -> convertOrderEventToDashboardUpdate(order));
     }
 }
