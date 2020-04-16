@@ -58,6 +58,7 @@ public class Order extends PanacheMongoEntity {
 
         // construct the OrderCreatedEvent
         OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
+        orderCreatedEvent.order = order;
         if (order.beverageLineItems != null) {
             order.beverageLineItems.forEach(b -> {
                 orderCreatedEvent.addEvent(new LineItemEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
