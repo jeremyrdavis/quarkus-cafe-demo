@@ -31,14 +31,14 @@ public class Order extends PanacheMongoEntity {
     }
 
     public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
-        logger.debug("processing {}", createOrderCommand.toString());
+        logger.debug("processCreateOrderCommand: processing {}", createOrderCommand.toString());
         return CompletableFuture.supplyAsync(() -> createEventFromCommand(createOrderCommand));
     }
 
     private static OrderCreatedEvent createEventFromCommand(final CreateOrderCommand createOrderCommand) {
 
         final Order order = createOrderFromCommand(createOrderCommand);
-        logger.debug("Order created {}", order.toString());
+        logger.debug("createEventFromCommand: Order created {}", order.toString());
 
         // construct the OrderCreatedEvent
         OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
@@ -53,12 +53,12 @@ public class Order extends PanacheMongoEntity {
                 orderCreatedEvent.addEvent(new LineItemEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
             });
         }
-        logger.debug("returning OrderCreatedEvent {}", orderCreatedEvent.toString());
+        logger.debug("createEventFromCommand: returning OrderCreatedEvent {}", orderCreatedEvent.toString());
         return orderCreatedEvent;
     }
 
     private static Order createOrderFromCommand(final CreateOrderCommand createOrderCommand) {
-        logger.debug("processing CreateOrderCommand {}", createOrderCommand.toString());
+        logger.debug("createOrderFromCommand: CreateOrderCommand {}", createOrderCommand.toString());
 
         // build the order from the CreateOrderCommand
         Order order = new Order();
@@ -81,9 +81,9 @@ public class Order extends PanacheMongoEntity {
         }
 
         // persist the order
-        logger.debug("persisting {}", order.toString());
+        logger.debug("createOrderFromCommand: persisting {}", order.toString());
         order.persist();
-        logger.debug("persisted {}", order.toString());
+        logger.debug("createOrderFromCommand: persisted {}", order.toString());
         return order;
     }
 
