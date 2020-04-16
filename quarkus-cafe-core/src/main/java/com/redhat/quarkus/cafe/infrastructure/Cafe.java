@@ -10,8 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -30,22 +28,23 @@ public class Cafe {
     Emitter<String> kitchenOutEmitter;
 
     @Incoming("orders-in")
-    public CompletionStage<Message> handleCreateOrderCommand(final Message message) {
+    public CompletionStage<Void> handleCreateOrderCommand(final Message message) {
 
         logger.debug("orderIn: {}", message.getPayload());
 
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
-        logger.debug("order created: {}", orderCreatedEvent.order);
-
-        CompletableFuture<Void> broadcast = applyEvents(orderCreatedEvent.events);
-        return message.ack();
+        return Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()))
+                .thenAccept(orderCreatedEvent -> {
+                    logger.debug("order created: {}", orderCreatedEvent.order);
+                    applyEvents(orderCreatedEvent);
+                    message.ack();
+                });
     }
 
-    private CompletableFuture<Void> applyEvents(List<LineItemEvent> events) {
+    private CompletableFuture<Void> applyEvents(final OrderCreatedEvent orderCreatedEvent) {
 
         return CompletableFuture.supplyAsync(() ->{
 
-            events.forEach(e -> {
+            orderCreatedEvent.events.forEach(e -> {
                 if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                     baristaOutEmitter.send(toJson(e))
                             .thenAccept(s -> logger.debug("sent to barista-in topic {}", toJson(e)))

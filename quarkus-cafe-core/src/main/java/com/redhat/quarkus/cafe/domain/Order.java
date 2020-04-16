@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @RegisterForReflection
 @MongoEntity
@@ -28,8 +30,11 @@ public class Order extends PanacheMongoEntity {
         return kitchenLineItems;
     }
 
-    public static OrderCreatedEvent processCreateOrderCommand(CreateOrderCommand createOrderCommand) {
+    public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(CreateOrderCommand createOrderCommand) {
+        return CompletableFuture.supplyAsync(() -> createFromCommand(createOrderCommand));
+    }
 
+    private static OrderCreatedEvent createFromCommand(CreateOrderCommand createOrderCommand) {
         logger.debug("processing CreateOrderCommand {}", createOrderCommand.toString());
 
         // build the order from the CreateOrderCommand
