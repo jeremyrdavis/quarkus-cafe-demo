@@ -62,9 +62,12 @@ public class Order extends PanacheMongoEntity {
 
         // build the order from the CreateOrderCommand
         Order order = new Order();
+        logger.debug("createOrderFromCommand new Order() created {}", order);
         if (createOrderCommand.beverages.size() >= 1) {
 
+            logger.debug("createOrderFromCommand adding beverages {}", createOrderCommand.beverages.size());
             createOrderCommand.beverages.forEach(b -> {
+                logger.debug("createOrderFromCommand adding beverage {}", b.toString());
                 order.getBeverageLineItems().add(b);
             });
         }else{
@@ -73,7 +76,9 @@ public class Order extends PanacheMongoEntity {
 
         if (createOrderCommand.kitchenOrders.size() >= 1) {
 
+            logger.debug("createOrderFromCommand adding kitchenOrders {}", createOrderCommand.kitchenOrders.size());
             createOrderCommand.kitchenOrders.forEach(k -> {
+                logger.debug("createOrderFromCommand adding kitchenOrder {}", k.toString());
                 order.getKitchenLineItems().add(k);
             });
         }else{
