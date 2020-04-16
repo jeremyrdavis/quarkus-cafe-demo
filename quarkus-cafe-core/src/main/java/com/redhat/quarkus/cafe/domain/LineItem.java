@@ -2,6 +2,7 @@ package com.redhat.quarkus.cafe.domain;
 
 import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bson.types.ObjectId;
 
 @RegisterForReflection
@@ -20,5 +21,13 @@ public class LineItem {
     }
 
     public LineItem() {
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("orderId", orderId)
+                .append("item", item)
+                .append("name", name).toString();
     }
 }
