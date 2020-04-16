@@ -30,11 +30,33 @@ public class Order extends PanacheMongoEntity {
         return kitchenLineItems;
     }
 
-    public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(CreateOrderCommand createOrderCommand) {
-        return CompletableFuture.supplyAsync(() -> createFromCommand(createOrderCommand));
+    public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
+        return CompletableFuture.supplyAsync(() -> createEventFromCommand(createOrderCommand));
     }
 
-    private static OrderCreatedEvent createFromCommand(CreateOrderCommand createOrderCommand) {
+    private static OrderCreatedEvent createEventFromCommand(final CreateOrderCommand createOrderCommand) {
+
+        final Order order = createOrderFromCommand(createOrderCommand);
+        logger.debug("Order created {}", order.toString());
+
+        // construct the OrderCreatedEvent
+        OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
+        orderCreatedEvent.order = order;
+        if (order.beverageLineItems != null) {
+            order.beverageLineItems.forEach(b -> {
+                orderCreatedEvent.addEvent(new LineItemEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
+            });
+        }
+        if (order.kitchenLineItems != null) {
+            order.kitchenLineItems.forEach(k -> {
+                orderCreatedEvent.addEvent(new LineItemEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
+            });
+        }
+        logger.debug("returning OrderCreatedEvent {}", orderCreatedEvent.toString());
+        return orderCreatedEvent;
+    }
+
+    private static Order createOrderFromCommand(final CreateOrderCommand createOrderCommand) {
         logger.debug("processing CreateOrderCommand {}", createOrderCommand.toString());
 
         // build the order from the CreateOrderCommand
@@ -60,22 +82,7 @@ public class Order extends PanacheMongoEntity {
         // persist the order
         order.persist();
         logger.debug("order persisted {}", order.toString());
-
-        // construct the OrderCreatedEvent
-        OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
-        orderCreatedEvent.order = order;
-        if (order.beverageLineItems != null) {
-            order.beverageLineItems.forEach(b -> {
-                orderCreatedEvent.addEvent(new LineItemEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
-            });
-        }
-        if (order.kitchenLineItems != null) {
-            order.kitchenLineItems.forEach(k -> {
-                orderCreatedEvent.addEvent(new LineItemEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
-            });
-        }
-        logger.debug("returning OrderCreatedEvent {}", orderCreatedEvent.toString());
-        return orderCreatedEvent;
+        return order;
     }
 
     @Override

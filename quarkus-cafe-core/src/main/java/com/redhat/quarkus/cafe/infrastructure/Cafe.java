@@ -40,6 +40,7 @@ public class Cafe {
                 })
                 .exceptionally(e -> {
                     logger.error(e.getMessage());
+                    message.ack();
                     throw new RuntimeException(e);
                 });
     }
