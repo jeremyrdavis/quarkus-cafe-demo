@@ -37,6 +37,10 @@ public class Cafe {
                     logger.debug("order created: {}", orderCreatedEvent.order);
                     applyEvents(orderCreatedEvent);
                     message.ack();
+                })
+                .exceptionally(e -> {
+                    logger.error(e.getMessage());
+                    throw new RuntimeException(e);
                 });
     }
 
