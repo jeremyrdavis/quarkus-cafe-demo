@@ -31,6 +31,7 @@ public class Order extends PanacheMongoEntity {
     }
 
     public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
+        logger.debug("processing {}", createOrderCommand.toString());
         return CompletableFuture.supplyAsync(() -> createEventFromCommand(createOrderCommand));
     }
 

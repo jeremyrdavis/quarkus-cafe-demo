@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,14 @@ public class CreateOrderCommand {
 
     public void addKitchenItems(List<LineItem> kitchenOrdersList) {
         this.kitchenOrders.addAll(kitchenOrdersList);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("beverages", beverages)
+                .append("kitchenOrders", kitchenOrders)
+                .toString();
     }
 }
