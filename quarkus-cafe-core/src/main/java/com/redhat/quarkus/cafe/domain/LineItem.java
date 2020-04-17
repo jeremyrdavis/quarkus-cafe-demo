@@ -21,6 +21,11 @@ public class LineItem {
         this.name = name;
     }
 
+    public LineItem(Item item, String name) {
+        this.item = item;
+        this.name = name;
+    }
+
     public LineItem() {
     }
 
