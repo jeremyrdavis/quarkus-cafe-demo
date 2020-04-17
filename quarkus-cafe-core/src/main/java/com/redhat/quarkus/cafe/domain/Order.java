@@ -4,6 +4,7 @@ import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,14 @@ public class Order extends PanacheMongoEntity {
     public List<LineItem> beverageLineItems = new ArrayList<>();
 
     public List<LineItem> kitchenLineItems = new ArrayList<>();
+
+    public Order() {
+        this.id = ObjectId.get();
+    }
+
+    public Order(List<LineItem> beverageLineItems) {
+        this.beverageLineItems = beverageLineItems;
+    }
 
     public List<LineItem> getBeverageLineItems() {
         return beverageLineItems;
@@ -63,25 +72,18 @@ public class Order extends PanacheMongoEntity {
         // build the order from the CreateOrderCommand
         Order order = new Order();
         if (createOrderCommand.beverages.size() >= 1) {
-
             logger.debug("createOrderFromCommand adding beverages {}", createOrderCommand.beverages.size());
             createOrderCommand.beverages.forEach(b -> {
                 logger.debug("createOrderFromCommand adding beverage {}", b.toString());
-                order.getBeverageLineItems().add(b);
+                order.getBeverageLineItems().add(new LineItem(order.id, b.item, b.name));
             });
-        }else{
-            order.beverageLineItems = new ArrayList<>();
         }
-
         if (createOrderCommand.kitchenOrders.size() >= 1) {
-
             logger.debug("createOrderFromCommand adding kitchenOrders {}", createOrderCommand.kitchenOrders.size());
             createOrderCommand.kitchenOrders.forEach(k -> {
                 logger.debug("createOrderFromCommand adding kitchenOrder {}", k.toString());
-                order.getKitchenLineItems().add(k);
+                order.getKitchenLineItems().add(new LineItem(order.id, k.item, k.name));
             });
-        }else{
-            order.kitchenLineItems = new ArrayList<>();
         }
 
         // persist the order

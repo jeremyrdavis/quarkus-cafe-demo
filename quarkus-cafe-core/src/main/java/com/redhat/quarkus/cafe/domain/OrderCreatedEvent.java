@@ -10,7 +10,7 @@ public class OrderCreatedEvent {
 
     public Order order;
 
-    public List<LineItemEvent> events;
+    public List<LineItemEvent> events = new ArrayList<>();
 
     public void addEvent(LineItemEvent orderEvent) {
         getEvents().add(orderEvent);

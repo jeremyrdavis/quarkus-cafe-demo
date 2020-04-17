@@ -15,7 +15,8 @@ public class LineItem {
 
     public String name;
 
-    public LineItem(Item item, String name) {
+    public LineItem(ObjectId orderId, Item item, String name) {
+        this.orderId = orderId;
         this.item = item;
         this.name = name;
     }
