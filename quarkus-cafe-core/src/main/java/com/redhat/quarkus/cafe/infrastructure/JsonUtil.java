@@ -1,8 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
-import com.redhat.quarkus.cafe.domain.DashboardUpdate;
-import com.redhat.quarkus.cafe.domain.LineItemEvent;
+import com.redhat.quarkus.cafe.domain.*;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -15,16 +13,17 @@ public class JsonUtil {
         return jsonb.toJson(object);
     }
 
-    public static String toDashboardUpdateFromLineItemEventJson(String payload) {
-        LineItemEvent lineItemEvent = jsonb.fromJson(payload, LineItemEvent.class);
-        return jsonb.toJson(new DashboardUpdate(lineItemEvent));
+    public static String toDashboardUpdateReadyJson(String payload) {
+        OrderUpEvent orderUpEvent = jsonb.fromJson(payload, OrderUpEvent.class);
+        return jsonb.toJson(new DashboardUpdate(orderUpEvent));
     }
 
     public static CreateOrderCommand createOrderCommandFromJson(String payload) {
         return jsonb.fromJson(payload, CreateOrderCommand.class);
     }
 
-    public static String toDashboardUpdate(LineItemEvent lineItemEvent) {
-        return jsonb.toJson(new DashboardUpdate(lineItemEvent));
+    public static String toInProgressUpdate(final OrderInEvent orderInEvent) {
+        return jsonb.toJson(new DashboardUpdateInProgress(orderInEvent));
     }
+
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @RegisterForReflection
 @MongoEntity
-public class LineItemEvent {
+public abstract class LineItemEvent {
 
     public String itemId;
     public String orderId;

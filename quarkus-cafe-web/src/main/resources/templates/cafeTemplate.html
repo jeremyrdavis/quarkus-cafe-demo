@@ -65,7 +65,7 @@
         <tr>
             <th>Customer</th>
             <th>Product</th>
-            <!-- <th>Prepared By</th>  -->
+            <th>Prepared By</th>
             <th>State</th>
         </tr>
         </thead>
@@ -151,11 +151,11 @@
         var product = state.item;
         var customer = state.name;
         var status = state.status;
-        var barista = "";
+        var barista = state.madeBy;
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
             "<td>" + product + "</td>" +
-//            "<td>" + barista + "</td>" +
+            "<td>" + barista + "</td>" +
             "<td>" + status + "</td></tr>";
     }
 

@@ -83,6 +83,7 @@ public class Cafe {
     @Incoming("orders-up")
     @Outgoing("web-updates-order-up")
     public String onOrderUp(String payload) {
-        return toDashboardUpdateFromLineItemEventJson(payload);
+        logger.debug("received order up {}", payload);
+        return toDashboardUpdateReadyJson(payload);
     }
 }

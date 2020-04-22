@@ -49,12 +49,12 @@ public class Order extends PanacheMongoEntity {
         orderCreatedEvent.order = order;
         if (order.beverageLineItems != null) {
             order.beverageLineItems.forEach(b -> {
-                orderCreatedEvent.addEvent(new LineItemEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
+                orderCreatedEvent.addEvent(new OrderInEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
             });
         }
         if (order.kitchenLineItems != null) {
             order.kitchenLineItems.forEach(k -> {
-                orderCreatedEvent.addEvent(new LineItemEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
+                orderCreatedEvent.addEvent(new OrderInEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
             });
         }
         logger.debug("createEventFromCommand: returning OrderCreatedEvent {}", orderCreatedEvent.toString());
