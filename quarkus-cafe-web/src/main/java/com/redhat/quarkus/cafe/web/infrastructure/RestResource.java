@@ -16,6 +16,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
@@ -45,11 +46,17 @@ public class RestResource {
 
     @POST
     @Path("/order")
-    public Response orderIn(CreateOrderCommand createOrderCommand) {
+    public CompletionStage<Response> orderIn(CreateOrderCommand createOrderCommand) {
 
         logger.debug("CreateOrderCommand received: {}", toJson(createOrderCommand));
-        orderService.placeOrder(createOrderCommand);
-        return Response.accepted().entity(createOrderCommand).build();
+        return orderService.placeOrder(createOrderCommand)
+            .handle((res, ex) -> {
+                if (ex != null) {
+                    return Response.serverError().entity(ex).build();
+                }else{
+                    return Response.accepted().entity(createOrderCommand).build();
+                }
+            });
     }
 
 }

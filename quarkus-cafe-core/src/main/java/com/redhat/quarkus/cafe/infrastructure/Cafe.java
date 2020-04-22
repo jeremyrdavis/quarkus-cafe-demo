@@ -1,10 +1,7 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
-import org.eclipse.microprofile.reactive.messaging.Channel;
-import org.eclipse.microprofile.reactive.messaging.Emitter;
-import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.reactive.messaging.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,11 +29,12 @@ public class Cafe {
     @Channel("web-updates-out")
     Emitter<String> webUpdatesOutEmitter;
 
-    @Incoming("orders-in")
+    @Incoming("web-in")
     public CompletionStage<Void> handleCreateOrderCommand(final Message message) {
 
         logger.debug("orderIn: {}", message.getPayload());
 
+        // Get the event from the Order domain object
         OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
 
         return CompletableFuture.supplyAsync(() -> {
@@ -82,46 +80,9 @@ public class Cafe {
 
     }
 
-
-    private CompletableFuture<Void> sendWebUpdate(final OrderCreatedEvent orderCreatedEvent) {
-
-        return CompletableFuture.supplyAsync(() -> {
-
-            orderCreatedEvent.events.forEach(e -> {
-                String dashboardUpdate = toDashboardUpdate(e);
-                webUpdatesOutEmitter.send(dashboardUpdate)
-                        .thenAccept(s -> logger.debug("sent web update {}", dashboardUpdate))
-                        .exceptionally(ex -> {
-                            logger.error(ex.getMessage());
-                            throw new RuntimeException(ex.getMessage());
-                        });
-            });
-            return null;
-        });
-    }
-
-    private CompletableFuture<Void> applyEvents(final OrderCreatedEvent orderCreatedEvent) {
-
-        return CompletableFuture.supplyAsync(() -> {
-
-            orderCreatedEvent.events.forEach(e -> {
-                if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-                    baristaOutEmitter.send(toJson(e))
-                            .thenAccept(s -> logger.debug("sent to barista-in topic {}", toJson(e)))
-                            .exceptionally(ex -> {
-                                logger.error(ex.getMessage());
-                                throw new RuntimeException(ex.getMessage());
-                            });
-                } else if (e.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                    kitchenOutEmitter.send(toJson(e))
-                            .thenAccept(s -> logger.debug("sent to kitchen-in topic {}", toJson(e)))
-                            .exceptionally(ex -> {
-                                logger.error(ex.getMessage());
-                                throw new RuntimeException(ex.getMessage());
-                            });
-                }
-            });
-            return null;
-        });
+    @Incoming("orders-up")
+    @Outgoing("web-updates-order-up")
+    public String onOrderUp(String payload) {
+        return toDashboardUpdateFromLineItemEventJson(payload);
     }
 }

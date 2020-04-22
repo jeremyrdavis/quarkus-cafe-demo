@@ -15,6 +15,11 @@ public class JsonUtil {
         return jsonb.toJson(object);
     }
 
+    public static String toDashboardUpdateFromLineItemEventJson(String payload) {
+        LineItemEvent lineItemEvent = jsonb.fromJson(payload, LineItemEvent.class);
+        return jsonb.toJson(new DashboardUpdate(lineItemEvent));
+    }
+
     public static CreateOrderCommand createOrderCommandFromJson(String payload) {
         return jsonb.fromJson(payload, CreateOrderCommand.class);
     }
