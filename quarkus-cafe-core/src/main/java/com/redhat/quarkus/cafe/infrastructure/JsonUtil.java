@@ -22,7 +22,7 @@ public class JsonUtil {
         return jsonb.fromJson(payload, CreateOrderCommand.class);
     }
 
-    public static String toInProgressUpdate(final OrderInEvent orderInEvent) {
+    public static String toInProgressUpdate(final LineItemEvent orderInEvent) {
         return jsonb.toJson(new DashboardUpdateInProgress(orderInEvent));
     }
 

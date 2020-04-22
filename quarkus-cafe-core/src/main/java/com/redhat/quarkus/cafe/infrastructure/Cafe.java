@@ -43,7 +43,7 @@ public class Cafe {
                     baristaOutEmitter.send(toJson(e))
                             .thenAccept(r -> {
                                 logger.debug("barista-in event sent {}", e);
-                                webUpdatesOutEmitter.send(toDashboardUpdate(e))
+                                webUpdatesOutEmitter.send(toInProgressUpdate(e))
                                         .thenAccept(s -> {
                                             logger.debug("web update sent {}", r);
                                         })
@@ -60,7 +60,7 @@ public class Cafe {
                     kitchenOutEmitter.send(toJson(e))
                             .thenAccept(r -> {
                                 logger.debug("barista-in event sent {}", e);
-                                webUpdatesOutEmitter.send(toDashboardUpdate(e))
+                                webUpdatesOutEmitter.send(toInProgressUpdate(e))
                                         .thenAccept(s -> {
                                             logger.debug("web update sent {}", r);
                                         })
