@@ -44,17 +44,17 @@ public class Barista {
     }
 
     @Incoming("orders-in")
-    public CompletionStage<Void> orderIn(Message message) {
+    public CompletionStage<Void> handleOrderIn(Message message) {
 
         logger.debug("\nBarista Order In Received: {}", message.getPayload());
         final OrderIn orderIn = jsonb.fromJson((String) message.getPayload(), OrderIn.class);
         if (orderIn.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-            orderIn(orderIn).toCompletableFuture();
+            processOrderIn(orderIn).toCompletableFuture();
         }
         return message.ack();
     }
 
-    public CompletionStage<Void> orderIn(final OrderIn orderIn) {
+    public CompletionStage<Void> processOrderIn(final OrderIn orderIn) {
 
         logger.debug("orderIn: " + orderIn.toString());
         return CompletableFuture.supplyAsync(() -> {

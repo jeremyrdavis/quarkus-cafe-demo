@@ -26,6 +26,7 @@ public class KafkaResource {
 
     final Jsonb jsonb = JsonbBuilder.create();
 
+/*
     @Incoming("orders-in")
     public void orderIn(String message) {
 
@@ -43,4 +44,5 @@ public class KafkaResource {
         }
 
     }
+*/
 }
