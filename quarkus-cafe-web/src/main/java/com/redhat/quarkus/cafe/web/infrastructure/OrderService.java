@@ -38,6 +38,7 @@ public class OrderService {
 
     }
 
+/*
     @Incoming("barista-in")
     @Outgoing("web-updates-out")
     public PublisherBuilder<String> onBeverageOrderIn(PublisherBuilder<String> payload) {
@@ -62,4 +63,5 @@ public class OrderService {
         logger.debug("OrderUpEvent received {}", payload);
         return payload.map(order -> convertOrderEventToDashboardUpdate(order));
     }
+*/
 }

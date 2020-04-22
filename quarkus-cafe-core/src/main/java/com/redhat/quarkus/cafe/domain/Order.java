@@ -39,13 +39,8 @@ public class Order extends PanacheMongoEntity {
         return kitchenLineItems;
     }
 
-    public static CompletableFuture<OrderCreatedEvent> processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
+    public static OrderCreatedEvent processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
         logger.debug("processCreateOrderCommand: processing {}", createOrderCommand.toString());
-        return CompletableFuture.supplyAsync(() -> createEventFromCommand(createOrderCommand));
-    }
-
-    private static OrderCreatedEvent createEventFromCommand(final CreateOrderCommand createOrderCommand) {
-
         final Order order = createOrderFromCommand(createOrderCommand);
         logger.debug("createEventFromCommand: Order created {}", order.toString());
 

@@ -13,41 +13,96 @@ import javax.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.createOrderCommandFromJson;
-import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.toJson;
+import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.*;
 
 @ApplicationScoped
 public class Cafe {
 
     final Logger logger = LoggerFactory.getLogger(Cafe.class);
 
-    @Inject @Channel("barista-out")
+    @Inject
+    @Channel("barista-out")
     Emitter<String> baristaOutEmitter;
 
-    @Inject @Channel("kitchen-out")
+    @Inject
+    @Channel("kitchen-out")
     Emitter<String> kitchenOutEmitter;
+
+    @Inject
+    @Channel("web-updates-out")
+    Emitter<String> webUpdatesOutEmitter;
 
     @Incoming("orders-in")
     public CompletionStage<Void> handleCreateOrderCommand(final Message message) {
 
         logger.debug("orderIn: {}", message.getPayload());
 
-        return Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()))
-                .thenAccept(orderCreatedEvent -> {
-                    logger.debug("order created: {}", orderCreatedEvent.order);
-                    applyEvents(orderCreatedEvent);
-                    message.ack();
-                })
-                .exceptionally(e -> {
-                    logger.error(e.getMessage());
-                    message.ack();
-                    throw new RuntimeException(e);
-                });
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+
+        return CompletableFuture.supplyAsync(() -> {
+            orderCreatedEvent.events.forEach(e -> {
+                if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
+                    baristaOutEmitter.send(toJson(e))
+                            .thenAccept(r -> {
+                                logger.debug("barista-in event sent {}", e);
+                                webUpdatesOutEmitter.send(toDashboardUpdate(e))
+                                        .thenAccept(s -> {
+                                            logger.debug("web update sent {}", r);
+                                        })
+                                        .exceptionally(ex -> {
+                                            logger.error(ex.getMessage());
+                                            throw new RuntimeException(ex);
+                                        });
+                            })
+                            .exceptionally(ex -> {
+                                logger.error(ex.getMessage());
+                                throw new RuntimeException(ex);
+                            });
+                } else if (e.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+                    kitchenOutEmitter.send(toJson(e))
+                            .thenAccept(r -> {
+                                logger.debug("barista-in event sent {}", e);
+                                webUpdatesOutEmitter.send(toDashboardUpdate(e))
+                                        .thenAccept(s -> {
+                                            logger.debug("web update sent {}", r);
+                                        })
+                                        .exceptionally(ex -> {
+                                            logger.error(ex.getMessage());
+                                            throw new RuntimeException(ex);
+                                        });
+                            })
+                            .exceptionally(ex -> {
+                                logger.error(ex.getMessage());
+                                throw new RuntimeException(ex);
+                            });
+                }
+            });
+            return null;
+        });
+
+    }
+
+
+    private CompletableFuture<Void> sendWebUpdate(final OrderCreatedEvent orderCreatedEvent) {
+
+        return CompletableFuture.supplyAsync(() -> {
+
+            orderCreatedEvent.events.forEach(e -> {
+                String dashboardUpdate = toDashboardUpdate(e);
+                webUpdatesOutEmitter.send(dashboardUpdate)
+                        .thenAccept(s -> logger.debug("sent web update {}", dashboardUpdate))
+                        .exceptionally(ex -> {
+                            logger.error(ex.getMessage());
+                            throw new RuntimeException(ex.getMessage());
+                        });
+            });
+            return null;
+        });
     }
 
     private CompletableFuture<Void> applyEvents(final OrderCreatedEvent orderCreatedEvent) {
 
-        return CompletableFuture.supplyAsync(() ->{
+        return CompletableFuture.supplyAsync(() -> {
 
             orderCreatedEvent.events.forEach(e -> {
                 if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
