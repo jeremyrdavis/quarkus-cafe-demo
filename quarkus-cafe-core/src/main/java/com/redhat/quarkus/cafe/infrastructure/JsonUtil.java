@@ -15,15 +15,15 @@ public class JsonUtil {
 
     public static String toDashboardUpdateReadyJson(String payload) {
         OrderUpEvent orderUpEvent = jsonb.fromJson(payload, OrderUpEvent.class);
-        return jsonb.toJson(new DashboardUpdate(orderUpEvent));
+        return jsonb.toJson(new OrderReadyUpdate(orderUpEvent));
     }
 
     public static CreateOrderCommand createOrderCommandFromJson(String payload) {
         return jsonb.fromJson(payload, CreateOrderCommand.class);
     }
 
-    public static String toInProgressUpdate(final LineItemEvent orderInEvent) {
-        return jsonb.toJson(new DashboardUpdateInProgress(orderInEvent));
+    public static String toInProgressUpdate(final LineItemEvent lineItemEvent) {
+        return jsonb.toJson(new InQueueUpdate(lineItemEvent));
     }
 
 }
