@@ -21,11 +21,11 @@ public class CreateOrderCommand {
     }
 
     public List<LineItem> getBeverages() {
-        return beverages;
+        return beverages == null ? new ArrayList<LineItem>() : beverages;
     }
 
     public List<LineItem> getKitchenOrders() {
-        return kitchenOrders;
+        return kitchenOrders == null ? new ArrayList<LineItem>() : kitchenOrders;
     }
 
     public CreateOrderCommand(List<LineItem> beverages, List<LineItem> kitchenOrders) {

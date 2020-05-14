@@ -66,14 +66,14 @@ public class Order extends PanacheMongoEntity {
 
         // build the order from the CreateOrderCommand
         Order order = new Order();
-        if (createOrderCommand.beverages.size() >= 1) {
+        if (createOrderCommand.getBeverages().size() >= 1) {
             logger.debug("createOrderFromCommand adding beverages {}", createOrderCommand.beverages.size());
             createOrderCommand.beverages.forEach(b -> {
                 logger.debug("createOrderFromCommand adding beverage {}", b.toString());
                 order.getBeverageLineItems().add(new LineItem(order.id, b.item, b.name));
             });
         }
-        if (createOrderCommand.kitchenOrders.size() >= 1) {
+        if (createOrderCommand.getKitchenOrders().size() >= 1) {
             logger.debug("createOrderFromCommand adding kitchenOrders {}", createOrderCommand.kitchenOrders.size());
             createOrderCommand.kitchenOrders.forEach(k -> {
                 logger.debug("createOrderFromCommand adding kitchenOrder {}", k.toString());
@@ -83,7 +83,7 @@ public class Order extends PanacheMongoEntity {
 
         // persist the order
         logger.debug("createOrderFromCommand: persisting {}", order.toString());
-        order.persist();
+//        order.persist();
         logger.debug("createOrderFromCommand: persisted {}", order.toString());
         return order;
     }
