@@ -30,12 +30,15 @@ public class Cafe {
     Emitter<String> webUpdatesOutEmitter;
 
     @Incoming("web-in")
-    public CompletionStage<Void> handleCreateOrderCommand(final Message message) {
-
+    public CompletionStage<Void> onOrderIn(final Message message) {
         logger.debug("orderIn: {}", message.getPayload());
+        return handleCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+    }
+
+    protected CompletionStage<Void> handleCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
 
         // Get the event from the Order domain object
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
 
         return CompletableFuture.supplyAsync(() -> {
             orderCreatedEvent.events.forEach(e -> {

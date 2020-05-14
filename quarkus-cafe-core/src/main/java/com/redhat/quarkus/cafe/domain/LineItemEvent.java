@@ -23,6 +23,14 @@ public abstract class LineItemEvent {
         this.eventType = eventType;
     }
 
+    public LineItemEvent(EventType eventType, String itemId, String orderId, String name, Item item) {
+        this.itemId = itemId;
+        this.eventType = eventType;
+        this.orderId = orderId;
+        this.name = name;
+        this.item = item;
+    }
+
     public LineItemEvent(EventType eventType, String orderId, String name, Item item) {
         this.itemId = UUID.randomUUID().toString();
         this.eventType = eventType;
