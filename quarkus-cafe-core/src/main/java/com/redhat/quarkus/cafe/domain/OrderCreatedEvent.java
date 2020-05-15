@@ -16,7 +16,7 @@ public class OrderCreatedEvent {
         getEvents().add(orderEvent);
     }
 
-    private List<LineItemEvent> getEvents() {
+    public List<LineItemEvent> getEvents() {
         if (this.events == null) {
             this.events = new ArrayList<>();
         }

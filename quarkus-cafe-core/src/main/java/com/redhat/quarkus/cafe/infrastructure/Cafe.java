@@ -37,11 +37,12 @@ public class Cafe {
 
     protected CompletionStage<Void> handleCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
 
-        // Get the event from the Order domain object
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
-
         return CompletableFuture.supplyAsync(() -> {
-            orderCreatedEvent.events.forEach(e -> {
+
+            // Get the event from the Order domain object
+            OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+
+            orderCreatedEvent.getEvents().forEach(e -> {
                 if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
                     baristaOutEmitter.send(toJson(e))
                             .thenAccept(r -> {
@@ -62,7 +63,7 @@ public class Cafe {
                 } else if (e.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
                     kitchenOutEmitter.send(toJson(e))
                             .thenAccept(r -> {
-                                logger.debug("barista-in event sent {}", e);
+                                logger.debug("kitchen-in event sent {}", e);
                                 webUpdatesOutEmitter.send(toInProgressUpdate(e))
                                         .thenAccept(s -> {
                                             logger.debug("web update sent {}", r);

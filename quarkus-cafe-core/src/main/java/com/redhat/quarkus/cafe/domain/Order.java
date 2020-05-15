@@ -40,6 +40,7 @@ public class Order extends PanacheMongoEntity {
     }
 
     public static OrderCreatedEvent processCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
+
         logger.debug("processCreateOrderCommand: processing {}", createOrderCommand.toString());
         final Order order = createOrderFromCommand(createOrderCommand);
         logger.debug("createEventFromCommand: Order created {}", order.toString());
@@ -47,12 +48,12 @@ public class Order extends PanacheMongoEntity {
         // construct the OrderCreatedEvent
         OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
         orderCreatedEvent.order = order;
-        if (order.beverageLineItems != null) {
+        if (order.getBeverageLineItems().size() >= 1) {
             order.beverageLineItems.forEach(b -> {
                 orderCreatedEvent.addEvent(new OrderInEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
             });
         }
-        if (order.kitchenLineItems != null) {
+        if (order.getKitchenLineItems().size() >= 1) {
             order.kitchenLineItems.forEach(k -> {
                 orderCreatedEvent.addEvent(new OrderInEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
             });
