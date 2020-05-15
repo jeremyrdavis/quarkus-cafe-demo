@@ -49,9 +49,12 @@ public class Barista {
         logger.debug("\nBarista Order In Received: {}", message.getPayload());
         final OrderIn orderIn = jsonb.fromJson((String) message.getPayload(), OrderIn.class);
         if (orderIn.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-            processOrderIn(orderIn).toCompletableFuture();
+            return processOrderIn2(orderIn).thenApply(o -> {
+                return orderUpEmitter.send(jsonb.toJson(o));
+            }).thenRun( () -> { message.ack(); });
+        }else{
+            return message.ack();
         }
-        return message.ack();
     }
 
     public CompletableFuture<OrderUp> processOrderIn2(OrderIn orderIn) {
