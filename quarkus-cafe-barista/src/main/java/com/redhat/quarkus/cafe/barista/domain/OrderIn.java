@@ -10,7 +10,7 @@ public class OrderIn extends OrderEvent{
     public OrderIn() {
     }
 
-    public OrderIn(String itemId, String orderId, String name, Item item, EventType eventType1) {
+    public OrderIn(String itemId, String orderId, String name, Item item) {
         super(itemId, orderId, name, item);
     }
 

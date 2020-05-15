@@ -54,6 +54,31 @@ public class Barista {
         return message.ack();
     }
 
+    public CompletableFuture<OrderUp> processOrderIn2(OrderIn orderIn) {
+
+        logger.debug("orderIn: " + orderIn.toString());
+        return CompletableFuture.supplyAsync(() -> {
+
+            switch(orderIn.item){
+                case COFFEE_BLACK:
+                    return prepare(orderIn, 5);
+                case COFFEE_WITH_ROOM:
+                    return prepare(orderIn, 5);
+                case ESPRESSO:
+                    return prepare(orderIn, 7);
+                case ESPRESSO_DOUBLE:
+                    return prepare(orderIn, 7);
+                case LATTE:
+                    return prepare(orderIn, 7);
+                case CAPPUCCINO:
+                    return prepare(orderIn, 9);
+                default:
+                    return prepare(orderIn, 11);
+            }
+        });
+    }
+
+
     public CompletionStage<Void> processOrderIn(final OrderIn orderIn) {
 
         logger.debug("orderIn: " + orderIn.toString());
@@ -81,13 +106,13 @@ public class Barista {
         });
     }
 
-    private OrderEvent prepare(final OrderIn orderIn, int seconds) {
+    private OrderUp prepare(final OrderIn orderIn, int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        OrderEvent retVal = new OrderUp(orderIn, hostName);
+        OrderUp retVal = new OrderUp(orderIn, hostName);
         return retVal;
     }
 
