@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.KafkaContainer;
@@ -7,7 +8,7 @@ import org.testcontainers.containers.KafkaContainer;
 import java.util.Collections;
 import java.util.Map;
 
-public class CafeCoreITResource implements QuarkusTestResourceLifecycleManager {
+public class CafeITResource implements QuarkusTestResourceLifecycleManager {
 
     final KafkaContainer KAFKA = new KafkaContainer();
 

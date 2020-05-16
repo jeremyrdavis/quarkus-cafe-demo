@@ -12,6 +12,8 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.util.*;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 /**
  * Base Integration Test that sets up Kafka consumers and producers
  */
@@ -26,6 +28,21 @@ public abstract class KafkaIT {
     protected static Map<String, KafkaConsumer> consumerMap;
 
     protected static Map<String, KafkaProducer> producerMap;
+
+    @BeforeAll
+    public static void setUp() {
+        consumerTopics = Arrays.asList("barista-in", "kitchen-in");
+        producerTopics = Arrays.asList("web-in");
+        setUpProducer();
+        setUpConsumer();
+
+        // give Kafka some time to start up
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            assertNull(e);
+        }
+    }
 
     protected static void setUpProducer() {
 
