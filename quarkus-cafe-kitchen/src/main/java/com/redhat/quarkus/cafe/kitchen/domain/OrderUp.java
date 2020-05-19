@@ -7,7 +7,7 @@ public class OrderUp extends OrderEvent{
 
     public String madeBy;
 
-    public EventType eventType = EventType.BEVERAGE_ORDER_UP;
+    public EventType eventType = EventType.KITCHEN_ORDER_UP;
 
     public OrderUp(OrderIn orderIn, String madeBy) {
         this.itemId = orderIn.itemId;

@@ -45,13 +45,32 @@ public class Kitchen {
 
         logger.debug("\nKitchen Order In Received: {}", message.getPayload());
         final OrderIn orderIn = jsonb.fromJson((String) message.getPayload(), OrderIn.class);
+
         if (orderIn.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-            processOrderIn(orderIn).toCompletableFuture();
+
+            return CompletableFuture
+                    .supplyAsync(() -> {
+                        return prepare(orderIn, 3);
+                    })
+                    .thenCompose(o -> {
+                        return orderUpEmitter.send(jsonb.toJson(o));
+                    })
+                    .thenCompose(o -> { return message.ack(); });
+/*
+            return processOrderIn(orderIn)
+                .thenApply(orderUp -> {
+                    return orderUpEmitter.send(jsonb.toJson(orderUp));
+                })
+                .(() -> {
+                    message.ack().toCompletableFuture();
+                });
+*/
+        }else{
+            return null;
         }
-        return message.ack();
     }
 
-    public CompletionStage<Void> processOrderIn(final OrderIn orderIn) {
+    public CompletableFuture<OrderUp> processOrderIn(final OrderIn orderIn) {
 
         logger.debug("orderIn: " + orderIn.toString());
         return CompletableFuture.supplyAsync(() -> {
@@ -68,20 +87,16 @@ public class Kitchen {
                     return prepare(orderIn, 5);
 
             }
-        }).thenAccept(b -> {
-            logger.debug("returning: {}", b);
-            orderUpEmitter.send(jsonb.toJson(b));
         });
     }
 
-    private OrderEvent prepare(final OrderIn orderIn, int seconds) {
+    private OrderUp prepare(final OrderIn orderIn, int seconds) {
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        OrderEvent retVal = new OrderUp(orderIn, madeBy);
-        return retVal;
+        return new OrderUp(orderIn, madeBy);
     }
 
 }
