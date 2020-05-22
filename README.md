@@ -12,7 +12,7 @@ The application consists of 4 microservices:
 
 There is an additional microservice used for testing: Customermock
 
-## Quarkus Cake Deployment Instructions 
+## Quarkus Cafe Deployment Instructions 
 * [Quarkus Cafe Deployment Options](support/README.md)
 
 ## ScreenShots
