@@ -1,14 +1,19 @@
 package com.redhat.quarkus.cafe.kitchen.domain;
 
-import com.redhat.quarkus.cafe.kitchen.infrastructure.OrderUpdater;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.time.Instant;
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import java.io.IOException;
+import java.net.InetAddress;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -18,45 +23,80 @@ public class Kitchen {
     static final Logger logger = LoggerFactory.getLogger(Kitchen.class.getName());
 
     @Inject
-    OrderUpdater orderUpdater;
+    @Channel("orders-out")
+    Emitter<String> orderUpEmitter;
 
-    public void orderIn(OrderEvent orderIn) {
+    private Jsonb jsonb = JsonbBuilder.create();
 
-        logger.debug("Received order: " + orderIn.toString());
+    private String madeBy;
 
-        CompletableFuture.runAsync(() -> {
+    @PostConstruct
+    void setHostName() {
+        try {
+            madeBy = InetAddress.getLocalHost().getHostName();
+        } catch (IOException e) {
+            logger.debug("unable to get hostname");
+            madeBy = "unknown";
+        }
+    }
 
+    @Incoming("orders-in")
+    public CompletionStage<Void> handleOrderIn(Message message) {
+
+        logger.debug("\nKitchen Order In Received: {}", message.getPayload());
+        final OrderIn orderIn = jsonb.fromJson((String) message.getPayload(), OrderIn.class);
+
+        if (orderIn.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+
+            return CompletableFuture
+                    .supplyAsync(() -> {
+                        return prepare(orderIn, 3);
+                    })
+                    .thenCompose(o -> {
+                        return orderUpEmitter.send(jsonb.toJson(o));
+                    })
+                    .thenCompose(o -> { return message.ack(); });
+/*
+            return processOrderIn(orderIn)
+                .thenApply(orderUp -> {
+                    return orderUpEmitter.send(jsonb.toJson(orderUp));
+                })
+                .(() -> {
+                    message.ack().toCompletableFuture();
+                });
+*/
+        }else{
+            return null;
+        }
+    }
+
+    public CompletableFuture<OrderUp> processOrderIn(final OrderIn orderIn) {
+
+        logger.debug("orderIn: " + orderIn.toString());
+        return CompletableFuture.supplyAsync(() -> {
             switch (orderIn.item) {
                 case CAKEPOP:
-                    prepare(orderIn, 2).thenAccept(o -> orderUpdater.updateOrder(o));
-                    break;
+                    return prepare(orderIn, 3);
                 case COOKIE:
-                    prepare(orderIn, 2).thenAccept(o -> orderUpdater.updateOrder(o) );
-                    break;
+                    return prepare(orderIn, 3);
                 case MUFFIN:
-                    prepare(orderIn, 3).thenAccept(o -> orderUpdater.updateOrder(o) );
-                    break;
+                    return prepare(orderIn, 3);
                 case PANINI:
-                    prepare(orderIn, 10).thenAccept(o -> orderUpdater.updateOrder(o) );
-                    break;
+                    return prepare(orderIn, 10);
                 default:
-                    prepare(orderIn, 5).thenAccept(o -> orderUpdater.updateOrder(o) );
+                    return prepare(orderIn, 5);
+
             }
         });
     }
 
-    private CompletableFuture<OrderEvent> prepare(final OrderEvent orderIn, int seconds) {
-
-        return CompletableFuture.supplyAsync(() -> {
-
-            try {
-                Thread.sleep(seconds * 1000);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            OrderEvent retVal = new OrderEvent(orderIn.orderId, orderIn.name, orderIn.item, orderIn.itemId, EventType.KITCHEN_ORDER_UP);
-            return retVal;
-        });
+    private OrderUp prepare(final OrderIn orderIn, int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return new OrderUp(orderIn, madeBy);
     }
 
 }

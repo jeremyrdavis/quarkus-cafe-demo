@@ -1,139 +1,133 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
+import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
-public class CafeCoreIT extends BaseTestContainersIT{
-
-    static final String PRODUCER_TOPIC = "orders-test";
-
-    static final String CONSUMER_TOPIC = "orders-test";
-
-     @Inject
-     Cafe cafeCore;
-
-    public CafeCoreIT() {
-        super(PRODUCER_TOPIC, CONSUMER_TOPIC);
-    }
+@QuarkusTestResource(CafeITResource.class)
+public class CafeCoreIT extends KafkaIT {
 
     @Test
-    public void testOrderInBeveragesOnly() {
+    public void testOrderInBeveragesOnly() throws InterruptedException {
 
         List<LineItem> beverages = new ArrayList<>();
-
         beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
 
-/*
-        try {
-            cafeCore.handleCreateOrderCommand(createOrderCommand);
-        } catch (ExecutionException e) {
-            assertNull(e);
-        } catch (InterruptedException e) {
-            assertNull(e);
-        }
-*/
+        // send the order to Kafka and wait
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
+        Thread.sleep(1000);
 
-        // We'll track the number of actual events
-        int beverageOrderInCount = 0;
+        // intercept the messages from the appropriate consumer
+        ConsumerRecords<String, String> newRecords = consumerMap.get("barista-in").poll(Duration.ofMillis(1000));
 
-        ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
-        for (ConsumerRecord<String, String> record : newRecords) {
-            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
-            if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-                if(orderEvent.item.equals(Item.COFFEE_WITH_ROOM)||orderEvent.item.equals(Item.ESPRESSO_DOUBLE))
-                beverageOrderInCount++;
-            }
-        }
-        assertEquals(2, beverageOrderInCount);
+        // verify that the records are of the correct type
+        newRecords.forEach(record -> {
+            System.out.println(record.value());
+            OrderInEvent orderInEvent = JsonUtil.jsonb.fromJson(record.value(), OrderInEvent.class);
+//            assertBeverageInEvent(orderInEvent);
+            assertTrue(orderInEvent.item.equals(Item.ESPRESSO_DOUBLE) || orderInEvent.item.equals(Item.COFFEE_WITH_ROOM),
+                    "The item should be either a " + Item.ESPRESSO_DOUBLE + " or a " + Item.COFFEE_WITH_ROOM + " not a " + orderInEvent.item);
+        });
+
+        // verify the number of new records
+        assertEquals(2, newRecords.count());
     }
 
     @Test
-    public void testOrderInKitchenOnly() {
+    public void testOrderInKitchenOnly() throws InterruptedException{
 
-        List<LineItem> foods = new ArrayList<>();
-        foods.add(new LineItem(Item.MUFFIN, "Kirk"));
-        foods.add(new LineItem(Item.CAKEPOP, "Spock"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, foods);
+        List<LineItem> menuItems = new ArrayList<>();
+        menuItems.add(new LineItem(Item.CAKEPOP, "Mickey"));
+        menuItems.add(new LineItem(Item.MUFFIN, "Goofy"));
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, menuItems);
 
-/*
-        try {
-            cafeCore.orderIn(createOrderCommand);
-        } catch (ExecutionException e) {
-            assertNull(e);
-        } catch (InterruptedException e) {
-            assertNull(e);
-        }
-*/
+        // send the order to Kafka
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
 
-        // We'll track the number of actual events
-        int kitchenOrderInCount = 0;
+        Thread.sleep(2000);
 
-        ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
-        for (ConsumerRecord<String, String> record : newRecords) {
-            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
-            if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                if(orderEvent.item.equals(Item.MUFFIN)||orderEvent.item.equals(Item.CAKEPOP))
-                kitchenOrderInCount++;
-            }
-        }
-        assertEquals(2, kitchenOrderInCount);
+        // intercept the messages from the appropriate consumer
+        ConsumerRecords<String, String> newRecords = consumerMap.get("kitchen-in").poll(Duration.ofMillis(5000));
+
+        // verify that the records are of the correct type
+        newRecords.forEach(record -> {
+            System.out.println(record.value());
+            OrderInEvent orderInEvent = JsonUtil.jsonb.fromJson(record.value(), OrderInEvent.class);
+//            assertKitchenInEvent(orderInEvent);
+            assertTrue(orderInEvent.item.equals(Item.CAKEPOP) || orderInEvent.item.equals(Item.MUFFIN),
+                    "The item should be either a " + Item.MUFFIN + " or a " + Item.CAKEPOP + " not a " + orderInEvent.item);
+        });
+
+        // verify the number of new records
+        assertEquals(2, newRecords.count());
+
     }
 
     @Test
-    public void testOrderInBeverageAndKitchen() {
+    public void testOrderInBeveragesAndKitchen() {
 
         List<LineItem> beverages = new ArrayList<>();
-        beverages.add(new LineItem(Item.COFFEE_BLACK, "Kirk"));
-        beverages.add(new LineItem(Item.CAPPUCCINO, "Spock"));
+        beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Harry"));
+        beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Ron"));
 
-        List<LineItem> foods = new ArrayList<>();
-        foods.add(new LineItem(Item.CROISSANT, "Kirk"));
-        foods.add(new LineItem(Item.CROISSANT_CHOCOLATE, "Spock"));
+        List<LineItem> menuItems = new ArrayList<>();
+        menuItems.add(new LineItem(Item.CAKEPOP, "Harry"));
+        menuItems.add(new LineItem(Item.MUFFIN, "Hermione"));
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, foods);
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, menuItems);
 
-/*
+        // send the order to Kafka
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
+
         try {
-            cafeCore.orderIn(createOrderCommand);
-        } catch (ExecutionException e) {
-            assertNull(e);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             assertNull(e);
         }
+
+        // intercept the messages from the appropriate consumer
+        ConsumerRecords<String, String> baristaRecords = consumerMap.get("barista-in").poll(Duration.ofMillis(5000));
+        ConsumerRecords<String, String> kitchenRecords = consumerMap.get("kitchen-in").poll(Duration.ofMillis(5000));
+
+        // verify that the records are of the correct type
+        baristaRecords.forEach(record -> {
+            System.out.println(record.value());
+            OrderInEvent orderInEvent = JsonUtil.jsonb.fromJson(record.value(), OrderInEvent.class);
+/*
+            assertBeverageInEvent(orderInEvent);
 */
+            assertTrue(orderInEvent.item.equals(Item.ESPRESSO_DOUBLE) || orderInEvent.item.equals(Item.COFFEE_WITH_ROOM),
+                    "The item should be either a " + Item.ESPRESSO_DOUBLE + " or a " + Item.COFFEE_WITH_ROOM + " not a " + orderInEvent.item);
+        });
 
-        // We'll track the number of actual events
-        int kitchenOrderInCount = 0;
-        int baristaOrderInCount = 0;
+        // verify that the records are of the correct type
+        kitchenRecords.forEach(record -> {
+            System.out.println(record.value());
+            OrderInEvent orderInEvent = JsonUtil.jsonb.fromJson(record.value(), OrderInEvent.class);
+/*
+            assertKitchenInEvent(orderInEvent);
+*/
+            assertTrue(orderInEvent.item.equals(Item.CAKEPOP) || orderInEvent.item.equals(Item.MUFFIN),
+                    "The item should be either a " + Item.MUFFIN + " or a " + Item.CAKEPOP + " not a " + orderInEvent.item);
+        });
+
+        // verify the number of new records
+        assertEquals(2, baristaRecords.count());
+        // verify the number of new records
+        assertEquals(2, kitchenRecords.count());
 
 
-        ConsumerRecords<String, String> newRecords = kafkaConsumer.poll(Duration.ofMillis(10000));
-
-        assertTrue(newRecords.count() >= 4);
-        for (ConsumerRecord<String, String> record : newRecords) {
-            LineItemEvent orderEvent = jsonb.fromJson(record.value(), LineItemEvent.class);
-            if (orderEvent.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-                if(orderEvent.item.equals(Item.COFFEE_BLACK)||orderEvent.item.equals(Item.CAPPUCCINO))
-                baristaOrderInCount++;
-            }else if (orderEvent.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                if(orderEvent.item.equals(Item.CROISSANT)||orderEvent.item.equals(Item.CROISSANT_CHOCOLATE))
-                kitchenOrderInCount++;
-            }
-        }
-        assertEquals(2, baristaOrderInCount);
-        assertEquals(2, kitchenOrderInCount);
     }
+
 }

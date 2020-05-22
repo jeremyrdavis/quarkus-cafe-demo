@@ -15,13 +15,13 @@ public class KafkaTestResource implements QuarkusTestResourceLifecycleManager {
     public Map<String, String> start() {
         KafkaContainer KAFKA = new KafkaContainer();
         KAFKA.start();
-        System.setProperty("kafka.bootstrap.servers", KAFKA.getBootstrapServers());
+        System.setProperty("KAFKA_BOOTSTRAP_URLS", KAFKA.getBootstrapServers());
         return Collections.emptyMap();
     }
 
     @Override
     public void stop() {
-        System.clearProperty("kafka.bootstrap.servers");
+        System.clearProperty("KAFKA_BOOTSTRAP_URLS");
         KAFKA.close();
     }
 

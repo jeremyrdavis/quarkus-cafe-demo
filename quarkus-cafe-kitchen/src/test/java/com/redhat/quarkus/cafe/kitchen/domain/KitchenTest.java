@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import static org.awaitility.Awaitility.await;
@@ -20,31 +23,17 @@ public class KitchenTest {
     Kitchen kitchen;
 
     @Test
-    public void testOrderCookie() {
+    public void testOrderCookie() throws ExecutionException, InterruptedException {
 
         logger.info("Test that a Cookie is ready instantly");
 
-        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(), "Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
+        OrderIn orderIn = new OrderIn(UUID.randomUUID().toString(), "Moe", Item.COOKIE, UUID.randomUUID().toString());
 
-        kitchen.orderIn(orderIn);
-        await()
-                .atLeast(Duration.TWO_SECONDS)
-                .atMost(Duration.FIVE_SECONDS);
-    }
-
-    @Test
-    public void testOrderPanini() {
-
-/*
-        logger.info("Test that a Panini takes 5 seconds");
-
-        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(), "Moe", Item.PANINI, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
-
-        kitchen.orderIn(orderIn).thenAccept(result -> {
-
-            assertEquals(EventType.KITCHEN_ORDER_UP, result.eventType);
-        });
-*/
-
+        CompletableFuture<OrderUp> result = kitchen.processOrderIn(orderIn);
+        OrderUp orderUp = result.get();
+        assertEquals(orderIn.item, orderUp.item);
+        assertEquals(orderIn.itemId, orderUp.itemId);
+        assertEquals(orderIn.name, orderUp.name);
+        assertEquals(EventType.KITCHEN_ORDER_UP, orderUp.eventType);
     }
 }

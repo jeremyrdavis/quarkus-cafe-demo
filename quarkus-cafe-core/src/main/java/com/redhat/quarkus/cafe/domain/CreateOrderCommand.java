@@ -1,10 +1,14 @@
 package com.redhat.quarkus.cafe.domain;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@RegisterForReflection
 public class CreateOrderCommand {
 
     public final String id = UUID.randomUUID().toString();
@@ -17,11 +21,11 @@ public class CreateOrderCommand {
     }
 
     public List<LineItem> getBeverages() {
-        return beverages;
+        return beverages == null ? new ArrayList<LineItem>() : beverages;
     }
 
     public List<LineItem> getKitchenOrders() {
-        return kitchenOrders;
+        return kitchenOrders == null ? new ArrayList<LineItem>() : kitchenOrders;
     }
 
     public CreateOrderCommand(List<LineItem> beverages, List<LineItem> kitchenOrders) {
@@ -35,5 +39,14 @@ public class CreateOrderCommand {
 
     public void addKitchenItems(List<LineItem> kitchenOrdersList) {
         this.kitchenOrders.addAll(kitchenOrdersList);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("beverages", beverages)
+                .append("kitchenOrders", kitchenOrders)
+                .toString();
     }
 }

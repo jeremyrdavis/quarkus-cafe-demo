@@ -92,12 +92,6 @@
       <artifactId>quarkus-container-image-jib</artifactId>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>redhat-maven</id>
-      <url>https://maven.repository.redhat.com/ga/</url>
-    </repository>
-  </repositories>
   <build>
     <plugins>
       <plugin>

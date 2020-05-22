@@ -3,6 +3,7 @@ package com.redhat.quarkus.cafe.kitchen.infrastructure;
 import com.redhat.quarkus.cafe.kitchen.domain.EventType;
 import com.redhat.quarkus.cafe.kitchen.domain.Item;
 import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
+import com.redhat.quarkus.cafe.kitchen.domain.OrderIn;
 import io.quarkus.test.junit.QuarkusTest;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
@@ -89,7 +90,7 @@ public class OrderInIT{
     //@Timeout(30)
     public void testOrderIn() throws InterruptedException {
 
-        OrderEvent orderIn = new OrderEvent(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString(), EventType.KITCHEN_ORDER_IN);
+        OrderIn orderIn = new OrderIn(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString());
         orderEmitter.send(jsonb.toJson(orderIn));
     }
 
