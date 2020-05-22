@@ -1,6 +1,6 @@
 # Quarkus Cafe Deployment Options 
 
-## OpenShift Deployment via Ansible 
+## OpenShift S2I Deployment via Ansible 
 
 ### Prerequisites
 * Install Ansible 
@@ -49,9 +49,11 @@ YAML
 ansible-playbook quarkus-cafe-deployment.yml
 ```
 
-## Local Environment
+## Local Deployment Instructions
+```
+....
+```
 
-* 
 **Example kafka consumer and producer calls**
 
 ```
