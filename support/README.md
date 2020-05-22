@@ -54,9 +54,9 @@ $ ansible-playbook quarkus-cafe-deployment.yml
 ....
 ```
 
-# ConfigMaps Notes
+# ConfigMaps Documentation
 
-# DeploymentConfig:
+### DeploymentConfig:
 ```
 Add the following: 
 spec:
@@ -67,7 +67,7 @@ spec:
                 name: quarkus-configmap
 ```
 
-# ConfigMap
+### ConfigMap
 ```
 kind: ConfigMap
 apiVersion: v1
