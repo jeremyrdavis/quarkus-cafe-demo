@@ -4,8 +4,37 @@
 * Create quarkus-cafe-demo project 
 * Deploy ARed Hat Integration - AMQ Streams 
   * Kafka Topic
+  * Configure topics
+* Deploy Mongo DB
 
 ### Installation Steps
+**Deploy AMQ**
+```
+$cat >amq-subscription.yaml<<YAML
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  generation: 1
+  name: amq-streams
+  namespace: openshift-operators
+spec:
+  channel: stable
+  installPlanApproval: Automatic
+  name: amq-streams
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+  startingCSV: amqstreams.v1.4.0
+YAML
+```
+
+**Deploy mongodb**
+```
+$ oc new-app --name=mongodb --template=mongodb-ephemeral \
+  -e MONGODB_USER=mongodb \
+  -e MONGODB_PASSWORD=mongodb \
+  -e MONGODB_DATABASE=cafedb \
+  -e MONGODB_ADMIN_PASSWORD=mongodb
+```
 
 **Deploy quarkus-cafe-barista on OpenShift**
 ```
@@ -23,7 +52,7 @@ $ oc delete all --selector app=quarkus-cafe-barista
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core 
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java8~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-core --name=quarkus-cafe-core 
 ```
 
 **To delete quarkus-cafe-core application**

@@ -66,3 +66,5 @@ $ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github
 ```
 oc delete all --selector app=quarkus-cafe-barista
 ```
+
+oc run kafka-producer -ti --image=registry.access.redhat.com/amq7/amq-streams-kafka:1.1.0-kafka-2.1.1 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list cluster-name-kafka-bootstrap:9092 --topic my-topic
