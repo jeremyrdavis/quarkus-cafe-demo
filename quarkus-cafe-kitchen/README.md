@@ -15,7 +15,12 @@
 # Ports
 %dev.quarkus.http.port=8083
 ```
+## Environment variables
 
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables when running with the production profile:
+* KAFKA_BOOTSTRAP_URLS
 
 ## OpenShift Deployment 
 **Deploy quarkus-cafe-kitchen on OpenShift**

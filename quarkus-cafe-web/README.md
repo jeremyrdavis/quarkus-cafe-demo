@@ -1,6 +1,14 @@
 
 # quarkus-cafe-web
 
+## Environment variables
+
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables when running with the production profile:
+* KAFKA_BOOTSTRAP_URLS
+* STREAM_URL
+
 ## Local deveplomnent steps 
 * uncomment lines 
 ```
