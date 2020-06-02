@@ -1,7 +1,63 @@
-# ConfigMaps
+# Quarkus Cafe Deployment Options 
 
-# DeploymentConfig:
+## OpenShift S2I Deployment via Ansible 
 
+### Prerequisites
+* Install Ansible 
+* OpenShift Cluster
+
+### Installation Steps using Ansible 
+**Use ansible-galaxy [quarkus-cafe-demo-role](https://github.com/tosin2013/quarkus-cafe-demo-role)  role to your machine**  
+```shell
+$ ansible-galaxy install tosin2013.quarkus_cafe_demo_role
+```
+
+**Get the OpenShift token from your cluster**  
+
+**Create a deployment yaml for openshift installation**  
+```yaml
+$ cat >quarkus-cafe-deployment.yml<<YAML
+- hosts: localhost
+    become: yes
+    vars:
+      openshift_token: CHANGEME
+      openshift_url: https://api.ocp4.example.com:6443 #Change this value
+      insecure_skip_tls_verify: true
+      project_namespace: quarkus-cafe-demo
+      delete_deployment: false  
+      skip_amq_install: false
+      skip_quarkus_cafe_barista: false
+      skip_quarkus_cafe_core: false
+      skip_quarkus_cafe_kitchen: false
+      skip_quarkus_cafe_web: false
+      skip_quarkus_cafe_customermock: false
+      quarkus_build_memory_limit: 6Gi
+      quarkus_build_cpu_limit: 1
+      quarkus_core_build_memory_limit: 6Gi
+      domain: ocp4.example.com  # Change This value
+    roles:
+    - tosin2013.quarkus_cafe_demo_role
+YAML
+
+```
+
+
+**Change other variables as you see fit**  
+
+**Run ansible playbook**  
+```shell
+$ ansible-playbook quarkus-cafe-deployment.yml
+```
+
+## Local Deployment Instructions
+```
+....
+```
+
+# ConfigMaps Documentation
+
+### DeploymentConfig:
+```
 Add the following: 
 spec:
   containers:
@@ -9,32 +65,40 @@ spec:
           envFrom:
             - configMapRef:
                 name: quarkus-configmap
-                
-# ConfigMap
+```
 
+### ConfigMap
+```
 kind: ConfigMap
 apiVersion: v1
 metadata:
 ...
 data:
   GREETING: 'hello, OpenShift!'
-  
+```
 ## Properties
 
 ### Core
+```
 ${MONGO_DB}
 ${MONGO_URL}
 ${KAFKA_BOOTSTRAP_URLS}
+```
 
 ### Barista
+```
 ${KAFKA_BOOTSTRAP_URLS}
+```
 
 ### Kitchen
+```
 ${KAFKA_BOOTSTRAP_URLS}
+```
 
 ### Customermock
+```
 ${REST_URL}
-
+```
 # HTTP
 
 # Kafka

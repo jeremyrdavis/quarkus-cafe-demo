@@ -4,6 +4,36 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+
+## OpenShift Deployment 
+**Deploy quarkus-cafe-customermock on OpenShift**
+```
+$ oc login https://api.ocp4.examaple.com:64443
+$ oc project quarkus-cafe-demo
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-customermock --name=quarkus-cafe-customermock
+```
+
+**To delete quarkus-cafe-barista application**
+```
+$ oc delete all --selector app=quarkus-cafe-customermock
+```
+
+## Local deveplomnent steps 
+* uncomment lines 
+```
+#quarkus.container-image.build=true
+#quarkus.container-image.push=true
+#quarkus.native.container-build=true
+#quarkus.jib.base-native-image=quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java11
+#quarkus.container-image.group=jeremydavis
+#quarkus.container-image.name=quarkus-cafe-customermocker
+#quarkus.container-image.tag=0.3
+
+# HTTP
+
+%dev.quarkus.http.port=8084
+```
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:

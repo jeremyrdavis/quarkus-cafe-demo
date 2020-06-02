@@ -59,10 +59,12 @@ If you want to learn more about building native executables, please consult http
 ```
 $ oc login https://api.ocp4.examaple.com:64443
 $ oc project quarkus-cafe-demo
-$ oc new-app quay.io/quarkus/ubi-quarkus-native-image:20.0.0-java8-openshift~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-barista --name=quarkus-cafe-barista
+$ oc new-app quay.io/quarkus/ubi-quarkus-native-s2i:20.0.0-java11~https://github.com/jeremyrdavis/quarkus-cafe-demo.git --context-dir=quarkus-cafe-barista --name=quarkus-cafe-barista
 ```
 
 **To delete quarkus-cafe-barista application**
 ```
 oc delete all --selector app=quarkus-cafe-barista
 ```
+
+oc run kafka-producer -ti --image=registry.access.redhat.com/amq7/amq-streams-kafka:1.1.0-kafka-2.1.1 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list cluster-name-kafka-bootstrap:9092 --topic my-topic
