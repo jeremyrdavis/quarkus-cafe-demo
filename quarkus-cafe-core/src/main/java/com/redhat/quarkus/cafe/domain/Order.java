@@ -84,7 +84,7 @@ public class Order extends PanacheMongoEntity {
 
         // persist the order
         logger.debug("createOrderFromCommand: persisting {}", order.toString());
-//        order.persist();
+        order.persist();
         logger.debug("createOrderFromCommand: persisted {}", order.toString());
         return order;
     }
