@@ -2,6 +2,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.model.rest.RestBindingMode;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
+    
+    private final String order = "{'beverages': [{'item': 'ESPRESSO_DOUBLE','name': 'Mickey'},{'item': 'COFFEE_BLACK','name': 'Minnie'}]}";
     @Override
     public void configure() throws Exception {
         restConfiguration()
@@ -21,7 +23,12 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .transform().simple("Hello!");
 
         from("direct:order")
-            .log("Body is ${body}");
+            .log("Body is ${body}")
+            .setBody(constant(order))
+            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
+            .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+            .setHeader("Accept",constant("application/json"))
+            .log("Body after transformation is ${body} with headers: ${headers}");
 
 }
 
@@ -34,7 +41,7 @@ static class GrubHubOrder {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(final String orderId) {
         this.orderId = orderId;
     }
 
@@ -42,7 +49,7 @@ static class GrubHubOrder {
         return orderItem;
     }
 
-    public void setOrderItem(String orderItem) {
+    public void setOrderItem(final String orderItem) {
         this.orderItem = orderItem;
     }
 
@@ -50,7 +57,7 @@ static class GrubHubOrder {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
