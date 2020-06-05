@@ -1,11 +1,14 @@
 import org.apache.camel.Exchange;
 import org.apache.camel.model.rest.RestBindingMode;
+import com.redhat.quarkus.cafe.domain.LineItem;
+import com.redhat.quarkus.cafe.domain.Item;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     
     private final String order = "{'beverages': [{'item': 'ESPRESSO_DOUBLE','name': 'Mickey'},{'item': 'COFFEE_BLACK','name': 'Minnie'}]}";
     @Override
     public void configure() throws Exception {
+        LineItem li = new LineItem(Item.CAPPUCCINO,"Mary");
         restConfiguration()
             .component("undertow")
             .host("0.0.0.0")
