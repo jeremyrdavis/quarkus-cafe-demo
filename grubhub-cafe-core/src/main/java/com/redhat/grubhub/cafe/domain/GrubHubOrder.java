@@ -1,4 +1,3 @@
-
 package com.redhat.grubhub.cafe.domain;
 
 public class GrubHubOrder {
