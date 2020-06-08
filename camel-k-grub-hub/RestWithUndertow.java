@@ -1,4 +1,5 @@
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.camel.model.rest.RestBindingMode;
 import com.redhat.quarkus.cafe.domain.LineItem;
 import com.redhat.quarkus.cafe.domain.Item;
@@ -8,19 +9,14 @@ import com.redhat.quarkus.cafe.domain.Order;
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.grubhub.cafe.domain.GrubHubOrder;
 //import com.redhat.quarkus.cafe.domain.Beverage;
+import org.apache.camel.component.jackson.JacksonDataFormat;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     
     private final String order = "{'beverages': [{'item': 'ESPRESSO_DOUBLE','name': 'Mickey'},{'item': 'COFFEE_BLACK','name': 'Minnie'}]}";
     @Override
     public void configure() throws Exception {
-        LineItem li = new LineItem(Item.CAPPUCCINO,"Mary");
-        LineItem li2 = new LineItem(Item.ESPRESSO_DOUBLE,"Mickey");
-        List<LineItem> list = new ArrayList<LineItem>();
-        list.add(li);
-        list.add(li2);
-        Order o = new Order(list);
-        CreateOrderCommand coc = new CreateOrderCommand(list, null);
+        JacksonDataFormat df = new JacksonDataFormat(CreateOrderCommand.class);
         //List<Order> beverages = new ArrayList(2);
         //beverages.add(new Order(Beverage.COFFEE_WITH_ROOM, "Mickey"));
         //beverages.add(new Order(Beverage.COFFEE_BLACK, "Minnie"));
@@ -42,14 +38,27 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .transform().simple("Hello!");
 
         from("direct:order")
-            .log("Body is ${body}")
-            //.setBody(constant(order))
-            .setBody(constant(coc))
+            .log("Incoming Body is ${body}")
+            .bean(this,"transformMessage")
+           // .setBody(constant(coc))
+            .log("Outgoing pojo Body is ${body}")
+            .marshal(df)
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
             .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
             .setHeader("Accept",constant("application/json"))
-            .log("Test Create Order comamnd is " + coc.toString())
             .log("Body after transformation is ${body} with headers: ${headers}");
+    }
 
-}
+    public void transformMessage(Exchange exchange){
+        Message in = exchange.getIn();
+        GrubHubOrder gho = in.getBody(GrubHubOrder.class);
+        LineItem li = new LineItem(Item.valueOf(gho.getOrderItem()),gho.getName());
+       // LineItem li2 = new LineItem(Item.ESPRESSO_DOUBLE,"Mickey");
+        List<LineItem> list = new ArrayList<LineItem>();
+        list.add(li);
+       // list.add(li2);
+        //Order o = new Order(list);
+        CreateOrderCommand coc = new CreateOrderCommand(list, null);
+        in.setBody(coc);
+    }
 }
