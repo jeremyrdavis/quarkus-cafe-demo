@@ -2,6 +2,11 @@ import org.apache.camel.Exchange;
 import org.apache.camel.model.rest.RestBindingMode;
 import com.redhat.quarkus.cafe.domain.LineItem;
 import com.redhat.quarkus.cafe.domain.Item;
+import java.util.List;
+import java.util.ArrayList;
+import com.redhat.quarkus.cafe.domain.Order;
+import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+//import com.redhat.quarkus.cafe.domain.Beverage;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     
@@ -9,6 +14,15 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     @Override
     public void configure() throws Exception {
         LineItem li = new LineItem(Item.CAPPUCCINO,"Mary");
+        LineItem li2 = new LineItem(Item.ESPRESSO_DOUBLE,"Mickey");
+        List<LineItem> list = new ArrayList<LineItem>();
+        list.add(li);
+        list.add(li2);
+        Order o = new Order(list);
+        CreateOrderCommand coc = new CreateOrderCommand(list, null);
+        //List<Order> beverages = new ArrayList(2);
+        //beverages.add(new Order(Beverage.COFFEE_WITH_ROOM, "Mickey"));
+        //beverages.add(new Order(Beverage.COFFEE_BLACK, "Minnie"));
         restConfiguration()
             .component("undertow")
             .host("0.0.0.0")
@@ -31,6 +45,7 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
             .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
             .setHeader("Accept",constant("application/json"))
+            .log("Test Create Order comamnd is " + coc.toString())
             .log("Body after transformation is ${body} with headers: ${headers}");
 
 }
