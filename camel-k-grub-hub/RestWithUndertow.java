@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.ArrayList;
 import com.redhat.quarkus.cafe.domain.Order;
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
-//import org.apache.camel.model.dataformat.JsonLibrary;
-//import org.apache.camel.component.jackson.JacksonDataFormat;
 //import com.redhat.quarkus.cafe.domain.Beverage;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
@@ -36,7 +34,7 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .get("/hello")
             .to("direct:hello")
             .post("/order").type(GrubHubOrder.class).consumes("application/json")
-            //.marshal().json(JsonLibrary.Jackson)
+            .produces("application/json")
             .to("direct:order");
 
         from("direct:hello")
@@ -45,12 +43,11 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
 
         from("direct:order")
             .log("Body is ${body}")
-            .setBody(constant(order))
-            //.setBody(constant(coc))
+            //.setBody(constant(order))
+            .setBody(constant(coc))
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
             .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
             .setHeader("Accept",constant("application/json"))
-            //.marshal(df)
             .log("Test Create Order comamnd is " + coc.toString())
             .log("Body after transformation is ${body} with headers: ${headers}");
 

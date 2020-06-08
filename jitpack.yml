@@ -2,3 +2,4 @@ jdk:
 - openjdk8
 install:
 - mvn clean install -DskipTests -f ./quarkus-cafe-core/pom.xml
+- mvn clean install -DskipTests -f ./grubhub-cafe-core/pom.xml
