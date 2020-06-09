@@ -9,18 +9,13 @@ import com.redhat.quarkus.cafe.domain.Order;
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.grubhub.cafe.domain.GrubHubOrder;
 import com.redhat.grubhub.cafe.domain.GrubHubOrderItem;
-//import com.redhat.quarkus.cafe.domain.Beverage;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 
 public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     
-    private final String order = "{'beverages': [{'item': 'ESPRESSO_DOUBLE','name': 'Mickey'},{'item': 'COFFEE_BLACK','name': 'Minnie'}]}";
     @Override
     public void configure() throws Exception {
         JacksonDataFormat df = new JacksonDataFormat(CreateOrderCommand.class);
-        //List<Order> beverages = new ArrayList(2);
-        //beverages.add(new Order(Beverage.COFFEE_WITH_ROOM, "Mickey"));
-        //beverages.add(new Order(Beverage.COFFEE_BLACK, "Minnie"));
         restConfiguration()
             .component("undertow")
             .host("0.0.0.0")
@@ -28,26 +23,22 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .bindingMode(RestBindingMode.auto);
 
         rest()
-            .get("/hello")
-            .to("direct:hello")
             .post("/order").type(GrubHubOrder.class).consumes("application/json")
             .produces("application/json")
             .to("direct:order");
 
-        from("direct:hello")
-            .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
-            .transform().simple("Hello!");
-
         from("direct:order")
             .log("Incoming Body is ${body}")
             .bean(this,"transformMessage")
-           // .setBody(constant(coc))
             .log("Outgoing pojo Body is ${body}")
             .marshal(df)
             .setHeader(Exchange.HTTP_METHOD, constant("POST"))
             .setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
             .setHeader("Accept",constant("application/json"))
-            .log("Body after transformation is ${body} with headers: ${headers}");
+            .log("Body after transformation is ${body} with headers: ${headers}")
+            //need to change url after knowing what the cafe-web url will be 
+            .to("http://quarkus-cafe-web-quarkus-cafe-demo.apps.cluster-rhug-152d.rhug-152d.example.opentlc.com/order?bridgeEndpoint=true&throwExceptionOnFailure=false")
+            .setHeader(Exchange.HTTP_RESPONSE_CODE,constant(200));
     }
 
     public void transformMessage(Exchange exchange){
@@ -59,7 +50,6 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             LineItem li = new LineItem(Item.valueOf(i.getOrderItem()),i.getName());
             list.add(li);
         }
-        //Order o = new Order(list);
         CreateOrderCommand coc = new CreateOrderCommand(list, null);
         in.setBody(coc);
     }
