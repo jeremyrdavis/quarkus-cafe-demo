@@ -24,16 +24,16 @@ public class GrubHubOrder {
         this.orderSource = orderSource;
     }
 
-    @Override
-    public String toString() {
-        return "GrubHubOrder [name=" + name + ", orderId=" + orderId + ", orderItem=" + orderItem + ", orderSource=" + orderSource +"]";
-    }
-
     public List<GrubHubOrderItem> getOrderItems() {
         return orderItems;
     }
 
     public void setOrderItems(List<GrubHubOrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    @Override
+    public String toString() {
+        return "GrubHubOrder [orderId=" + orderId + ", orderItems=" + orderItems + ", orderSource=" + orderSource + "]";
     }
 }
