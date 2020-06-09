@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import com.redhat.quarkus.cafe.domain.Order;
 import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.grubhub.cafe.domain.GrubHubOrder;
+import com.redhat.grubhub.cafe.domain.GrubHubOrderItem;
 //import com.redhat.quarkus.cafe.domain.Beverage;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 
