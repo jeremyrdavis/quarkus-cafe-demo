@@ -8,8 +8,13 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
 
-This service uses the following environment variables when running with the production profile:
+This service uses the following environment variables:
 * KAFKA_BOOTSTRAP_URLS
+
+This value will need to be set locally:
+```
+export KAFKA_BOOTSTRAP_URLS=localhost:9092
+```
 
 ## Local deveplomnent steps 
 ```

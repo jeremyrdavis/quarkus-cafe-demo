@@ -52,6 +52,7 @@ public class RestResource {
         return orderService.placeOrder(createOrderCommand)
             .handle((res, ex) -> {
                 if (ex != null) {
+                    logger.error(ex.getMessage());
                     return Response.serverError().entity(ex).build();
                 }else{
                     return Response.accepted().entity(createOrderCommand).build();
