@@ -52,11 +52,12 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     public void transformMessage(Exchange exchange){
         Message in = exchange.getIn();
         GrubHubOrder gho = in.getBody(GrubHubOrder.class);
-        LineItem li = new LineItem(Item.valueOf(gho.getOrderItem()),gho.getName());
-       // LineItem li2 = new LineItem(Item.ESPRESSO_DOUBLE,"Mickey");
+        List<GrubHubOrderItem> oi = gho.getOrderItems();
         List<LineItem> list = new ArrayList<LineItem>();
-        list.add(li);
-       // list.add(li2);
+        for(GrubHubOrderItem i : oi){
+            LineItem li = new LineItem(Item.valueOf(i.getOrderItem()),i.getName());
+            list.add(li);
+        }
         //Order o = new Order(list);
         CreateOrderCommand coc = new CreateOrderCommand(list, null);
         in.setBody(coc);

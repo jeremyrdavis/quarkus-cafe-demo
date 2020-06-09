@@ -1,9 +1,12 @@
 package com.redhat.grubhub.cafe.domain;
 
+import java.util.List;
+import com.redhat.grubhub.cafe.domain.GrubHubOrderItem;
+
 public class GrubHubOrder {
 	private String orderId;
-	private String orderItem;
-    private String name;
+    private String orderSource;
+    private List<GrubHubOrderItem> orderItems;
 
     public String getOrderId() {
         return orderId;
@@ -13,24 +16,24 @@ public class GrubHubOrder {
         this.orderId = orderId;
     }
 
-    public String getOrderItem() {
-        return orderItem;
+    public String getOrderSource() {
+        return orderSource;
     }
 
-    public void setOrderItem(final String orderItem) {
-        this.orderItem = orderItem;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
+    public void setOrderSource(final String orderSource) {
+        this.orderSource = orderSource;
     }
 
     @Override
     public String toString() {
-        return "GrubHubOrder [name=" + name + ", orderId=" + orderId + ", orderItem=" + orderItem + "]";
+        return "GrubHubOrder [name=" + name + ", orderId=" + orderId + ", orderItem=" + orderItem + ", orderSource=" + orderSource +"]";
+    }
+
+    public List<GrubHubOrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<GrubHubOrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
