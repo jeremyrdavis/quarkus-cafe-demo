@@ -14,6 +14,6 @@ kamel install --olm=false --skip-cluster-setup --skip-operator-setup --maven-rep
 ```
 - Install the Integration code using kamel tools from this folder
 ``` 
-kamel run --name=rest-with-undertow-4 --dependency=camel-rest --dependency=camel-undertow --dependency=camel-http --dependency=camel-jackson --dependency=mvn:com.github.jeremyrdavis:quarkus-cafe-demo:1.5-SNAPSHOT --dependency=mvn:com.github.jeremyrdavis.quarkus-cafe-demo:grubhub-cafe-core:1.5-SNAPSHOT RestWithUndertow.java
+kamel run --name=rest-with-undertow --dependency=camel-rest --dependency=camel-undertow --dependency=camel-http --dependency=camel-jackson --dependency=mvn:com.github.jeremyrdavis:quarkus-cafe-demo:1.5-SNAPSHOT --dependency=mvn:com.github.jeremyrdavis.quarkus-cafe-demo:grubhub-cafe-core:1.5-SNAPSHOT --dependency=camel-swagger-java RestWithUndertow.java
 ```
 

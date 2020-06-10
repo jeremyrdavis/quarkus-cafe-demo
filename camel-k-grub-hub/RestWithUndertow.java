@@ -18,6 +18,10 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
         JacksonDataFormat df = new JacksonDataFormat(CreateOrderCommand.class);
         restConfiguration()
             .component("undertow")
+            .apiContextPath("api")
+            .apiProperty("api.title", "GrubHub Order")
+            .apiProperty("api.version", "1.0.0")
+            .apiProperty("cors", "true")
             .host("0.0.0.0")
             .port("8080")
             .bindingMode(RestBindingMode.auto);
