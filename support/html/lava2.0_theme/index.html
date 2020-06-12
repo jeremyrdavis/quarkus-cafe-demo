@@ -123,18 +123,18 @@
               </div>
               <!-- Modal body -->
               <div class="modal-body">
-                <form class="form-inline" action="/action_page.php">
+                <form class="form-inline" aciton="" id="item_form">
                   <label for="item" class="mr-sm-2" id="item_label"></label>
                   <input type="hidden" id="item" />
                   <label for="name" class="mr-sm-2">Name:</label>
                   <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name">
-                  <button type="submit" class="btn btn-primary mb-2">Add</button>
+                  <button type="submit" class="btn btn-primary mb-2" >Add</button>
                 </form>
               </div>
         
               <!-- Modal footer -->
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Place Order</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" >Place Order</button>
               </div>
             </div>
           </div>
@@ -859,6 +859,7 @@
       </div>
       <div id="back-to-top"><i class="fa fa-arrow-circle-up"></i></div>
     </section>
+    <div class=".d-none"></div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -885,6 +886,12 @@
         modal.find('#item_label').text(recipient)
         modal.find('#item').val(recipient)
       })
+    </script>
+    <script>
+      $('#item_form').submit(function( event ) {
+        console.log("Handler for .submit() called." );
+        event.preventDefault();
+      });
     </script>
   </body>
   </html>
