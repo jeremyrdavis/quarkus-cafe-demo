@@ -117,29 +117,24 @@
               <!-- Modal Header -->
               <div class="modal-header">
                 <h4 class="modal-title" >
-                  Modal Heading
+                  Current Order
                 </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <!-- Modal body -->
               <div class="modal-body">
                 <form class="form-inline" action="/action_page.php">
-                  <label for="email" class="mr-sm-2">Email address:</label>
-                  <input type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="email">
-                  <label for="pwd" class="mr-sm-2">Password:</label>
-                  <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="pwd">
-                  <div class="form-check mb-2 mr-sm-2">
-                    <label class="form-check-label">
-                      <input class="form-check-input" type="checkbox"> Remember me
-                    </label>
-                  </div>
-                  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                  <label for="item" class="mr-sm-2" id="item_label"></label>
+                  <input type="hidden" id="item" />
+                  <label for="name" class="mr-sm-2">Name:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name">
+                  <button type="submit" class="btn btn-primary mb-2">Add</button>
                 </form>
               </div>
         
               <!-- Modal footer -->
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Place Order</button>
               </div>
             </div>
           </div>
@@ -886,8 +881,9 @@
         var button = $(event.relatedTarget)
         var recipient = button.data('whatever')
         var modal = $(this)
-        modal.find('.modal-title').text('Adding ' + recipient)
-//        modal.find('.modal-body input').val(recipient)
+//        modal.find('.modal-body inplut').val(recipient)
+        modal.find('#item_label').text(recipient)
+        modal.find('#item').val(recipient)
       })
     </script>
   </body>
