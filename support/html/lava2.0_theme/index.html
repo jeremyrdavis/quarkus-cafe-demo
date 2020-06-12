@@ -111,7 +111,40 @@
             <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. </p>
           </div>
         </div>
-        <div class="row menu-lists">
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" >
+                  Modal Heading
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form class="form-inline" action="/action_page.php">
+                  <label for="email" class="mr-sm-2">Email address:</label>
+                  <input type="email" class="form-control mb-2 mr-sm-2" placeholder="Enter email" id="email">
+                  <label for="pwd" class="mr-sm-2">Password:</label>
+                  <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="pwd">
+                  <div class="form-check mb-2 mr-sm-2">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="checkbox"> Remember me
+                    </label>
+                  </div>
+                  <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="row menu-lists">
           <div class="col-sm-12">
             <ul class="nav nav-tabs nav-justified">
               <li class="active"><a data-target="#espresso" data-toggle="tab">BARISTA</a></li>
@@ -131,7 +164,7 @@
                           <h6>Coffee</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>Order</h6>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="Coffee">Open Modal</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -847,6 +880,15 @@
         event.preventDefault();
         $(this).ekkoLightbox();
       });
+    </script>
+    <script>
+      $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = $(this)
+        modal.find('.modal-title').text('Adding ' + recipient)
+//        modal.find('.modal-body input').val(recipient)
+      })
     </script>
   </body>
   </html>
