@@ -136,8 +136,6 @@
               <!-- Modal footer -->
               <div class="modal-footer">
                 <form class="form-inline" action="" id="order_form" >
-                  <input type="hidden" id="beverages" name="beverages[]" />
-                  <input type="hidden" id="food" name="food" />
                 </form>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" >Place Order</button>
               </div>
@@ -904,8 +902,27 @@
         if(item_type == 'beverage'){
           console.log('adding beverage');
           var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
-          beverages.push(item_to_add);
-          console.log(beverages);
+          if(beverages.length === 0){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'beverages-0',
+                name: 'beverages',
+                val: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }else if(beverages.length >= 1){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'beverages-' + beverages.length++,
+                name: 'beverages',
+                val: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }
+//          $('#order_form').find('input[name="beverages"]').val(beverages);
+          //beverages.push(item_to_add);
+//          let updated_beverages = $('#order_form').find('input[name="beverages"]').val();
+//          console.log(updated_beverages);
+            console.log('added');
+
         }else if(item_type == 'kitchen'){
 
         }
