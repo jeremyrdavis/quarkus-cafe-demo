@@ -123,7 +123,7 @@
               </div>
               <!-- Modal body -->
               <div class="modal-body">
-                <form class="form-inline" aciton="" id="item_form">
+                <form class="form-inline" action="" id="item_form">
                   <label for="item" class="mr-sm-2" id="item_label"></label>
                   <input type="hidden" id="item" name="item" />
                   <label for="name" class="mr-sm-2">for Name:</label>
@@ -134,6 +134,10 @@
         
               <!-- Modal footer -->
               <div class="modal-footer">
+                <form class="form-inline" action="" id="order_form" >
+                  <input type="hidden" id="beverages" name="beverages" />
+                  <input type="hidden" id="food" name="food" />
+                </form>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" >Place Order</button>
               </div>
             </div>
@@ -891,6 +895,8 @@
         var item = $('#item_form').find('input[name="item"]').val();
         var name = $('#item_form').find('input[name="name"]').val();
         console.log('item:' + item + ' for name:' + name);
+        var beverage = { 'item' : item, 'name': name};
+        console.log(JSON.stringify(beverage));
         event.preventDefault();
       });
     </script>
