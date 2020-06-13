@@ -125,9 +125,9 @@
               <div class="modal-body">
                 <form class="form-inline" aciton="" id="item_form">
                   <label for="item" class="mr-sm-2" id="item_label"></label>
-                  <input type="hidden" id="item" />
-                  <label for="name" class="mr-sm-2">Name:</label>
-                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name">
+                  <input type="hidden" id="item" name="item" />
+                  <label for="name" class="mr-sm-2">for Name:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name" name="name">
                   <button type="submit" class="btn btn-primary mb-2" >Add</button>
                 </form>
               </div>
@@ -159,7 +159,7 @@
                           <h6>Coffee</h6>
                         </div>
                         <div class="price pull-right">
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="Coffee">Open Modal</button>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="Coffee">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -880,18 +880,21 @@
     <script>
       $('#myModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
-        var recipient = button.data('whatever')
+        var item = button.data('whatever')
         var modal = $(this)
 //        modal.find('.modal-body inplut').val(recipient)
-        modal.find('#item_label').text(recipient)
-        modal.find('#item').val(recipient)
-      })
-    </script>
-    <script>
+        modal.find('#item_label').text(item)
+        modal.find('#item').val(item)
+      });
       $('#item_form').submit(function( event ) {
-        console.log("Handler for .submit() called." );
+        console.log("Handler for .add() called." );
+        var item = $('#item_form').find('input[name="item"]').val();
+        var name = $('#item_form').find('input[name="name"]').val();
+        console.log('item:' + item + ' for name:' + name);
         event.preventDefault();
       });
+    </script>
+    <script>
     </script>
   </body>
   </html>
