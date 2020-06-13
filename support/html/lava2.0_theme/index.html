@@ -124,6 +124,7 @@
               <!-- Modal body -->
               <div class="modal-body">
                 <form class="form-inline" action="" id="item_form">
+                  <input type="hidden" id="item_type" name="item_type" />
                   <label for="item" class="mr-sm-2" id="item_label"></label>
                   <input type="hidden" id="item" name="item" />
                   <label for="name" class="mr-sm-2">for Name:</label>
@@ -135,7 +136,7 @@
               <!-- Modal footer -->
               <div class="modal-footer">
                 <form class="form-inline" action="" id="order_form" >
-                  <input type="hidden" id="beverages" name="beverages" />
+                  <input type="hidden" id="beverages" name="beverages[]" />
                   <input type="hidden" id="food" name="food" />
                 </form>
                 <button type="button" class="btn btn-danger" data-dismiss="modal" >Place Order</button>
@@ -163,7 +164,7 @@
                           <h6>Coffee</h6>
                         </div>
                         <div class="price pull-right">
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="Coffee">Add</button>
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="Coffee" data-item_type="beverage">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -885,18 +886,29 @@
       $('#myModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var item = button.data('whatever')
+        var item_type = button.data('item_type');
         var modal = $(this)
 //        modal.find('.modal-body inplut').val(recipient)
         modal.find('#item_label').text(item)
         modal.find('#item').val(item)
+        modal.find('#item_type').val(item_type)
       });
       $('#item_form').submit(function( event ) {
         console.log("Handler for .add() called." );
+        var item_type = $('#item_form').find('input[name="item_type"]').val();
         var item = $('#item_form').find('input[name="item"]').val();
         var name = $('#item_form').find('input[name="name"]').val();
         console.log('item:' + item + ' for name:' + name);
-        var beverage = { 'item' : item, 'name': name};
-        console.log(JSON.stringify(beverage));
+        var item_to_add = { 'item' : item, 'name': name};
+        console.log(JSON.stringify(item_to_add));
+        if(item_type == 'beverage'){
+          console.log('adding beverage');
+          var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
+          beverages.push(item_to_add);
+          console.log(beverages);
+        }else if(item_type == 'kitchen'){
+
+        }
         event.preventDefault();
       });
     </script>
