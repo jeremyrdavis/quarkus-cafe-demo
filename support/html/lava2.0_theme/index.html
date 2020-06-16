@@ -971,6 +971,7 @@
         var beverages = $('#order_form').find('input[name="beverages"]').map(function(){return $(this).val();}).get();
         var kitchen = $('#order_form').find('input[name="kitchen"]').map(function(){return $(this).val();}).get();
         let order = {};
+        order.id = uuidv4();
         if(beverages.length >= 1){
           order.beverages = beverages;
         }
@@ -979,8 +980,33 @@
         }
 
         console.log(order);
+
+        var jqxhr = $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/order",
+            data: order,
+            success: function(){ console.log('success'); },
+            dataType: 'application/json'
+          })
+          .done(function() {
+            console.log( "second success" );
+          })
+          .fail(function() {
+            console.log( "error" );
+          })
+          .always(function() {
+            console.log( "finished" );
+          });
+
         event.preventDefault();
       });
+
+      function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
 
     </script>
     <script>
