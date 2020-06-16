@@ -16,7 +16,8 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
     @Override
     public void configure() throws Exception {
         JacksonDataFormat df = new JacksonDataFormat(CreateOrderCommand.class);
-        // restConfiguration()
+        JacksonDataFormat incomingDf = new JacksonDataFormat(GrubHubOrder.class);
+       // restConfiguration()
             // .component("undertow")
             //.apiContextPath("api")
             // .apiProperty("api.title", "GrubHub Order")
@@ -24,15 +25,18 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             // .apiProperty("cors", "true")
             // .host("0.0.0.0")
             // .port("8080")
-            // .bindingMode(RestBindingMode.auto);
+           // .bindingMode(RestBindingMode.auto);
 
         rest()
-            .post("/order").type(GrubHubOrder.class)//.consumes("application/json")
+            .post("/order").type(GrubHubOrder.class).consumes("application/json")
+            .bindingMode(RestBindingMode.json)
             .produces("application/json")
             .to("direct:order");
 
         from("direct:order")
             .log("Incoming Body is ${body}")
+            //.unmarshal(incomingDf)
+            .log("Incoming Body after unmarshal is ${body}")
             .bean(this,"transformMessage")
             .log("Outgoing pojo Body is ${body}")
             .marshal(df)
