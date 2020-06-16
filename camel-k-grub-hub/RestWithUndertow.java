@@ -34,7 +34,7 @@ public class RestWithUndertow extends org.apache.camel.builder.RouteBuilder {
             .setHeader("Accept",constant("application/json"))
             .log("Body after transformation is ${body} with headers: ${headers}")
             //need to change url after knowing what the cafe-web url will be 
-            .to("http://quarkus-cafe-web-quarkus-cafe-demo.apps.cluster-rhug-152d.rhug-152d.example.opentlc.com/order?bridgeEndpoint=true&throwExceptionOnFailure=false")
+            .to("http://quarkus-cafe-web-quarkus-cafe-demo.apps.cluster-rhug-384e.rhug-384e.example.opentlc.com/order?bridgeEndpoint=true&throwExceptionOnFailure=false")
             .setHeader(Exchange.HTTP_RESPONSE_CODE,constant(200));
     }
 
