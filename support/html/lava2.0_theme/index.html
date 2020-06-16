@@ -136,9 +136,9 @@
               <!-- Modal footer -->
               <div class="modal-footer">
                 <form class="form-inline" action="" id="order_form" >
+                  <button type="button" class="btn-sm btn-danger" data-dismiss="modal" >Back to Menu</button>
+                  <button type="submit" class="btn-sm btn-primary mb-2" >Place Order</button>
                 </form>
-                <button type="button" class="btn-sm btn-danger" data-dismiss="modal" >Back to Menu</button>
-                <button type="button" class="btn-sm btn-danger" data-dismiss="modal" >Place Order</button>
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@
                           <h6>Coffee (with room)</h6>
                         </div>
                         <div class="price pull-right">
-                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_WITH_ROOM" data-item_type="beverage">Add</button>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_WITH_ROOM" data-item_type="beverage" data-display_name="Coffee (with room)">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -906,14 +906,22 @@
         modal.find('#item').val(item)
         modal.find('#item_type').val(item_type)
       });
+
+      // #item_form collects the name parameter for the individual item
       $('#item_form').submit(function( event ) {
+
         console.log("Handler for .add() called." );
+        
         var item_type = $('#item_form').find('input[name="item_type"]').val();
         var item = $('#item_form').find('input[name="item"]').val();
         var name = $('#item_form').find('input[name="name"]').val();
+        
         console.log('item:' + item + ' for name:' + name);
+        
         var item_to_add = { 'item' : item, 'name': name};
+        
         console.log(JSON.stringify(item_to_add));
+
         if(item_type == 'beverage'){
           console.log('adding beverage');
           var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
@@ -922,14 +930,14 @@
                 type: 'hidden',
                 id: 'beverages-0',
                 name: 'beverages',
-                val: JSON.stringify(item_to_add)
+                value: JSON.stringify(item_to_add)
             }).appendTo('form');
           }else if(beverages.length >= 1){
             $('<input>').attr({
                 type: 'hidden',
                 id: 'beverages-' + beverages.length++,
                 name: 'beverages',
-                val: JSON.stringify(item_to_add)
+                value: JSON.stringify(item_to_add)
             }).appendTo('form');
           }
             console.log('added');
@@ -942,20 +950,38 @@
                 type: 'hidden',
                 id: 'kitchen-0',
                 name: 'kitchen',
-                val: JSON.stringify(item_to_add)
+                value: JSON.stringify(item_to_add)
             }).appendTo('form');
           }else if(kitchen.length >= 1){
             $('<input>').attr({
                 type: 'hidden',
                 id: 'kithen-' + kitchen.length++,
                 name: 'kitchen',
-                val: JSON.stringify(item_to_add)
+                value: JSON.stringify(item_to_add)
             }).appendTo('form');
           }
             console.log('added');
         }
         event.preventDefault();
       });
+
+      // #order_form posts the entire order
+      $("#order_form").submit(function(event){
+        console.log("order submitted");
+        var beverages = $('#order_form').find('input[name="beverages"]').map(function(){return $(this).val();}).get();
+        var kitchen = $('#order_form').find('input[name="kitchen"]').map(function(){return $(this).val();}).get();
+        let order = {};
+        if(beverages.length >= 1){
+          order.beverages = beverages;
+        }
+        if(kitchen.length >= 1){
+          order.kitchen = kitchen;
+        }
+
+        console.log(order);
+        event.preventDefault();
+      });
+
     </script>
     <script>
     </script>
