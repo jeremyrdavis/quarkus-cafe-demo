@@ -30,7 +30,7 @@ public class CustomerMocker {
     @RestClient
     OrderService orderService;
 
-    @Scheduled(every = "5s")
+    @Scheduled(every = "30s")
     public void placeOrder() {
 //        int seconds = new Random().nextInt(5);
 /*

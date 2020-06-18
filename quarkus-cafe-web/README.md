@@ -9,6 +9,8 @@ This service uses the following environment variables when running with the prod
 * KAFKA_BOOTSTRAP_URLS
 * STREAM_URL
 
+
+
 ## Local deveplomnent steps 
 * uncomment lines 
 ```
