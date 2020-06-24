@@ -216,7 +216,7 @@
                           <h6>Cappuccino - $3.75</h6>
                         </div>
                         <div class="price pull-right">
-                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAPPUCINO" data-item_type="beverage" data-display_name="Cappucino">Add</button>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAPPUCCINO" data-item_type="beverage" data-display_name="Cappucino">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -621,6 +621,34 @@
         </div>
       </div>
     </section>
+    <span class="anchor" id="statusboard"></span>
+    <section class="statusboard">
+      <div class="container padding-2x">
+        <div class="row text-wrap">
+          <div class="col-sm-12">
+            <h3 class="text-center">Orders</h3>
+            <hr/>
+            <p class="text-center">Check Here for Your Order Status</p>
+          </div>
+          <div class="row justify-content-center">
+            <table class="table table-striped">
+              <thead class="thead-dark">
+              <tr>
+                  <th>Customer</th>
+                  <th>Product</th>
+                  <th>Prepared By</th>
+                  <th>State</th>
+              </tr>
+              </thead>
+              <tbody>
+      
+              </tbody>
+          </table>
+      
+          </div>
+        </div>        
+      </div>
+    </section>
     <span class="anchor" id="gallery"></span>
     <section class="gallery">
       <div class="container padding-2x">
@@ -1014,8 +1042,8 @@
               $(this).remove();
           })
         })
-        .fail(function() {
-          console.log( "error" );
+        .fail(function(jqxhr, errorStatus, errorThrown) {
+          console.log( "error : " + errorThrown + " " + errorStatus);
         })
         .always(function() {
           console.log( "finished" );
@@ -1037,6 +1065,42 @@
 
     </script>
     <script>
+      // Status Board
+
+      $(function () {
+/*          var source = new EventSource("http://quarkus-cafe-web-quarkus-cafe.apps.cluster-virtual-1b57.virtual-1b57.sandbox1482.opentlc.com/dashboard/stream"); */
+          var source = new EventSource("http://localhost:8080/dashboard/stream");
+//          var source = new EventSource("{sourceUrl}");
+          source.onmessage = function(e) {
+            console.log(e);
+            var state = JSON.parse(e.data);
+            if(state.status=="IN_QUEUE")
+                $("tbody").append(line(state));
+            if(state.status=="READY")
+                $("#"+state.itemId).replaceWith(line(state));
+
+        };
+    });
+
+    function line(state) {
+        var orderId = state.orderId;
+        var id = state.itemId;
+        var product = state.item;
+        var customer = state.name;
+        var status = state.status;
+        var barista = "";
+/*
+        if (state.item) {
+            barista = state.item.preparedBy;
+        }
+*/
+        return "<tr id='" + id + "'>" +
+            "<td>" + customer + "</td>" +
+            "<td>" + product + "</td>" +
+            "<td>" + barista + "</td>" +
+            "<td>" + status + "</td></tr>";
+    }
+
     </script>
   </body>
   </html>
