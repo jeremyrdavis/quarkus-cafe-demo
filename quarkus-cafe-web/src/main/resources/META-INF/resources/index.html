@@ -923,7 +923,7 @@
         var item_type = $('#item_form').find('input[name="item_type"]').val();
         var item = $('#item_form').find('input[name="item"]').val();
         var name = $('#item_form').find('input[name="name"]').val();
-        
+
         console.log('item:' + item + ' for name:' + name);
         
         var item_to_add = { 'item' : item, 'name': name};
@@ -1006,7 +1006,13 @@
           dataType: 'json'
         })
         .done(function() {
-          console.log( "second success" );
+          console.log( "done" );
+          $('#order_form').find('input[name="beverages"]').map(function () {
+            $(this).remove();
+          })
+          $('#order_form').find('input[name="kitchen"]').map(function () {
+              $(this).remove();
+          })
         })
         .fail(function() {
           console.log( "error" );

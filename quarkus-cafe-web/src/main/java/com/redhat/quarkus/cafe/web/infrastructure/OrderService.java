@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
@@ -25,11 +26,13 @@ public class OrderService {
     @Channel("orders-out")
     Emitter<String> ordersOutEmitter;
 
-    public CompletionStage<Void> placeOrder(CreateOrderCommand createOrderCommand){
+    public CompletableFuture<Void> placeOrder(CreateOrderCommand createOrderCommand){
         return ordersOutEmitter.send(toJson(createOrderCommand))
-            .whenCompleteAsync((result, ex) -> {
+            .whenComplete((result, ex) -> {
                 logger.debug("createOrderCommand sent");
-                logger.debug(ex.getMessage());
-            });
+                if (ex != null) {
+                    logger.error(ex.getMessage());
+                }
+            }).toCompletableFuture();
     }
 }

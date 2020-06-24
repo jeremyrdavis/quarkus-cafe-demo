@@ -46,7 +46,7 @@ public class RestResource {
 
     @POST
     @Path("/order")
-    public CompletionStage<Response> orderIn(CreateOrderCommand createOrderCommand) {
+    public Response orderIn(CreateOrderCommand createOrderCommand) {
 
         logger.debug("CreateOrderCommand received: {}", toJson(createOrderCommand));
         return orderService.placeOrder(createOrderCommand)
@@ -57,7 +57,7 @@ public class RestResource {
                 }else{
                     return Response.accepted().entity(createOrderCommand).build();
                 }
-            });
+            }).join();
     }
 
 }
