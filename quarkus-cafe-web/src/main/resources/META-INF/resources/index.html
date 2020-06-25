@@ -1088,7 +1088,7 @@
         var product = state.item;
         var customer = state.name;
         var status = state.status;
-        var barista = "";
+        var preparedBy = state.madeBy;
 /*
         if (state.item) {
             barista = state.item.preparedBy;
@@ -1097,7 +1097,7 @@
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
             "<td>" + product + "</td>" +
-            "<td>" + barista + "</td>" +
+            "<td>" + preparedBy + "</td>" +
             "<td>" + status + "</td></tr>";
     }
 
