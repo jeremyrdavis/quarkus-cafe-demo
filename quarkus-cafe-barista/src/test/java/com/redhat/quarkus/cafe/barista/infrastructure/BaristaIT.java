@@ -56,6 +56,7 @@ public class BaristaIT {
             assertEquals(EventType.BEVERAGE_ORDER_UP, orderUp.eventType);
             assertEquals("Lemmy", orderUp.name);
             assertEquals(Item.COFFEE_BLACK, orderUp.item);
+            assertEquals("MacBook-Pro", orderUp.madeBy);
         }
     }
 

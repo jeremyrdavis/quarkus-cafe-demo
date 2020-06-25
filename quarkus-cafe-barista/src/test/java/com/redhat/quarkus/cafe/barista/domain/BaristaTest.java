@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @QuarkusTest
 @QuarkusTestResource(KafkaTestResource.class)
@@ -44,6 +45,7 @@ public class BaristaTest {
         OrderUp orderUp = result.get();
         await().atLeast(Duration.ofSeconds(5000));
         assertEquals(EventType.BEVERAGE_ORDER_UP, orderUp.eventType);
+        assertNotNull(orderUp.madeBy);
     }
 
 }

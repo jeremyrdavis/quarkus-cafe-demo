@@ -1016,7 +1016,7 @@
           order.beverages = beverages;
         }
         if(kitchen.length >= 1){
-          order.kitchen = kitchen;
+          order.kitchenOrders = kitchen;
         }
 
         console.log(order);
@@ -1029,7 +1029,7 @@
           type: "POST",
           url: "http://localhost:8080/order",
           data: JSON.stringify(order),
-          success: function(){ console.log('success'); },
+          success: function(){ console.log('success for ' + JSON.stringify(order)); },
           contentType: 'application/json',
           dataType: 'json'
         })
