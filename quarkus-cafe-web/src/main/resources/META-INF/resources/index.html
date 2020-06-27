@@ -929,6 +929,7 @@
       });
     </script>
     <script>
+      /* Display the modal popup with selected data */
       $('#myModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
         var item = button.data('whatever')
@@ -941,21 +942,18 @@
         modal.find('#item_type').val(item_type)
       });
 
-      // #item_form collects the name parameter for the individual item
+
+      /*
+        Add item to the order
+      */
       $('#item_form').submit(function( event ) {
 
-        console.log("Handler for .add() called." );
-        
         var item_type = $('#item_form').find('input[name="item_type"]').val();
         var item = $('#item_form').find('input[name="item"]').val();
         var name = $('#item_form').find('input[name="name"]').val();
 
-        console.log('item:' + item + ' for name:' + name);
-        
         var item_to_add = { 'item' : item, 'name': name};
         
-        console.log(JSON.stringify(item_to_add));
-
         if(item_type == 'beverage'){
           console.log('adding beverage');
           var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
