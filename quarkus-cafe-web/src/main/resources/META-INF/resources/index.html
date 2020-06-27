@@ -943,9 +943,7 @@
       });
 
 
-      /*
-        Add item to the order
-      */
+      /* Modal popup - add item to the order*/
       $('#item_form').submit(function( event ) {
 
         var item_type = $('#item_form').find('input[name="item_type"]').val();
@@ -997,7 +995,7 @@
         event.preventDefault();
       });
 
-      // #order_form posts the entire order
+      /* Modal popup - submit order */
       $("#order_form").submit(function(event){
         console.log("order submitted");
         var beverages = $('#order_form').find('input[name="beverages"]').map(function(){
@@ -1052,6 +1050,7 @@
         event.preventDefault();
       });
 
+      // create a uuid for the order id
       function uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
           var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -1060,7 +1059,8 @@
       }
 
     </script>
-    <script>
+
+  <script>
       // Status Board
 
       $(function () {
@@ -1092,11 +1092,63 @@
 */
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
-            "<td>" + product + "</td>" +
-            "<td>" + preparedBy + "</td>" +
-            "<td>" + status + "</td></tr>";
+            "<td>" + makeItemDisplayFriendly(product) + "</td>" +
+            "<td>" + status + "</td>" +
+            "<td>" + preparedBy + "</td></tr>";
     }
 
+    /* Display friendly product names
+    */
+    function makeItemDisplayFriendly(item){
+      let result;
+      switch(item){
+        // beverages
+        case "COFFEE_BLACK":
+          console.log("Black Coffee");
+          result = "Black Coffee"
+          break;
+        case "COFFEE_WITH_ROOM":
+          console.log("Coffee with room");
+          result = "Cofee with room";
+          break;
+        case "CAPPUCCINO":
+          console.log("Capuccino");
+          result = "Capuccino";
+          break;
+        case "ESPRESSO":
+          console.log("Espresso");
+          result = Espresso
+          break;
+        case "ESPRESSO_DOUBLE":
+          console.log("Double Espresso");
+          result = "Double Espresso";
+          break;
+
+        // kitchen
+        case "CAKEPOP":
+          console.log("Cakepop");
+          result = "Cakepop";
+          break;
+        case "CROISSANT":
+          console.log("Butter Croissant");
+          result = "Butter Croissant";
+          break;
+        case "CROISSANT_CHOCOLATE":
+          console.log("Chocolate Croissant");
+          result = "Chocoloate Croissant";
+          break;
+        case "MUFFIN":
+          console.log("Blueberry Muffin");
+          result = "Blueberry Muffin";
+          break;
+
+        // default to the returned value
+        default:
+        result = item;
+        console.log(item);
+      }
+      return result;
+    }
     </script>
   </body>
   </html>
