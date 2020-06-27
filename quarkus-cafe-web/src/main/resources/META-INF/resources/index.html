@@ -1093,8 +1093,13 @@
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
             "<td>" + makeItemDisplayFriendly(product) + "</td>" +
-            "<td>" + status + "</td>" +
-            "<td>" + preparedBy + "</td></tr>";
+            "<td>" + displayFriendlyStatus(status) + "</td>" +
+            "<td>" + displayFriendlyPreparedBy(preparedBy) + "</td></tr>";
+    }
+
+    /* Display friendly prepared by or nothing */
+    function displayFriendlyPreparedBy(value){
+      return value === undefined ? "" : value;
     }
 
     /* Display friendly product names
@@ -1149,6 +1154,24 @@
       }
       return result;
     }
+
+    function displayFriendlyStatus(status){
+      let result;
+      switch(status){
+        case "IN_QUEUE":
+          console.log("In progress");
+          result = "In progress";
+          break;
+        case "READY":
+          console.log("Ready");
+          result = "Ready";
+          break;
+        default:
+          result = status;
+      }
+      return result;
+    }
+
     </script>
   </body>
   </html>
