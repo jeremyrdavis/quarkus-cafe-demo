@@ -1076,15 +1076,17 @@
               console.log(state);
 //              $("#"+state.itemId).replaceWith(line(state));
 //              setTimeout(cleanup(state.itemId), 15000);
-                  display(state);
+                display(state);
             }
 
         };
     });
 
     function display(state){
+      let count = Math.floor(Math.random() * 15) * 1000;
+      console.log(count);
       $("#"+state.itemId).replaceWith(line(state));
-      setTimeout(function(){ $("#"+state.itemId).remove(); }, 5000);
+      setTimeout(function(){ $("#"+state.itemId).remove(); }, count);
     }
 
     function cleanup(itemid){
