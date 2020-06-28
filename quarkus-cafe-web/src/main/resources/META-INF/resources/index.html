@@ -1072,11 +1072,25 @@
             var state = JSON.parse(e.data);
             if(state.status=="IN_QUEUE")
                 $("tbody").append(line(state));
-            if(state.status=="READY")
-                $("#"+state.itemId).replaceWith(line(state));
+            if(state.status=="READY"){
+              console.log(state);
+//              $("#"+state.itemId).replaceWith(line(state));
+//              setTimeout(cleanup(state.itemId), 15000);
+                  display(state);
+            }
 
         };
     });
+
+    function display(state){
+      $("#"+state.itemId).replaceWith(line(state));
+      setTimeout(function(){ $("#"+state.itemId).remove(); }, 5000);
+    }
+
+    function cleanup(itemid){
+      console.log("time to cleanup" + itemid);
+//      $("#"+itemid).remove();
+    }
 
     function line(state) {
         var orderId = state.orderId;
