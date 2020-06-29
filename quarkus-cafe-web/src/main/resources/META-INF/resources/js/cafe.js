@@ -1,15 +1,19 @@
 /* Display the modal popup with selected data */
 $('#myModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget)
-  var item = button.data('whatever')
-  var item_display_name = button.data('display_name');
-  var item_type = button.data('item_type');
-  var modal = $(this)
-//        modal.find('.modal-body inplut').val(recipient)
-  modal.find('#item_label').text(item_display_name)
-  modal.find('#item').val(item)
-  modal.find('#item_type').val(item_type)
-  displayCurrentOrder();
+
+    // hide the alerts
+    $('#item_added_alert').hide();
+
+    var button = $(event.relatedTarget)
+    var item = button.data('whatever')
+    var item_display_name = button.data('display_name');
+    var item_type = button.data('item_type');
+    var modal = $(this)
+    //        modal.find('.modal-body inplut').val(recipient)
+    modal.find('#item_label').text(item_display_name)
+    modal.find('#item').val(item)
+    modal.find('#item_type').val(item_type)
+    displayCurrentOrder();
 });
 
 /* Display the current order */
