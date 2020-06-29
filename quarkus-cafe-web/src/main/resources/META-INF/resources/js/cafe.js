@@ -1,7 +1,7 @@
 /* Display the modal popup with selected data */
 $('#myModal').on('show.bs.modal', function (event) {
 
-    // hide the alerts
+    // hide the alert for successfully adding an item
     $('#item_added_alert').hide();
 
     var button = $(event.relatedTarget)
@@ -86,7 +86,12 @@ $('#item_form').submit(function( event ) {
     }
       console.log('added');
   }
-  event.preventDefault();
+
+    // hide the alert for successfully adding an item
+    $('#item_added_alert').text(displayFriendlyItem(item) + ' for ' + name + ' added to order.').show();
+//    setTimeout(function(){ $('#item_added_alert').hide(); }, 3000);
+
+    event.preventDefault();
 });
 
 /* Modal popup - submit order */
