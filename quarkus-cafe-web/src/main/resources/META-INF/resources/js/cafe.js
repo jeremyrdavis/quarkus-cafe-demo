@@ -25,7 +25,10 @@ function displayCurrentOrder(){
 
     if(current_items.length >= 1){
       current_items.forEach(function(e){
-        $('#current_order').append('<li class="list-group-item">'+ e.value + '</li>')
+        console.log(e);
+        let order = JSON.parse(e.value);
+        console.log(order);
+        $('#current_order').append('<li class="list-group-item">'+ displayFriendlyItem(order.item) + ' for ' + order.name + '</li>');
       });
     }
 }
@@ -195,7 +198,7 @@ function line(state) {
 */
   return "<tr id='" + id + "'>" +
       "<td>" + customer + "</td>" +
-      "<td>" + makeItemDisplayFriendly(product) + "</td>" +
+      "<td>" + displayFriendlyItem(product) + "</td>" +
       "<td>" + displayFriendlyStatus(status) + "</td>" +
       "<td>" + displayFriendlyPreparedBy(preparedBy) + "</td></tr>";
 }
@@ -207,7 +210,7 @@ function displayFriendlyPreparedBy(value){
 
 /* Display friendly product names
 */
-function makeItemDisplayFriendly(item){
+function displayFriendlyItem(item){
     let result;
  
     switch(item){
