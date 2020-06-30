@@ -32,7 +32,7 @@ function displayCurrentOrder(){
         console.log(e);
         let order = JSON.parse(e.value);
         console.log(order);
-        $('#current_order').append('<li class="list-group-item">'+ displayFriendlyItem(order.item) + ' for ' + order.name + '</li>');
+        $('#current_order').append('<li class="borderless input-cafe">'+ displayFriendlyItem(order.item) + ' for ' + order.name + '</li>');
       });
     }
 }
@@ -87,7 +87,7 @@ $('#item_form').submit(function( event ) {
       console.log('added');
   }
 
-    // hide the alert for successfully adding an item
+    // display the alert for successfully adding an item
     $('#item_added_alert').text(displayFriendlyItem(item) + ' for ' + name + ' added to order.').show();
 //    setTimeout(function(){ $('#item_added_alert').hide(); }, 3000);
 

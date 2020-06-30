@@ -28,6 +28,9 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+  <!-- Customized css -->
+  <link href="css/cafe.css" rel="stylesheet" />
+
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -121,18 +124,20 @@
                 <h4 class="modal-title" >
                   Current Order
                 </h4>
-                <div class="alert alert-success collaspse" role="alert"id="item_added_alert" >
+                <div class="pt-10">
+                  <ul class="list-group mt-10" id="current_order">
+                  </ul>
                 </div>
-                <ul class="list-group" id="current_order">
-                </ul>
               </div>
               <!-- Modal body -->
               <div class="modal-body">
+                <div class="alert alert-success" role="alert"id="item_added_alert" >
+                </div>
                 <form class="form-inline" action="" id="item_form">
                   <input type="hidden" id="item_type" name="item_type" />
-                  <label for="item" class="mr-sm-2" id="item_label"></label>
+                  <label for="item" class="mr-sm-2 input-cafe" id="item_label"></label>
                   <input type="hidden" id="item" name="item" />
-                  <label for="name" class="mr-sm-2">for Name:</label>
+                  <label for="name" class="mr-sm-2 input-cafe">for Name:</label>
                   <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name" name="name">
                   <button type="submit" class="btn-sm btn-primary mb-2" >Add</button>
                 </form>
