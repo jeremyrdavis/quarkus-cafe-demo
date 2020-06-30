@@ -8,11 +8,12 @@ $('#myModal').on('show.bs.modal', function (event) {
     var item = button.data('whatever')
     var item_display_name = button.data('display_name');
     var item_type = button.data('item_type');
-    var modal = $(this)
+    var modal = $(this);
     //        modal.find('.modal-body inplut').val(recipient)
-    modal.find('#item_label').text(item_display_name)
-    modal.find('#item').val(item)
-    modal.find('#item_type').val(item_type)
+    modal.find('#item_label').text(item_display_name);
+    modal.find('#item').val(item);
+    modal.find('#item_type').val(item_type);
+    modal.find('#name').val('');
     displayCurrentOrder();
 });
 
