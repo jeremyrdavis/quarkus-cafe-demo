@@ -13,7 +13,6 @@ $('#myModal').on('show.bs.modal', function (event) {
     modal.find('#item_label').text(item_display_name);
     modal.find('#item').val(item);
     modal.find('#item_type').val(item_type);
-    modal.find('#name').val('');
     displayCurrentOrder();
 });
 
@@ -36,6 +35,14 @@ function displayCurrentOrder(){
         $('#current_order').append('<li class="borderless input-cafe">'+ displayFriendlyItem(order.item) + ' for ' + order.name + '</li>');
       });
     }
+}
+
+/* Update the current order after a new item is added */
+function updateCurrentOrder(item, name){
+    let new_line = $('<li class="borderless input-cafe">'+ displayFriendlyItem(item) + ' for ' + name + '</li>')
+                        .fadeIn(500);
+    $('#current_order')
+        .append(new_line);
 }
 
 /* Modal popup - add item to the order*/
@@ -90,7 +97,12 @@ $('#item_form').submit(function( event ) {
 
     // display the alert for successfully adding an item
     $('#item_added_alert').text(displayFriendlyItem(item) + ' for ' + name + ' added to order.').show();
-//    setTimeout(function(){ $('#item_added_alert').hide(); }, 3000);
+    setTimeout(function(){
+        updateCurrentOrder(item, name);
+    }, 2000);
+    setTimeout(function(){ 
+        $('#item_added_alert').fadeOut(1000); 
+    }, 3000);
 
     event.preventDefault();
 });
