@@ -13,9 +13,9 @@ import java.util.concurrent.CompletionStage;
 import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.*;
 
 @ApplicationScoped
-public class Cafe {
+public class KafkaService {
 
-    final Logger logger = LoggerFactory.getLogger(Cafe.class);
+    final Logger logger = LoggerFactory.getLogger(KafkaService.class);
 
     @Inject
     @Channel("barista-out")
@@ -39,7 +39,7 @@ public class Cafe {
 
         return CompletableFuture.supplyAsync(() -> {
 
-            // Get the event from the Order domain object
+ /*           // Get the event from the Order domain object
             OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
 
             orderCreatedEvent.getEvents().forEach(e -> {
@@ -79,7 +79,7 @@ public class Cafe {
                             });
                 }
             });
-            return null;
+ */           return null;
         });
 
     }

@@ -17,37 +17,35 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@QuarkusTest
-@QuarkusTestResource(CafeITResource.class)
-public class CafeKitchenIT extends KafkaIT{
+@QuarkusTest @QuarkusTestResource(CafeITResource.class)
+public class KafkaServiceBeverageIT extends KafkaIT{
 
     @Test
-    public void testOrderInKitchenOnly() throws InterruptedException{
+    public void testOrderInBeveragesOnly() throws InterruptedException {
 
-        List<LineItem> menuItems = new ArrayList<>();
-        menuItems.add(new LineItem(Item.CAKEPOP, "Mickey"));
-        menuItems.add(new LineItem(Item.MUFFIN, "Goofy"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, menuItems);
+        List<LineItem> beverages = new ArrayList<>();
+        beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
+        beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
+        CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
 
-        // send the order to Kafka
+        // send the order to Kafka and wait
         producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
-
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         // intercept the messages from the appropriate consumer
-        ConsumerRecords<String, String> newRecords = consumerMap.get("kitchen-in").poll(Duration.ofMillis(5000));
+        ConsumerRecords<String, String> newRecords = consumerMap.get("barista-in").poll(Duration.ofMillis(1000));
 
         // verify that the records are of the correct type
         newRecords.forEach(record -> {
             System.out.println(record.value());
             OrderInEvent orderInEvent = JsonUtil.jsonb.fromJson(record.value(), OrderInEvent.class);
-//            assertKitchenInEvent(orderInEvent);
-            assertTrue(orderInEvent.item.equals(Item.CAKEPOP) || orderInEvent.item.equals(Item.MUFFIN),
-                    "The item should be either a " + Item.MUFFIN + " or a " + Item.CAKEPOP + " not a " + orderInEvent.item);
+//            assertBeverageInEvent(orderInEvent);
+            assertTrue(orderInEvent.item.equals(Item.ESPRESSO_DOUBLE) || orderInEvent.item.equals(Item.COFFEE_WITH_ROOM),
+                    "The item should be either a " + Item.ESPRESSO_DOUBLE + " or a " + Item.COFFEE_WITH_ROOM + " not a " + orderInEvent.item);
         });
 
         // verify the number of new records
         assertEquals(2, newRecords.count());
-
     }
+
 }

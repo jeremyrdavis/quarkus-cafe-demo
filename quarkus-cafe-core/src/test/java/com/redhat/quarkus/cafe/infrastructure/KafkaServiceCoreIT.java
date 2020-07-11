@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 @QuarkusTestResource(CafeITResource.class)
-public class CafeCoreIT extends KafkaIT {
+public class KafkaServiceCoreIT extends KafkaIT {
 
     @Test
     public void testOrderInBeveragesOnly() throws InterruptedException {
