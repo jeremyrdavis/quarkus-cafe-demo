@@ -5,14 +5,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 public class KafkaServiceTest {
 
+/*
     @Test
     public void testOrderInBeverageOnly() {
 
         List<LineItem> beverages = new ArrayList<>();
 
-/*
         beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
         CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
@@ -22,8 +25,8 @@ public class KafkaServiceTest {
         orderEvents.forEach(e -> {
                 assertEquals(BeverageLineItemInEvent.class, e.getClass());
         });
-*/
     }
+*/
 
     @Test
     public void testOrderInFoodOnly() {

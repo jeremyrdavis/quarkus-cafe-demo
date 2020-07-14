@@ -1,6 +1,5 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.KafkaContainer;
@@ -10,9 +9,9 @@ import java.util.Map;
 
 public class CafeITResource implements QuarkusTestResourceLifecycleManager {
 
-    final KafkaContainer KAFKA = new KafkaContainer();
+    static final KafkaContainer KAFKA = new KafkaContainer();
 
-    final GenericContainer MONGO = new GenericContainer("mongo:4.0").withExposedPorts(27017);
+    static final GenericContainer MONGO = new GenericContainer("mongo:4.0").withExposedPorts(27017);
 
     @Override
     public Map<String, String> start() {

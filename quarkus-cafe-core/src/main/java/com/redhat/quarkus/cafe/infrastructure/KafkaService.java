@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -33,10 +34,9 @@ public class KafkaService {
     Emitter<String> webUpdatesOutEmitter;
 
     @Incoming("web-in")
-    public void onOrderIn(final Message message) {
+    public CompletionStage<Void> onOrderIn(final Message message) {
         logger.debug("orderIn: {}", message.getPayload());
-        cafe.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
-        //return handleCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+        return handleCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString())).thenRun(()->{message.ack();});
     }
 
     protected CompletionStage<Void> handleCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
@@ -45,8 +45,8 @@ public class KafkaService {
 
 
 
- /*           // Get the event from the Order domain object
-            OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+           // Get the event from the Order domain object
+            OrderCreatedEvent orderCreatedEvent = cafe.processCreateOrderCommand(createOrderCommand);
 
             orderCreatedEvent.getEvents().forEach(e -> {
                 if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
@@ -85,7 +85,7 @@ public class KafkaService {
                             });
                 }
             });
- */           return null;
+            return null;
         });
 
     }
