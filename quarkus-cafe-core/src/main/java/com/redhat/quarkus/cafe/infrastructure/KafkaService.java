@@ -18,6 +18,9 @@ public class KafkaService {
     final Logger logger = LoggerFactory.getLogger(KafkaService.class);
 
     @Inject
+    Cafe cafe;
+
+    @Inject
     @Channel("barista-out")
     Emitter<String> baristaOutEmitter;
 
@@ -30,14 +33,17 @@ public class KafkaService {
     Emitter<String> webUpdatesOutEmitter;
 
     @Incoming("web-in")
-    public CompletionStage<Void> onOrderIn(final Message message) {
+    public void onOrderIn(final Message message) {
         logger.debug("orderIn: {}", message.getPayload());
-        return handleCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+        cafe.processCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
+        //return handleCreateOrderCommand(createOrderCommandFromJson(message.getPayload().toString()));
     }
 
     protected CompletionStage<Void> handleCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
 
         return CompletableFuture.supplyAsync(() -> {
+
+
 
  /*           // Get the event from the Order domain object
             OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);

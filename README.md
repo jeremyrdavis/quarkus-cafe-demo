@@ -40,3 +40,60 @@ http://quarkus-cafe-web-quarkus-cafe-demo.apps.example.com/cafe example
 
 ## Author Information
 This was created in 2020 by [Jeremy Davis](https://github.com/jeremyrdavis)
+
+## Local Development
+
+### Supporting infrastructure (Kafka and MongoDB)
+
+There is a Docker Compose file in the "support" directory.  Run it with:
+
+```shell
+
+docker-compose up
+
+```
+
+This will start both Kafka and MongoDB and run the "init-mongo.js" init script to setup the appropriate user for MongoDB.
+
+### Kafka
+
+To monitor the Kafka topics open terminal windows and run the following commands:
+
+```shell
+
+kafka-console-consumer --bootstrap-server localhost:9092 --topic web-updates --from-beginning
+kafka-console-producer --broker-list localhost:9092 --topic barista-in
+
+```
+
+### MongoDB
+
+The following will open a bash terminal on the mongo container:
+
+```shell
+
+docker exec -it quarkus-mongodb-container bash
+
+```
+
+To verify inserts, authenticate and query the db, "cafedb":
+
+```shell
+
+use cafedb
+db.auth("cafeuser","redhat-20")
+show collections
+db.Order.find()
+
+```
+
+
+### Quarkus Microservices
+
+All microservices can be started in Quarkus' Dev Mode from their respective directories with:
+
+```shell
+
+./mvnw clean compile quarkus:dev
+
+```
