@@ -116,14 +116,33 @@ $("#order_form").submit(function(event){
     var kitchen = $('#order_form').find('input[name="kitchen"]').map(function(){
     return JSON.parse($(this).val());
   }).get();
-    let order = {};
-    order.id = uuidv4();
-    if(beverages.length >= 1){
-      order.beverages = beverages;
+
+  // if the user clicks "Place Order" before "Add"
+  if((beverages === undefined || beverages.length == 0 ) && (kitchen === undefined || kitchen.length == 0)){
+
+    let item_type = $('#item_form').find('input[name="item_type"]').val();
+    let item = $('#item_form').find('input[name="item"]').val();
+    let name = $('#item_form').find('input[name="name"]').val();
+    let item_to_add = { 'item' : item, 'name': name};
+
+  
+    if(item_type == 'beverage'){
+      console.log('adding beverage');
+      beverages.push(item_to_add);
+    }else if(item_type == 'kitchen'){
+      kitchen.push(item_to_add);
     }
-    if(kitchen.length >= 1){
-      order.kitchenOrders = kitchen;
+  
   }
+
+  let order = {};
+  order.id = uuidv4();
+  if(beverages.length >= 1){
+    order.beverages = beverages;
+  }
+  if(kitchen.length >= 1){
+    order.kitchenOrders = kitchen;
+}
 
   console.log(order);
 
