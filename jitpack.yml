@@ -1,4 +1,0 @@
-jdk:
-- openjdk8
-install:
-- mvn clean install -f ./quarkus-cafe-core/pom.xml

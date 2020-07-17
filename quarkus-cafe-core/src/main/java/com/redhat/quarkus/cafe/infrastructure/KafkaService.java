@@ -43,8 +43,6 @@ public class KafkaService {
 
         return CompletableFuture.supplyAsync(() -> {
 
-
-
            // Get the event from the Order domain object
             OrderCreatedEvent orderCreatedEvent = cafe.processCreateOrderCommand(createOrderCommand);
 

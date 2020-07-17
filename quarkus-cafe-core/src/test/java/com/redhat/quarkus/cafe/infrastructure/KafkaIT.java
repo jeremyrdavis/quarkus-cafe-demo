@@ -15,6 +15,8 @@ import org.apache.kafka.common.serialization.StringSerializer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
@@ -28,13 +30,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  */
 public abstract class KafkaIT {
 
+    static final Logger logger = LoggerFactory.getLogger(KafkaIT.class);
+
     Jsonb jsonb = JsonbBuilder.create();
 
-    protected static Collection<String> consumerTopics;
+    protected static Collection<String> consumerTopics = Arrays.asList("barista-in", "kitchen-in");
 
-    protected static Collection<String> producerTopics;
+    protected static Collection<String> producerTopics = Arrays.asList("web-in");
 
-    protected static Collection<String> allTopics;
+    protected static Collection<String> allTopics = Arrays.asList("web-in","barista-in", "kitchen-in");
 
     protected static Map<String, KafkaConsumer> consumerMap;
 
@@ -42,18 +46,20 @@ public abstract class KafkaIT {
 
     protected static AdminClient adminClient;
 
-    @BeforeAll
-    public static void setUp() {
-        consumerTopics = Arrays.asList("barista-in", "kitchen-in");
-        producerTopics = Arrays.asList("web-in");
+    protected KafkaConsumer baristaConsumer;
 
-        allTopics.addAll(producerTopics);
-        allTopics.addAll(consumerTopics);
+    protected KafkaConsumer kitchenConsumer;
 
-        Properties props = new Properties();
-        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, System.getProperty("KAFKA_BOOTSTRAP_URLS"));
+    @BeforeEach
+    public void beforeEach(){
 
-        adminClient = AdminClient.create(props);
+        setUpAdminClient();
+
+        Collection<NewTopic> newTopics = new ArrayList<>();
+        allTopics.forEach(t -> {
+            newTopics.add(new NewTopic(t, 1, (short) 1));
+        });
+        adminClient.createTopics(newTopics);
 
         setUpProducer();
         setUpConsumer();
@@ -66,24 +72,17 @@ public abstract class KafkaIT {
         }
     }
 
-    @BeforeEach
-    public static void beforeEach(){
-
-        Collection<NewTopic> newTopics = new ArrayList<>();
-        consumerTopics.forEach(t -> {
-            newTopics.add(new NewTopic(t, null, null));
-        });
-        producerTopics.forEach(t -> {
-            newTopics.add(new NewTopic(t, null, null));
-        });
-
-        adminClient.createTopics(newTopics);
-    }
-
     @AfterEach
-    public static void afterEach(){
+    public void afterEach(){
 
         adminClient.deleteTopics(allTopics);
+    }
+
+    private void setUpAdminClient() {
+
+        Properties props = new Properties();
+        props.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, System.getProperty("KAFKA_BOOTSTRAP_URLS"));
+        adminClient = AdminClient.create(props);
     }
 
     protected static void setUpProducer() {
