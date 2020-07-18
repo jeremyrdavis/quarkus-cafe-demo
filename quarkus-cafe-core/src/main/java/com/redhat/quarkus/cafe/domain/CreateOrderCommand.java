@@ -11,7 +11,7 @@ import java.util.UUID;
 @RegisterForReflection
 public class CreateOrderCommand {
 
-    public final String id = UUID.randomUUID().toString();
+    public String id;
 
     public List<LineItem> beverages = new ArrayList<>();
 
@@ -28,16 +28,19 @@ public class CreateOrderCommand {
         return kitchenOrders == null ? new ArrayList<LineItem>() : kitchenOrders;
     }
 
-    public CreateOrderCommand(List<LineItem> beverages, List<LineItem> kitchenOrders) {
+    public CreateOrderCommand(final String id, final List<LineItem> beverages, final List<LineItem> kitchenOrders) {
+        this.id = id;
         this.beverages = beverages;
         this.kitchenOrders = kitchenOrders;
     }
 
-    public void addBeverages(List<LineItem> beverageList) {
+    public void addBeverages(final String id, final List<LineItem> beverageList) {
+        this.id = id;
         this.beverages.addAll(beverageList);
     }
 
-    public void addKitchenItems(List<LineItem> kitchenOrdersList) {
+    public void addKitchenItems(final String id, final List<LineItem> kitchenOrdersList) {
+        this.id = id;
         this.kitchenOrders.addAll(kitchenOrdersList);
     }
 

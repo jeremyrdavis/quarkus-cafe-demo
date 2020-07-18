@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +29,7 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
 
     @BeforeEach
     public void setup() {
-        Mockito.doAnswer(new TestUtil.AssignIdToEntityAnswer(1L)).when(orderRepository).persist(any(Order.class));
+        Mockito.doAnswer(new TestUtil.AssignIdToEntityAnswer(UUID.randomUUID().toString())).when(orderRepository).persist(any(Order.class));
     }
 
     @Test
@@ -42,7 +43,7 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         menuItems.add(new LineItem(Item.CAKEPOP, "Harry"));
         menuItems.add(new LineItem(Item.MUFFIN, "Hermione"));
 
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, menuItems);
+        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),beverages, menuItems);
 
         // send the order to Kafka
         producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
@@ -90,7 +91,7 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         final List<LineItem> beverages = new ArrayList<>();
         beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(beverages, null);
+        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),beverages, null);
 
         // send the order to Kafka and wait
         producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
@@ -120,7 +121,7 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         final List<LineItem> menuItems = new ArrayList<>();
         menuItems.add(new LineItem(Item.CAKEPOP, "Mickey"));
         menuItems.add(new LineItem(Item.MUFFIN, "Goofy"));
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(null, menuItems);
+        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),null, menuItems);
 
         // send the order to Kafka
         producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));

@@ -11,9 +11,9 @@ public class TestUtil {
      */
     protected static class AssignIdToEntityAnswer implements Answer<Void> {
 
-        private final Long id;
+        private final String id;
 
-        public AssignIdToEntityAnswer(final Long id) {
+        public AssignIdToEntityAnswer(final String id) {
             this.id = id;
         }
 
