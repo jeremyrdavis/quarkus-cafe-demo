@@ -46,6 +46,7 @@ public class Order {
     private static OrderCreatedEvent createOrderCreatedEvent(final Order order) {
         // construct the OrderCreatedEvent
         OrderCreatedEvent orderCreatedEvent = new OrderCreatedEvent();
+        orderCreatedEvent.order = order;
         if (order.getBeverageLineItems().size() >= 1) {
             order.beverageLineItems.forEach(b -> {
                 orderCreatedEvent.addEvent(new OrderInEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
