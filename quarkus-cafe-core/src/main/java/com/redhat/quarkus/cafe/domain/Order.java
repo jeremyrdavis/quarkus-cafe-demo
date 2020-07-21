@@ -19,7 +19,7 @@ import java.util.concurrent.CompletionStage;
 public class Order {
 
     @Transient
-    static final Logger logger = LoggerFactory.getLogger(Cafe.class);
+    static final Logger logger = LoggerFactory.getLogger(Order.class);
 
     @BsonId
     public String id;
@@ -49,12 +49,12 @@ public class Order {
         orderCreatedEvent.order = order;
         if (order.getBeverageLineItems().size() >= 1) {
             order.beverageLineItems.forEach(b -> {
-                orderCreatedEvent.addEvent(new OrderInEvent(EventType.BEVERAGE_ORDER_IN, order.id.toString(), b.name, b.item));
+                orderCreatedEvent.addEvent(new OrderInEvent(EventType.BEVERAGE_ORDER_IN, order.id, b.name, b.item));
             });
         }
         if (order.getKitchenLineItems().size() >= 1) {
             order.kitchenLineItems.forEach(k -> {
-                orderCreatedEvent.addEvent(new OrderInEvent(EventType.KITCHEN_ORDER_IN, order.id.toString(), k.name, k.item));
+                orderCreatedEvent.addEvent(new OrderInEvent(EventType.KITCHEN_ORDER_IN, order.id, k.name, k.item));
             });
         }
         logger.debug("createEventFromCommand: returning OrderCreatedEvent {}", orderCreatedEvent.toString());

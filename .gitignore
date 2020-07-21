@@ -7,3 +7,6 @@ lsp/
 support/mongo-volume/
 support/ansible
 quarkus-cafe-apis/
+.project
+.settings/
+*.iml
