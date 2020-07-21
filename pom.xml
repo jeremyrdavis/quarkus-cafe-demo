@@ -1,38 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-        
-  
-  
   <modelVersion>4.0.0</modelVersion>
-    
   <groupId>com.redhat.quarkus</groupId>
-    
   <artifactId>quarkus-cafe-demo</artifactId>
-    
   <packaging>pom</packaging>
-    
-  <version>1.0-SNAPSHOT</version>
-    
+  <version>1.1-SNAPSHOT</version>
   <name>Quarkus, Kafka, and Kubernetes</name>
-    
   <modules>
-        
-    <module>quarkus-cafe-core</module>
-        
-    <module>quarkus-cafe-barista</module>
-        
-    <module>quarkus-cafe-customermock</module>
-        
-    <module>quarkus-cafe-kitchen</module>
-        
-    <module>quarkus-cafe-web</module>
-        
     <module>quarkus-cafe-domain</module>
-      
+    <module>quarkus-cafe-core</module>
+    <module>quarkus-cafe-barista</module>
+    <module>quarkus-cafe-kitchen</module>
+    <module>quarkus-cafe-web</module>
+    <module>quarkus-cafe-customermock</module>
   </modules>
-        
-  
-  
-  <build/>
-  
 </project>
