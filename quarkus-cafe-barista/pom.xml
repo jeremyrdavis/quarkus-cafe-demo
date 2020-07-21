@@ -26,6 +26,7 @@
     <quarkus.platform.version>1.5.2.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <testcontainers.version>1.12.3</testcontainers.version>
+    <quarkus-cafe-domain.version>1.1-SNAPSHOT</quarkus-cafe-domain.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -39,6 +40,13 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <!-- Domain model -->
+    <dependency>
+      <groupId>com.redhat.quarkus</groupId>
+      <artifactId>quarkus-cafe-domain</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
+    <!-- Quarkus stuff -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
@@ -130,50 +138,29 @@
           </systemProperties>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   <profiles>
-    <profile>
-      <id>testcontainers</id>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>${compiler-plugin.version}</version>
-            <configuration combine.self="override">
-              <testExcludes>
-                <exclude>**/Mock*.java</exclude>
-              </testExcludes>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${surefire-plugin.version}</version>
-            <configuration combine.self="override">
-              <skipTests>true</skipTests>
-            </configuration>
-          </plugin>
-          <plugin>
-            <artifactId>maven-failsafe-plugin</artifactId>
-            <version>${failsafe-plugin.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                  <goal>verify</goal>
-                </goals>
-                <configuration>
-                  <excludes>
-                    <exclude>**/*Up*</exclude>
-                    <exclude>**/Native*</exclude>
-                  </excludes>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>native</id>
       <activation>
