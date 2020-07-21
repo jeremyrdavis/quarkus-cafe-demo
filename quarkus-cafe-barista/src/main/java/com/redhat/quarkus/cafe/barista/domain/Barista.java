@@ -68,6 +68,7 @@ public class Barista {
                 orderInEvent.orderId,
                 orderInEvent.name,
                 orderInEvent.item,
+                orderInEvent.itemId,
                 madeBy);
     }
 

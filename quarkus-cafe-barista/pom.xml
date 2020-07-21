@@ -26,7 +26,7 @@
     <quarkus.platform.version>1.5.2.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <testcontainers.version>1.12.3</testcontainers.version>
-    <quarkus-cafe-domain.version>1.2-SNAPSHOT</quarkus-cafe-domain.version>
+    <quarkus-cafe-domain.version>1.3-SNAPSHOT</quarkus-cafe-domain.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -44,7 +44,7 @@
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-domain</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>${quarkus-cafe-domain.version}</version>
     </dependency>
     <!-- Quarkus stuff -->
     <dependency>
