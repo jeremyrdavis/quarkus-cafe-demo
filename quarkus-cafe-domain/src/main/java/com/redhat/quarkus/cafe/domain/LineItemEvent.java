@@ -20,7 +20,7 @@ public abstract class LineItemEvent {
         this.eventType = eventType;
     }
 
-    public LineItemEvent(EventType eventType, String itemId, String orderId, String name, Item item) {
+    public LineItemEvent(EventType eventType, String orderId, String name, Item item, String itemId) {
         this.itemId = itemId;
         this.eventType = eventType;
         this.orderId = orderId;

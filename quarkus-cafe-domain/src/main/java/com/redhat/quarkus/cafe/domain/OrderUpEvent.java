@@ -10,8 +10,8 @@ public class OrderUpEvent extends LineItemEvent{
     public OrderUpEvent() {
     }
 
-    public OrderUpEvent(EventType eventType, String orderId, String name, Item item, String madeBy) {
-        super(eventType, orderId, name, item);
+    public OrderUpEvent(EventType eventType, String orderId, String name, Item item, String itemId, String madeBy) {
+        super(eventType, orderId, name, item, itemId);
         this.madeBy = madeBy;
     }
 }

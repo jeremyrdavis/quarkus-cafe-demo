@@ -17,6 +17,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.3.2.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <quarkus-cafe-domain.version>1.2-SNAPSHOT</quarkus-cafe-domain.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -30,6 +31,12 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <!-- Application Domain -->
+    <dependency>
+      <groupId>com.redhat.quarkus</groupId>
+      <artifactId>quarkus-cafe-domain</artifactId>
+      <version>1.1-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>

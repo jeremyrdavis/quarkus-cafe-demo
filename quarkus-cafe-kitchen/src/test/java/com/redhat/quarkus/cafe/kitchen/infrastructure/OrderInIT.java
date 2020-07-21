@@ -1,9 +1,8 @@
 package com.redhat.quarkus.cafe.kitchen.infrastructure;
 
-import com.redhat.quarkus.cafe.kitchen.domain.EventType;
-import com.redhat.quarkus.cafe.kitchen.domain.Item;
-import com.redhat.quarkus.cafe.kitchen.domain.OrderEvent;
-import com.redhat.quarkus.cafe.kitchen.domain.OrderIn;
+import com.redhat.quarkus.cafe.domain.EventType;
+import com.redhat.quarkus.cafe.domain.Item;
+import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.quarkus.test.junit.QuarkusTest;
 import io.smallrye.reactive.messaging.annotations.Channel;
 import io.smallrye.reactive.messaging.annotations.Emitter;
@@ -83,14 +82,14 @@ public class OrderInIT{
                     record.key(),
                     record.value());
         }
-        assertEquals(2, moreRecords.count());
+        assertEquals(1, moreRecords.count());
     }
 
     @Test
     //@Timeout(30)
     public void testOrderIn() throws InterruptedException {
 
-        OrderIn orderIn = new OrderIn(UUID.randomUUID().toString(),"Moe", Item.COOKIE, UUID.randomUUID().toString());
+        OrderInEvent orderIn = new OrderInEvent(EventType.KITCHEN_ORDER_IN, UUID.randomUUID().toString(),"Moe", Item.CAKEPOP);
         orderEmitter.send(jsonb.toJson(orderIn));
     }
 
