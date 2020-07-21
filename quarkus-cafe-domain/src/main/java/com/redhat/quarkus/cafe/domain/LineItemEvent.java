@@ -1,13 +1,10 @@
 package com.redhat.quarkus.cafe.domain;
 
-import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
-import io.vertx.core.eventbus.EventBus;
 
 import java.util.UUID;
 
 @RegisterForReflection
-@MongoEntity
 public abstract class LineItemEvent {
 
     public String itemId;
