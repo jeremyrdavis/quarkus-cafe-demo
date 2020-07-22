@@ -23,6 +23,8 @@
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.6.0.Final</quarkus.platform.version>
+    <quarkus-cafe-domain.verions>1.3-SNAPSHOT</quarkus-cafe-domain.verions>
+    <quarkus-cafe-test-utils.verions>${project.version}</quarkus-cafe-test-utils.verions>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <testcontainers.version>1.14.3</testcontainers.version>
   </properties>
