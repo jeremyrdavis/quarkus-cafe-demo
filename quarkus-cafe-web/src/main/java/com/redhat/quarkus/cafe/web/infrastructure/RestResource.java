@@ -1,6 +1,6 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
-import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;

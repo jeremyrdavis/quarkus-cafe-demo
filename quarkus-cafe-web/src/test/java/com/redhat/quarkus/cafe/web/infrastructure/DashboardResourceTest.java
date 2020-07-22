@@ -1,10 +1,11 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.Item;
+import com.redhat.quarkus.cafe.domain.OrderStatus;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
-import com.redhat.quarkus.cafe.web.domain.Item;
-import com.redhat.quarkus.cafe.web.domain.OrderStatus;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +25,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @QuarkusTest
-public class DashboardResourceTest {
+public class DashboardResourceTest extends KafkaResourceIT{
 
     Logger logger = LoggerFactory.getLogger(DashboardResourceTest.class);
 
     Jsonb jsonb = JsonbBuilder.create();
 
     WebTarget target;
+
+    @BeforeAll
+    public static void beforeAll() {
+        System.setProperty("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092");
+    }
 
     @Test
     public void testHelloEndpoint() {
