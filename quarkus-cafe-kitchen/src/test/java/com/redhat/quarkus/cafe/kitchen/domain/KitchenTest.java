@@ -26,7 +26,7 @@ public class KitchenTest {
     @Test
     public void testOrderCakepop() throws ExecutionException, InterruptedException {
 
-        logger.info("Test that a Cookie is ready instantly");
+        logger.info("Test that a Cakepop is ready instantly");
 
         OrderInEvent orderIn = new OrderInEvent(
                 EventType.KITCHEN_ORDER_IN,
