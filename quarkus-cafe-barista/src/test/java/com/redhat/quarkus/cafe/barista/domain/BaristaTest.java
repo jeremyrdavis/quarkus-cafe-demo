@@ -34,7 +34,6 @@ public class BaristaTest {
         OrderUpEvent orderUpEvent = barista.make(orderInEvent).get();
         await().atLeast(Duration.ofSeconds(5000));
         assertEquals(EventType.BEVERAGE_ORDER_UP, orderUpEvent.eventType);
-        assertNotNull(orderUpEvent.madeBy);
     }
 
 }

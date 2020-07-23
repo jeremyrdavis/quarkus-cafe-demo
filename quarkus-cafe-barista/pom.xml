@@ -24,6 +24,8 @@
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.5.2.Final</quarkus.platform.version>
+    <quarkus-cafe-domain.verion>1.3-SNAPSHOT</quarkus-cafe-domain.verion>
+    <quarkus-cafe-test-utils.verion>1.3-SNAPSHOT</quarkus-cafe-test-utils.verion>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <testcontainers.version>1.12.3</testcontainers.version>
   </properties>
@@ -43,7 +45,14 @@
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-domain</artifactId>
-      <version>1.3-SNAPSHOT</version>
+      <version>${quarkus-cafe-domain.verion}</version>
+    </dependency>
+    <!-- Testing -->
+    <dependency>
+      <groupId>com.redhat.quarkus</groupId>
+      <artifactId>quarkus-cafe-test-utils</artifactId>
+      <version>${quarkus-cafe-test-utils.verion}</version>
+      <scope>test</scope>
     </dependency>
     <!-- Quarkus stuff -->
     <dependency>

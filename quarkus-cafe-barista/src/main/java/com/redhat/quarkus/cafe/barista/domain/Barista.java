@@ -4,11 +4,14 @@ import com.redhat.quarkus.cafe.domain.EventType;
 import com.redhat.quarkus.cafe.domain.Item;
 import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import com.redhat.quarkus.cafe.domain.OrderUpEvent;
+import io.quarkus.runtime.Startup;
+import io.quarkus.runtime.StartupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.CompletableFuture;
@@ -18,17 +21,14 @@ public class Barista {
 
     static final Logger logger = LoggerFactory.getLogger(Barista.class);
 
-    private String madeBy = "undefined";
+    private String madeBy;
 
     @PostConstruct
     void setHostName() {
         try {
-            String hostName = InetAddress.getLocalHost().getHostName();
-            if (hostName == null || hostName.length() <= 0) {
-                madeBy = "default";
-            }
+            madeBy = InetAddress.getLocalHost().getHostName();
         } catch (IOException e) {
-            logger.info("unable to get hostname; using default");
+            logger.debug("unable to get hostname");
             madeBy = "unknown";
         }
     }

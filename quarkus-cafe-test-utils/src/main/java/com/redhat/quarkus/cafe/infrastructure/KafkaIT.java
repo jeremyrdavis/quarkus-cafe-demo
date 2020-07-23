@@ -29,11 +29,7 @@ public abstract class KafkaIT {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    protected static Collection<String> consumerTopics = Arrays.asList("barista-in", "kitchen-in");
-
-    protected static Collection<String> producerTopics = Arrays.asList("web-in");
-
-    protected static Collection<String> allTopics = Arrays.asList("web-in","barista-in", "kitchen-in");
+    protected static Collection<String> kafkaTopics = Arrays.asList("barista-in", "barista-out", "kitchen-in", "kitchen-out", "orders", "web-in", "web-updates");
 
     protected static Map<String, KafkaConsumer> consumerMap;
 
@@ -50,9 +46,11 @@ public abstract class KafkaIT {
 
         setUpAdminClient();
 
+        // create the NewTopic objects required by the Kafka API
         Collection<NewTopic> newTopics = new ArrayList<>();
-        allTopics.forEach(t -> {
-            newTopics.add(new NewTopic(t, 1, (short) 1));
+        kafkaTopics.forEach(k -> {
+
+            newTopics.add(new NewTopic(k, 1, (short) 1));
         });
         adminClient.createTopics(newTopics);
 
@@ -70,7 +68,7 @@ public abstract class KafkaIT {
     @AfterEach
     public void afterEach(){
 
-        adminClient.deleteTopics(allTopics);
+        adminClient.deleteTopics(kafkaTopics);
     }
 
     private void setUpAdminClient() {
@@ -83,10 +81,10 @@ public abstract class KafkaIT {
     protected static void setUpProducer() {
 
         // we need 1 producer per topic
-        producerMap = new HashMap<>(producerTopics.size());
+        producerMap = new HashMap<>(kafkaTopics.size());
 
         // create a producer for each topic
-        producerTopics.forEach(topic -> {
+        kafkaTopics.forEach(topic -> {
             //create Producer config
             Properties props = new Properties();
             props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, System.getProperty("KAFKA_BOOTSTRAP_URLS"));
@@ -107,9 +105,9 @@ public abstract class KafkaIT {
 
     protected static void setUpConsumer() {
 
-        consumerMap = new HashMap<>(consumerTopics.size());
+        consumerMap = new HashMap<>(kafkaTopics.size());
 
-        consumerTopics.forEach(topic -> {
+        kafkaTopics.forEach(topic -> {
 
             //create Consumer config
             Properties props = new Properties();
@@ -128,7 +126,6 @@ public abstract class KafkaIT {
 
             //subscribe
             kafkaConsumer.subscribe(Arrays.asList(topic));
-
             consumerMap.put(topic, kafkaConsumer);
         });
     }
