@@ -27,13 +27,11 @@
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-domain</artifactId>
-      <version>1.3-SNAPSHOT</version>
     </dependency>
     <!-- Testing -->
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-test-utils</artifactId>
-      <version>1.3-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <!-- Quarkus stuff -->

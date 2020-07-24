@@ -32,6 +32,9 @@
     <awaitility.version>4.0.2</awaitility.version>
     <failsafe-plugin.version>3.0.0-M4</failsafe-plugin.version>
     <testcontainers.version>1.14.3</testcontainers.version>
+    <!-- project versions -->
+    <cafe-domain.version>2.0-SNAPSHOT</cafe-domain.version>
+    <cafe-test-utils.version>2.0-SNAPSHOT</cafe-test-utils.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -41,6 +44,18 @@
         <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <!-- Application Domain -->
+      <dependency>
+        <groupId>com.redhat.quarkus</groupId>
+        <artifactId>quarkus-cafe-domain</artifactId>
+        <version>${cafe-domain.version}</version>
+      </dependency>
+      <!-- Application Testing -->
+      <dependency>
+        <groupId>com.redhat.quarkus</groupId>
+        <artifactId>quarkus-cafe-test-utils</artifactId>
+        <version>${cafe-test-utils.version}</version>
       </dependency>
       <!-- Testing -->
       <dependency>
