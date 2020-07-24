@@ -72,6 +72,7 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <!-- Quarkus Stuff -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
@@ -83,6 +84,11 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <!-- Others -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
     </dependency>
     <!-- Testing -->
     <dependency>
