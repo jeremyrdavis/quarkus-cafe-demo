@@ -2,7 +2,6 @@ package com.redhat.quarkus.cafe.barista.infrastructure;
 
 import com.redhat.quarkus.cafe.barista.domain.Barista;
 import com.redhat.quarkus.cafe.domain.EventType;
-import com.redhat.quarkus.cafe.domain.LineItemEvent;
 import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import com.redhat.quarkus.cafe.domain.OrderUpEvent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
@@ -12,13 +11,10 @@ import org.eclipse.microprofile.reactive.messaging.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
