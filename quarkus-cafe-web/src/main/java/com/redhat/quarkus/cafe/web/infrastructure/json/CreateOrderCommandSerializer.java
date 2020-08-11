@@ -1,6 +1,6 @@
 package com.redhat.quarkus.cafe.web.infrastructure.json;
 
-import com.redhat.quarkus.cafe.web.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import io.quarkus.kafka.client.serialization.JsonbDeserializer;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 

@@ -151,7 +151,7 @@
         var product = state.item;
         var customer = state.name;
         var status = state.status;
-        var barista = state.madeBy;
+        var barista = state.madeBy === undefined ? '' : state.madeBy;
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
             "<td>" + product + "</td>" +

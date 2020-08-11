@@ -4,6 +4,18 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Environment variables
+
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables:
+* KAFKA_BOOTSTRAP_URLS
+
+This value will need to be set locally:
+```
+export KAFKA_BOOTSTRAP_URLS=localhost:9092
+```
+
 ## Local deveplomnent steps 
 ```
 $ mv src/main/resources/application.properties src/main/resources/application.properties.openshift
@@ -43,6 +55,24 @@ If you want to learn more about building native executables, please consult http
 {"eventType":"BEVERAGE_ORDER_IN","item":"CAPPUCCINO","itemId":"fd2af2b9-8d97-443d-bed8-371f2782a8b8","name":"Riley","orderId":"9103dd6b-ed58-423f-90b2-5cc4314996f3"}
 {"eventType":"BEVERAGE_ORDER_IN","item":"BLACK_COFFEE","itemId":"fd2af2b9-8d97-443d-bed8-371f2782a8b3","name":"Brady","orderId":"9103dd6b-ed58-423f-90b2-5cc4314996fg"
 ```
+
+## Running with Docker
+
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables when running with the production profile:
+* KAFKA_BOOTSTRAP_URLS
+
+The following line will set al
+
+```shell
+
+export KAFKA_BOOTSTRAP_URLS=localhost:9092 
+
+docker run -i --network="host" -e KAFKA_BOOTSTRAP_URLS=${KAFKA_BOOTSTRAP_URLS} quarkus-cafe-demo/quarkus-cafe-barista:latest
+
+```
+
 
 ### OpenShift Deployment Steps 
 **Ensure that lines 9 - 15 are commented out in application.properties**

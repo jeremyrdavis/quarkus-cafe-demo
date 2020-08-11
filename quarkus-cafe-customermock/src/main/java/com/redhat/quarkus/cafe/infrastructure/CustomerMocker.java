@@ -1,7 +1,9 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.*;
-import com.redhat.quarkus.cafe.infrastructure.OrderService;
+import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.CustomerNames;
+import com.redhat.quarkus.cafe.domain.Item;
+import com.redhat.quarkus.cafe.domain.LineItem;
 import io.quarkus.scheduler.Scheduled;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -10,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +32,7 @@ public class CustomerMocker {
     @RestClient
     OrderService orderService;
 
-    @Scheduled(every = "5s")
+    @Scheduled(every = "30s")
     public void placeOrder() {
 //        int seconds = new Random().nextInt(5);
 /*
@@ -55,28 +57,41 @@ public class CustomerMocker {
 
         return Stream.generate(() -> {
             CreateOrderCommand createOrderCommand = new CreateOrderCommand();
-            createOrderCommand.addBeverages(createBeverages());
+            createOrderCommand.id = UUID.randomUUID().toString();
+            createOrderCommand.beverages = createBeverages();
             // not all orders have kitchen items
             if (desiredNumberOfOrders % 2 == 0) {
-                createOrderCommand.addKitchenItems(createKitchenItems());
+                createOrderCommand.kitchenOrders = createKitchenItems();
             }
             return createOrderCommand;
         }).limit(desiredNumberOfOrders).collect(Collectors.toList());
     }
 
-    private List<Order> createBeverages() {
+    private List<LineItem> createBeverages() {
 
-        List<Order> beverages = new ArrayList(2);
-        beverages.add(new Order(Beverage.randomBeverage(), CustomerNames.randomName()));
-        beverages.add(new Order(Beverage.randomBeverage(), CustomerNames.randomName()));
+        List<LineItem> beverages = new ArrayList(2);
+        beverages.add(new LineItem(randomBaristaItem(), randomCustomerName()));
+        beverages.add(new LineItem(randomBaristaItem(), randomCustomerName()));
         return beverages;
     }
 
-    private List<Order> createKitchenItems() {
-        List<Order> kitchenOrders = new ArrayList(2);
-        kitchenOrders.add(new Order(Food.randomFood(), CustomerNames.randomName()));
-        kitchenOrders.add(new Order(Food.randomFood(), CustomerNames.randomName()));
+    private List<LineItem> createKitchenItems() {
+        List<LineItem> kitchenOrders = new ArrayList(2);
+        kitchenOrders.add(new LineItem(randomKitchenItem(), randomCustomerName()));
+        kitchenOrders.add(new LineItem(randomKitchenItem(), randomCustomerName()));
         return kitchenOrders;
+    }
+
+    Item randomBaristaItem() {
+        return Item.values()[new Random().nextInt(5)];
+    }
+
+    Item randomKitchenItem() {
+        return Item.values()[new Random().nextInt(3)+5];
+    }
+
+    String randomCustomerName() {
+        return CustomerNames.randomName();
     }
 
 }

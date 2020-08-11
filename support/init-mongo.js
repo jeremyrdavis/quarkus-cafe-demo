@@ -1,10 +1,10 @@
 db.createUser({
-   user:"quarkus-user",
+   user:"cafe-user",
    pwd:"redhat-20",
    roles:[
             {
                role:"readWrite",
-               db:"exampledb"
+               db:"cafedb"
             }
          ]
       }
