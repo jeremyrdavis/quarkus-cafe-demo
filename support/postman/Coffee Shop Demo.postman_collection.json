@@ -1,0 +1,496 @@
+{
+	"info": {
+		"_postman_id": "a15fddae-41e3-4ade-8ff6-74d30455ae88",
+		"name": "Coffee Shop Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Barista - API - OrderInEvent",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url-core}}/api/beverageOrderInEvent",
+					"host": [
+						"{{url-core}}"
+					],
+					"path": [
+						"api",
+						"beverageOrderInEvent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - API - BeverageOrderInEvent",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/beverageOrderInEvent",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"beverageOrderInEvent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - API - CreateOrderCommand",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url-core}}/api/createOrderCommand",
+					"host": [
+						"{{url-core}}"
+					],
+					"path": [
+						"api",
+						"createOrderCommand"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - API - KitchenOrderInEvent",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/kitchenOrderInEvent",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"kitchenOrderInEvent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post - Core - Order In 2 Beverages",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beverages\": [\n        {\n            \"item\": \"ESPRESSO_DOUBLE\",\n            \"name\": \"Mickey\"\n        },\n        {\n            \"item\": \"COFFEE_BLACK\",\n            \"name\": \"Minnie\"\n        }\n    ]\n}\n"
+				},
+				"url": {
+					"raw": "{{url-web}}/order",
+					"host": [
+						"{{url-web}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get - Core - API - update",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/update",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - POST - Order 2 Kitchen Orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"kitchenOrders\": [\n        {\n            \"item\": \"CAKEPOP\",\n            \"name\": \"Goofy\"\n        },\n        {\n            \"item\": \"CROISSANT\",\n            \"name\": \"Donald\"\n        }\n    ]\n}\n"
+				},
+				"url": {
+					"raw": "localhost:8080/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order Command - Core - OCP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beverages\": [\n        {\n            \"item\": \"COFFEE_WITH_ROOM\",\n            \"name\": \"Goofy\"\n        },\n        {\n            \"item\": \"COFFEE_BLACK\",\n            \"name\": \"Donald\"\n        }\n    ],\n    \"id\": \"d806af0e-f46a-470d-afa1-b7b021fd7ea8\",\n    \"kitchenOrders\": [\n        {\n            \"item\": \"CAKEPOP\",\t\n            \"name\": \"Marigold\"\n        },\n        {\n            \"item\": \"CROISSANT\",\n            \"name\": \"Donald\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "{{baseurl}}/order",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order Command - Web - Local",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beverages\": [\n        {\n            \"item\": \"COFFEE_WITH_ROOM\",\n            \"name\": \"Goofy\"\n        },\n        {\n            \"item\": \"CAPPUCCINO\",\n            \"name\": \"Donald\"\n        }\n    ],\n    \"id\": \"d806af0e-f46a-470d-afa1-b7b021fd7ea8\",\n    \"kitchenOrders\": [\n        {\n            \"item\": \"CAKEPOP\",\n            \"name\": \"Goofy\"\n        },\n        {\n            \"item\": \"CROISSANT\",\n            \"name\": \"Donald\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Web - Update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n    \"item\": \"CROISSANT\",\n    \"itemId\": \"ea2293e1-a2d7-4d97-bb8b-0fbc30661a06\",\n    \"name\": \"Jeremy\",\n    \"orderId\": \"d6450d09-afb4-4a4c-b4d0-a4535887fe1a\",\n    \"status\": \"IN_QUEUE\"\n},\n{\n    \"item\": \"CAKEPOP\",\n    \"itemId\": \"Ra2293e1-a2d7-4d97-bb8b-0fbc30661a06\",\n    \"name\": \"Jeremy\",\n    \"orderId\": \"G6450d09-afb4-4a4c-b4d0-a4535887fe1a\",\n    \"status\": \"IN_QUEUE\"\n}\n]"
+				},
+				"url": {
+					"raw": "localhost:8083/updates",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"updates"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Web - Api - Update - Local",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8083/api/update",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"api",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - beverageOrderUpEvent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventType\": \"BEVERAGE_ORDER_UP\",\n    \"item\": \"COFFEE_BLACK\",\n    \"itemId\": \"15605f58-520e-4b10-8e27-2193818081bc\",\n    \"name\": \"Moe\",\n    \"orderId\": \"494103d4-641a-455f-927d-30610a1ba290\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/events/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - OpenAPI",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/openapi",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"openapi"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API - Barista - orderInEvent",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8081/api/orderInEvent",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"orderInEvent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - CreateOrderCommand",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beverages\": [\n        {\n            \"item\": \"COFFEE_WITH_ROOM\",\n            \"name\": \"Shaw\"\n        },\n        {\n            \"item\": \"CAPPUCCINO\",\n            \"name\": \"Ighalo\"\n        }\n    ],\n    \"id\": \"d806af0e-f46a-470d-afa1-b7b021fd7ea8\",\n    \"kitchenOrders\": [\n        {\n            \"item\": \"CAKEPOP\",\t\n            \"name\": \"Fernandes\"\n        },\n        {\n            \"item\": \"CROISSANT\",\n            \"name\": \"McTominay\"\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{baseurl}}/order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"beverages\": [\n        {\n            \"item\": \"COFFEE_WITH_ROOM\",\n            \"name\": \"Minnie\"\n        },\n        {\n            \"item\": \"COFFEE_BLACK\",\n            \"name\": \"Mickey\"\n        }\n    ],\n    \"id\": \"d806af0e-f46a-470d-afa1-b7b021fd7ea8\"\n}"
+				},
+				"url": {
+					"raw": "{{baseurl}}/order",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Core - Get All Orders localhost:8081/order/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/order/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"order",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

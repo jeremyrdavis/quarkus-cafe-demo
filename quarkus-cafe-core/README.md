@@ -4,6 +4,25 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Environment variables
+
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables when running with the production profile:
+* MONGO_DB
+* MONGO_URL
+* MONGO_USERNAME
+* MONGO_PASSWORD
+* KAFKA_BOOTSTRAP_URLS
+
+The following line will set al
+```shell
+export MONGO_DB=cafedb MONGO_URL=mongodb://cafe-user:redhat-20@localhost:27017/cafedb MONGO_USERNAME=cafe-user MONGO_PASSWORD=redhat-20 KAFKA_BOOTSTRAP_URLS=localhost:9092 
+
+docker run -i --network="host" -e MONGO_DB=${MONGO_DB} -e MONGO_URL=${MONGO_URL} -e MONGO_USERNAME=${MONGO_USERNAME} -e MONGO_PASSWORD=${MONGO_PASSWORD} -e KAFKA_BOOTSTRAP_URLS=${KAFKA_BOOTSTRAP_URLS} quarkus-cafe-demo/quarkus-cafe-core:latest
+
+```
+
 ## Local deveplomnent steps 
 * uncomment lines 
 ```

@@ -1,5 +1,8 @@
 package com.redhat.quarkus.cafe.web.domain;
 
+import com.redhat.quarkus.cafe.domain.Item;
+import com.redhat.quarkus.cafe.domain.LineItemEvent;
+import com.redhat.quarkus.cafe.domain.OrderStatus;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
@@ -15,7 +18,7 @@ public class DashboardUpdate {
 
     public OrderStatus status;
 
-    public DashboardUpdate(String orderId, String itemId, String name, Item item, OrderStatus status) {
+    public DashboardUpdate(String orderId, String name, Item item, String itemId, OrderStatus status) {
         this.orderId = orderId;
         this.itemId = itemId;
         this.name = name;
@@ -26,7 +29,7 @@ public class DashboardUpdate {
     public DashboardUpdate() {
     }
 
-    public DashboardUpdate(OrderEvent orderEvent) {
+    public DashboardUpdate(final LineItemEvent orderEvent) {
         this.orderId = orderEvent.orderId;
         this.itemId = orderEvent.itemId;
         this.name = orderEvent.name;

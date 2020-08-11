@@ -1,7 +1,12 @@
 .DS_Store
+*.swp
 *.log
 */lsp/*
 .idea/
 lsp/
 support/mongo-volume/
+support/ansible
 quarkus-cafe-apis/
+.project
+.settings/
+*.iml

@@ -4,6 +4,12 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Environment variables
+
+Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
+
+This service uses the following environment variables when running with the production profile:
+* REST_URL
 
 ## OpenShift Deployment 
 **Deploy quarkus-cafe-customermock on OpenShift**

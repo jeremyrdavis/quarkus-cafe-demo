@@ -111,7 +111,39 @@
             <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. </p>
           </div>
         </div>
-        <div class="row menu-lists">
+        <div class="modal" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title" >
+                  Current Order
+                </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <form class="form-inline" action="" id="item_form">
+                  <input type="hidden" id="item_type" name="item_type" />
+                  <label for="item" class="mr-sm-2" id="item_label"></label>
+                  <input type="hidden" id="item" name="item" />
+                  <label for="name" class="mr-sm-2">for Name:</label>
+                  <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name" name="name">
+                  <button type="submit" class="btn-sm btn-primary mb-2" >Add</button>
+                </form>
+              </div>
+        
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <form class="form-inline" action="" id="order_form" >
+                  <button type="button" class="btn-sm btn-danger" data-dismiss="modal" >Back to Menu</button>
+                  <button type="submit" class="btn-sm btn-primary mb-2" >Place Order</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+          <div class="row menu-lists">
           <div class="col-sm-12">
             <ul class="nav nav-tabs nav-justified">
               <li class="active"><a data-target="#espresso" data-toggle="tab">BARISTA</a></li>
@@ -128,10 +160,36 @@
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Coffee</h6>
+                          <h6>Coffee (black)</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>Order</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_BLACK" data-item_type="beverage" data-display_name="Coffee (black)">Add</button>
+                        </div>
+                      </div>
+                      <div class="desc">
+                        <p>a full cup of coffee</p>
+                      </div>
+                    </div>
+                    <div class="menu-item">
+                      <div class="name-price-wrap">
+                        <div class="name pull-left">
+                          <h6>Coffee (with room)</h6>
+                        </div>
+                        <div class="price pull-right">
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_WITH_ROOM" data-item_type="beverage" data-display_name="Coffee (with room)">Add</button>
+                        </div>
+                      </div>
+                      <div class="desc">
+                        <p>a cup of coffee with room for cream or milk</p>
+                      </div>
+                    </div>
+                    <div class="menu-item">
+                      <div class="name-price-wrap">
+                        <div class="name pull-left">
+                          <h6>Espresso - $3.25</h6>
+                        </div>
+                        <div class="price pull-right">
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="ESPRESSO" data-item_type="beverage">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -141,36 +199,23 @@
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Espresso</h6>
+                          <h6>Espresso (Double) - $4.25</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>Order</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="ESPRESSO_DOUBLE" data-item_type="beverage">Add</button>
                         </div>
                       </div>
                       <div class="desc">
-                        <p>espresso served with seltzer water</p>
+                        <p>2 shots of espresso</p>
                       </div>
                     </div>
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Macchiato</h6>
+                          <h6>Cappuccino - $3.75</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>$3.25</h6>
-                        </div>
-                      </div>
-                      <div class="desc">
-                        <p>espresso + 1 oz steamed milk.</p>
-                      </div>
-                    </div>
-                    <div class="menu-item">
-                      <div class="name-price-wrap">
-                        <div class="name pull-left">
-                          <h6>Cappuccino</h6>
-                        </div>
-                        <div class="price pull-right">
-                          <h6>$3.75</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAPPUCINO" data-item_type="beverage">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -182,10 +227,10 @@
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Croissant</h6>
+                          <h6>Croissant - $4.00</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>$4.00</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CROISSANT" data-item_type="kitchen">Add</button>
                         </div>
                       </div>
                       <div class="desc">
@@ -195,40 +240,40 @@
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Muffin</h6>
+                          <h6>Chocolate Croissant - $4.00</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>$3.25</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CROISSANT_CHOCOLATE" data-item_type="kitchen">Add</button>
                         </div>
                       </div>
                       <div class="desc">
-                        <p>espresso + 8 oz water</p>
+                        <p>fresh baked butter croissant</p>
                       </div>
                     </div>
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Hot Tea</h6>
+                          <h6>Muffin - $3.25</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>$3.00</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="MUFFIN" data-item_type="kitchen">Add</button>
                         </div>
                       </div>
                       <div class="desc">
-                        <p>Assortment of hot tea's from Mighty Leaf!</p>
+                        <p>blueberry muffin</p>
                       </div>
                     </div>
                     <div class="menu-item">
                       <div class="name-price-wrap">
                         <div class="name pull-left">
-                          <h6>Chai Latte</h6>
+                          <h6>Cakepop - $2.25</h6>
                         </div>
                         <div class="price pull-right">
-                          <h6>$3.95</h6>
+                          <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAKEPOP" data-item_type="kitchen">Add</button>
                         </div>
                       </div>
                       <div class="desc">
-                        <p>Our chai latte combines spicy and sweet with the rich texture of our milk</p>
+                        <p>chocolate cake with strawberry frosting</p>
                       </div>
                     </div>
                   </div>
@@ -831,6 +876,7 @@
       </div>
       <div id="back-to-top"><i class="fa fa-arrow-circle-up"></i></div>
     </section>
+    <div class=".d-none"></div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -847,6 +893,123 @@
         event.preventDefault();
         $(this).ekkoLightbox();
       });
+    </script>
+    <script>
+      $('#myModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var item = button.data('whatever')
+        var item_display_name = button.data('display_name');
+        var item_type = button.data('item_type');
+        var modal = $(this)
+//        modal.find('.modal-body inplut').val(recipient)
+        modal.find('#item_label').text(item_display_name)
+        modal.find('#item').val(item)
+        modal.find('#item_type').val(item_type)
+      });
+
+      // #item_form collects the name parameter for the individual item
+      $('#item_form').submit(function( event ) {
+
+        console.log("Handler for .add() called." );
+        
+        var item_type = $('#item_form').find('input[name="item_type"]').val();
+        var item = $('#item_form').find('input[name="item"]').val();
+        var name = $('#item_form').find('input[name="name"]').val();
+        
+        console.log('item:' + item + ' for name:' + name);
+        
+        var item_to_add = { 'item' : item, 'name': name};
+        
+        console.log(JSON.stringify(item_to_add));
+
+        if(item_type == 'beverage'){
+          console.log('adding beverage');
+          var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
+          if(beverages.length === 0){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'beverages-0',
+                name: 'beverages',
+                value: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }else if(beverages.length >= 1){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'beverages-' + beverages.length++,
+                name: 'beverages',
+                value: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }
+            console.log('added');
+
+        }else if(item_type == 'kitchen'){
+          console.log('adding kitchen item');
+          var kitchen = $('#order_form').find('input[name="kitchen"]').serializeArray();
+          if(kitchen.length === 0){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'kitchen-0',
+                name: 'kitchen',
+                value: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }else if(kitchen.length >= 1){
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'kithen-' + kitchen.length++,
+                name: 'kitchen',
+                value: JSON.stringify(item_to_add)
+            }).appendTo('form');
+          }
+            console.log('added');
+        }
+        event.preventDefault();
+      });
+
+      // #order_form posts the entire order
+      $("#order_form").submit(function(event){
+        console.log("order submitted");
+        var beverages = $('#order_form').find('input[name="beverages"]').map(function(){return $(this).val();}).get();
+        var kitchen = $('#order_form').find('input[name="kitchen"]').map(function(){return $(this).val();}).get();
+        let order = {};
+        order.id = uuidv4();
+        if(beverages.length >= 1){
+          order.beverages = beverages;
+        }
+        if(kitchen.length >= 1){
+          order.kitchen = kitchen;
+        }
+
+        console.log(order);
+
+        var jqxhr = $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/order",
+            data: order,
+            success: function(){ console.log('success'); },
+            dataType: 'application/json'
+          })
+          .done(function() {
+            console.log( "second success" );
+          })
+          .fail(function() {
+            console.log( "error" );
+          })
+          .always(function() {
+            console.log( "finished" );
+          });
+
+        event.preventDefault();
+      });
+
+      function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      }
+
+    </script>
+    <script>
     </script>
   </body>
   </html>
