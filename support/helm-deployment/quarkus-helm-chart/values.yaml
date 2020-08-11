@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 projectnamespace: quarkus-cafe-demo
-domain: cluster-atlanta-3545.atlanta-3545.sandbox732.opentlc.com
+domain: ocp4.example.com
 kafka_cluster_name: cafe-cluster
 
 Release:
