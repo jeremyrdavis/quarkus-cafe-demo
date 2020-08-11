@@ -11,6 +11,9 @@ $ ./get_helm.sh
 
 ### OpenShift 4.x Instructions 
 **Login to OpenShift and create project**
+```
+oc new-project quarkus-cafe-demo
+```
 
 **Run ansible playbook to install Red Hat AMQ and mongodb on target cluster**
 * [admin-tasks](admin-tasks/README.md)
