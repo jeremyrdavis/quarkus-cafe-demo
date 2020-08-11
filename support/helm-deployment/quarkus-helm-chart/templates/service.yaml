@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-cafe-barista
+  labels:
+    app:  quarkus-cafe-barista
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app:  quarkus-cafe-barista
+    release: {{ .Release.Name }}
+  type: ClusterIP
+  ports:
+    - name: 8778-tcp
+      port: 8778
+      protocol: TCP
+      targetPort: 8778
+    - name: 9779-tcp
+      port: 9779
+      protocol: TCP
+      targetPort: 9779
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-cafe-core
+  labels:
+    app: quarkus-cafe-core
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: quarkus-cafe-core
+    release: {{ .Release.Name }}
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-cafe-customermocker
+  labels:
+    app: quarkus-cafe-customermocker
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: quarkus-cafe-customermocker
+    release: {{ .Release.Name }}
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-cafe-kitchen
+  labels:
+    app: quarkus-cafe-kitchen
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: quarkus-cafe-kitchen
+    release: {{ .Release.Name }}
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quarkus-cafe-web
+  labels:
+    app: quarkus-cafe-web
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  selector:
+    app: quarkus-cafe-web
+  type: ClusterIP
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080

@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  remote_user: "{{ remote_username }}"
+  become: yes
+  vars_files:
+  - ../defaults/main.yml
+  tasks:
+  - include: ../tasks/main.yml
