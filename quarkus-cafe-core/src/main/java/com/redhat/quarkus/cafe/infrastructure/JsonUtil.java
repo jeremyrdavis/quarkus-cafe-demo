@@ -1,10 +1,12 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
+@RegisterForReflection
 public class JsonUtil {
 
     static final Jsonb jsonb = JsonbBuilder.create();

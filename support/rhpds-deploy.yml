@@ -1,0 +1,25 @@
+- hosts: localhost
+  become: yes
+  gather_facts: false
+  vars:
+    openshift_token: LogGflVk1H3aUSmVTzRfl7iodSyeVRroV9y7gsk_K5U
+    openshift_url:  https://api.cluster-lou-8d2b.lou-8d2b.sandbox74.opentlc.com:6443
+    insecure_skip_tls_verify: true
+    version_tag: 2.1
+    project_namespace: quarkus-cafe
+    delete_deployment: false
+    default_owner: jeremydavis
+    default_group: staff
+    skip_amq_install: true
+    amqstartingCSV: amqstreams.v1.5.3
+    skip_quarkus_cafe_barista: false
+    skip_quarkus_cafe_core: true
+    skip_quarkus_cafe_kitchen: true
+    skip_quarkus_cafe_web: true
+    skip_quarkus_cafe_customermock: true
+    quarkus_build_memory_limit: 6Gi
+    quarkus_build_cpu_limit: 1
+    quarkus_core_build_memory_limit: 6Gi
+    domain: cluster-lou-8d2b.lou-8d2b.sandbox74.opentlc.com  # Change This value
+  roles:
+    - tosin2013.quarkus_cafe_demo_role

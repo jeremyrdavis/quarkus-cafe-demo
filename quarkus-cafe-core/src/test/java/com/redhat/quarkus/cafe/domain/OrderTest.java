@@ -31,7 +31,7 @@ public class OrderTest {
         });
     }
 
-//    @Test
+    @Test
     public void testProcessCreateOrderCommandFoodOnly() {
 
         List<LineItem> foods = new ArrayList<>();

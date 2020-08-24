@@ -20,18 +20,18 @@ public class CreateOrderCommand {
     public CreateOrderCommand() {
     }
 
+    public CreateOrderCommand(final String id, final List<LineItem> beverages, final List<LineItem> kitchenOrders) {
+        this.id = id;
+        this.beverages = beverages;
+        this.kitchenOrders = kitchenOrders;
+    }
+
     public List<LineItem> getBeverages() {
         return beverages == null ? new ArrayList<LineItem>() : beverages;
     }
 
     public List<LineItem> getKitchenOrders() {
         return kitchenOrders == null ? new ArrayList<LineItem>() : kitchenOrders;
-    }
-
-    public CreateOrderCommand(final String id, final List<LineItem> beverages, final List<LineItem> kitchenOrders) {
-        this.id = id;
-        this.beverages = beverages;
-        this.kitchenOrders = kitchenOrders;
     }
 
     public void addBeverages(final String id, final List<LineItem> beverageList) {
