@@ -5,11 +5,11 @@
   <parent>
     <groupId>com.redhat.quarkus</groupId>
     <artifactId>quarkus-cafe-demo</artifactId>
-    <version>2.2-SNAPSHOT</version>
+    <version>2.2</version>
   </parent>
   <groupId>com.redhat.quarkus.cafe</groupId>
   <artifactId>quarkus-cafe-customermocker</artifactId>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <properties />
   <dependencyManagement />
   <dependencies>
