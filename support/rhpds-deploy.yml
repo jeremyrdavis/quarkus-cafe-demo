@@ -2,10 +2,14 @@
   become: yes
   gather_facts: false
   vars:
-    openshift_token: LogGflVk1H3aUSmVTzRfl7iodSyeVRroV9y7gsk_K5U
+    openshift_token: LLpEpDS_96frN8bWxZL8QRuuFNdGud-H03Pyqlb1xNY
     openshift_url:  https://api.cluster-lou-8d2b.lou-8d2b.sandbox74.opentlc.com:6443
     insecure_skip_tls_verify: true
-    version_tag: 2.1
+    version_barista: 2.1
+    version_core: 2.1
+    version_customermocker: 2.1
+    version_kitchen: 2.1
+    version_web: 2.2.3
     project_namespace: quarkus-cafe
     delete_deployment: false
     default_owner: jeremydavis
@@ -13,10 +17,10 @@
     skip_amq_install: true
     amqstartingCSV: amqstreams.v1.5.3
     skip_quarkus_cafe_barista: false
-    skip_quarkus_cafe_core: true
-    skip_quarkus_cafe_kitchen: true
-    skip_quarkus_cafe_web: true
-    skip_quarkus_cafe_customermock: true
+    skip_quarkus_cafe_core: false
+    skip_quarkus_cafe_kitchen: false
+    skip_quarkus_cafe_web: false
+    skip_quarkus_cafe_customermock: false
     quarkus_build_memory_limit: 6Gi
     quarkus_build_cpu_limit: 1
     quarkus_core_build_memory_limit: 6Gi
