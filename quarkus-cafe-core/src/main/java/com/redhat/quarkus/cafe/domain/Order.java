@@ -1,19 +1,14 @@
 package com.redhat.quarkus.cafe.domain;
 
-import io.quarkus.mongodb.panache.MongoEntity;
-import io.quarkus.mongodb.panache.PanacheMongoEntity;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 @RegisterForReflection
 public class Order {
@@ -35,8 +30,8 @@ public class Order {
         this.beverageLineItems = beverageLineItems;
     }
 
-    public static OrderCreatedEvent processCreateOrderCommand(CreateOrderCommand createOrderCommand) {
-        Order order = createOrderFromCommand(createOrderCommand);
+    public static OrderCreatedEvent processCreateOrderCommand(OrderInCommand orderInCommand) {
+        Order order = createOrderFromCommand(orderInCommand);
         return createOrderCreatedEvent(order);
     }
 
@@ -61,22 +56,22 @@ public class Order {
         return orderCreatedEvent;
     }
 
-    private static Order createOrderFromCommand(final CreateOrderCommand createOrderCommand) {
-        logger.debug("createOrderFromCommand: CreateOrderCommand {}", createOrderCommand.toString());
+    private static Order createOrderFromCommand(final OrderInCommand orderInCommand) {
+        logger.debug("createOrderFromCommand: CreateOrderCommand {}", orderInCommand.toString());
 
         // build the order from the CreateOrderCommand
         Order order = new Order();
-        order.id = createOrderCommand.id;
-        if (createOrderCommand.getBeverages().size() >= 1) {
-            logger.debug("createOrderFromCommand adding beverages {}", createOrderCommand.beverages.size());
-            createOrderCommand.beverages.forEach(b -> {
+        order.id = orderInCommand.id;
+        if (orderInCommand.getBeverages().size() >= 1) {
+            logger.debug("createOrderFromCommand adding beverages {}", orderInCommand.beverages.size());
+            orderInCommand.beverages.forEach(b -> {
                 logger.debug("createOrderFromCommand adding beverage {}", b.toString());
                 order.getBeverageLineItems().add(new LineItem(b.item, b.name));
             });
         }
-        if (createOrderCommand.getKitchenOrders().size() >= 1) {
-            logger.debug("createOrderFromCommand adding kitchenOrders {}", createOrderCommand.kitchenOrders.size());
-            createOrderCommand.kitchenOrders.forEach(k -> {
+        if (orderInCommand.getKitchenOrders().size() >= 1) {
+            logger.debug("createOrderFromCommand adding kitchenOrders {}", orderInCommand.kitchenOrders.size());
+            orderInCommand.kitchenOrders.forEach(k -> {
                 logger.debug("createOrderFromCommand adding kitchenOrder {}", k.toString());
                 order.getKitchenLineItems().add(new LineItem(k.item, k.name));
             });

@@ -1,9 +1,5 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
-import com.redhat.quarkus.cafe.domain.EventType;
-import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.OrderInEvent;
-import com.redhat.quarkus.cafe.domain.OrderUpEvent;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

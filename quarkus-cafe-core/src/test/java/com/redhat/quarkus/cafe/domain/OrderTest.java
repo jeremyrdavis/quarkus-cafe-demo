@@ -1,6 +1,5 @@
 package com.redhat.quarkus.cafe.domain;
 
-import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -18,9 +17,9 @@ public class OrderTest {
         List<LineItem> beverages = new ArrayList<>();
         beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, null);
-        System.out.println(createOrderCommand);
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+        OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(), beverages, null);
+        System.out.println(orderInCommand);
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
         assertNotNull(orderCreatedEvent);
         assertNotNull(orderCreatedEvent.events);
         assertEquals(2, orderCreatedEvent.events.size());
@@ -37,8 +36,8 @@ public class OrderTest {
         List<LineItem> foods = new ArrayList<>();
         foods.add(new LineItem(Item.MUFFIN, "Kirk"));
         foods.add(new LineItem(Item.CAKEPOP, "Spock"));
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),null, foods);
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+        OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(),null, foods);
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
 
         assertNotNull(orderCreatedEvent);
         assertNotNull(orderCreatedEvent.events);
@@ -61,8 +60,8 @@ public class OrderTest {
         beverages.add(new LineItem(Item.CAPPUCCINO, "Kirk"));
         beverages.add(new LineItem(Item.COFFEE_BLACK, "Spock"));
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(), beverages, foods);
-        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+        OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(), beverages, foods);
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
 
         assertNotNull(orderCreatedEvent);
         assertNotNull(orderCreatedEvent.events);

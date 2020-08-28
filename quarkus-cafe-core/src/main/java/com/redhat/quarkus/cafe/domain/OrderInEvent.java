@@ -6,7 +6,6 @@ import io.quarkus.runtime.annotations.RegisterForReflection;
 public class OrderInEvent extends LineItemEvent{
 
     public OrderInEvent() {
-        super();
     }
 
     public OrderInEvent(EventType eventType, String orderId, String name, Item item) {

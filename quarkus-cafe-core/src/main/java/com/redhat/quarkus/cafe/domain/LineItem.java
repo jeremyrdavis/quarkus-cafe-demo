@@ -18,7 +18,6 @@ public class LineItem {
     }
 
     public LineItem() {
-        super();
     }
 
     @Override

@@ -1,9 +1,9 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.barista.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
-public class OrderInEvent extends LineItemEvent{
+public class OrderInEvent extends LineItemEvent {
 
     public OrderInEvent() {
         super();

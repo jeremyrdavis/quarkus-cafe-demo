@@ -7,11 +7,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RegisterForReflection
-public class CreateOrderCommand {
+public class OrderInCommand {
 
     public String id;
 
@@ -19,11 +17,10 @@ public class CreateOrderCommand {
 
     public List<LineItem> kitchenOrders = new ArrayList<>();
 
-    public CreateOrderCommand() {
-        super();
+    public OrderInCommand() {
     }
 
-    public CreateOrderCommand(final String id, final List<LineItem> beverages, final List<LineItem> kitchenOrders) {
+    public OrderInCommand(final String id, final List<LineItem> beverages, final List<LineItem> kitchenOrders) {
         this.id = id;
         this.beverages = beverages;
         this.kitchenOrders = kitchenOrders;
@@ -62,7 +59,7 @@ public class CreateOrderCommand {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        CreateOrderCommand that = (CreateOrderCommand) o;
+        OrderInCommand that = (OrderInCommand) o;
 
         return new EqualsBuilder()
                 .append(id, that.id)

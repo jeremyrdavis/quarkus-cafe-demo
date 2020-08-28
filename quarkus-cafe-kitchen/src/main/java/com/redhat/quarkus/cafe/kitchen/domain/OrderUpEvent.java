@@ -1,9 +1,9 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.kitchen.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection
-public class OrderUpEvent extends LineItemEvent{
+public class OrderUpEvent extends LineItemEvent {
 
     public String madeBy;
 

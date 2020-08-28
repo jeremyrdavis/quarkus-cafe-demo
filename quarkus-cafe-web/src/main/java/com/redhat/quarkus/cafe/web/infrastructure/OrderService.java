@@ -1,7 +1,7 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.web.domain.OrderInCommand;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
@@ -26,10 +26,10 @@ public class OrderService {
     @Channel("orders-out")
     Emitter<String> ordersOutEmitter;
 
-    public CompletableFuture<Void> placeOrder(CreateOrderCommand createOrderCommand){
-        return ordersOutEmitter.send(toJson(createOrderCommand))
+    public CompletableFuture<Void> placeOrder(final OrderInCommand orderInCommand){
+        return ordersOutEmitter.send(toJson(orderInCommand))
             .whenComplete((result, ex) -> {
-                logger.debug("createOrderCommand sent");
+                logger.debug("orderInCommand sent");
                 if (ex != null) {
                     logger.error(ex.getMessage());
                 }

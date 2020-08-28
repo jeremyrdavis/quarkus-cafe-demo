@@ -114,6 +114,7 @@ ${REST_URL}
 ```shell
 kafka-console-consumer --bootstrap-server localhost:9092 --topic web-updates --from-beginning
 kafka-console-producer --broker-list localhost:9092 --topic barista-in
+kafka-console-producer --broker-list localhost:9092 --topic web-in
 ```
 
 ## Create Orders
@@ -136,6 +137,8 @@ kafka-console-producer --broker-list localhost:9092 --topic barista-in
     "id": "d141c73c-ac62-4534-b5db-7c989040feca"
 }
 ```
+
+{"beverages": [{"item": "COFFEE_WITH_ROOM","itemId": "d141c73c-ac62-4534-b5db-7c989040fecb","name": "Mickey"},{"item": "COFFEE_BLACK","itemId": "d141c73c-ac62-4534-b5db-7c989040fecc","name": "Minnie"}],"id": "d141c73c-ac62-4534-b5db-7c989040feca"}
 ```json
 {
     "item": "CAKEPOP",
@@ -168,6 +171,8 @@ kafka-console-producer --broker-list localhost:9092 --topic barista-in
     ]
 }
 ```
+
+{"beverages": [{"item": "COFFEE_WITH_ROOM","name": "Mickey"},{"item": "COFFEE_BLACK","name": "Minnie"}],"kitchenOrders": [{"item": "CAKEPOP","name": "Mickey"},{"item": "CROISSANT","name": "Minnie"}]}
 
 Kitchen Order Only
 ```json

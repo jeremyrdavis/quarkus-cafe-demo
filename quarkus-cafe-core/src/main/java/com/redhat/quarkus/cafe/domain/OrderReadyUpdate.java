@@ -8,7 +8,6 @@ public class OrderReadyUpdate extends WebUpdate {
     public String madeBy;
 
     public OrderReadyUpdate() {
-        super();
     }
 
     public OrderReadyUpdate(String orderId, String itemId, String name, Item item, OrderStatus status, String madeBy) {

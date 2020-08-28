@@ -1,4 +1,4 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.web.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -18,7 +18,6 @@ public class LineItem {
     }
 
     public LineItem() {
-        super();
     }
 
     @Override

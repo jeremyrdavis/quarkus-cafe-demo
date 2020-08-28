@@ -14,7 +14,6 @@ public abstract class LineItemEvent {
     public Item item;
 
     public LineItemEvent() {
-        super();
     }
 
     public LineItemEvent(EventType eventType) {

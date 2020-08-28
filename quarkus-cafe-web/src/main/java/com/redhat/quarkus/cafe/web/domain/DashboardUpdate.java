@@ -1,8 +1,5 @@
 package com.redhat.quarkus.cafe.web.domain;
 
-import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.LineItemEvent;
-import com.redhat.quarkus.cafe.domain.OrderStatus;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection

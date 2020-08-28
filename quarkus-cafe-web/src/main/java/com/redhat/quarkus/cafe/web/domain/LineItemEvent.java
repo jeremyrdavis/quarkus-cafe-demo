@@ -1,4 +1,4 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.web.domain;
 
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
@@ -14,7 +14,6 @@ public abstract class LineItemEvent {
     public Item item;
 
     public LineItemEvent() {
-        super();
     }
 
     public LineItemEvent(EventType eventType) {

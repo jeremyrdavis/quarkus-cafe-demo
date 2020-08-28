@@ -12,7 +12,6 @@ public abstract class WebUpdate {
     public OrderStatus status;
 
     public WebUpdate() {
-        super();
     }
 
     public WebUpdate(String orderId, String itemId, String name, Item item, OrderStatus status) {

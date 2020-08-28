@@ -20,8 +20,8 @@ public class JsonUtil {
         return jsonb.toJson(new OrderReadyUpdate(orderUpEvent));
     }
 
-    public static CreateOrderCommand createOrderCommandFromJson(String payload) {
-        return jsonb.fromJson(payload, CreateOrderCommand.class);
+    public static OrderInCommand createOrderCommandFromJson(String payload) {
+        return jsonb.fromJson(payload, OrderInCommand.class);
     }
 
     public static String toInProgressUpdate(final LineItemEvent lineItemEvent) {

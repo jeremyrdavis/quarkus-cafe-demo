@@ -1,7 +1,6 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
-import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
+import com.redhat.quarkus.cafe.web.domain.OrderInCommand;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -46,16 +45,16 @@ public class RestResource {
 
     @POST
     @Path("/order")
-    public Response orderIn(CreateOrderCommand createOrderCommand) {
+    public Response orderIn(final OrderInCommand orderInCommand) {
 
-        logger.debug("CreateOrderCommand received: {}", toJson(createOrderCommand));
-        return orderService.placeOrder(createOrderCommand)
+        logger.debug("CreateOrderCommand received: {}", toJson(orderInCommand));
+        return orderService.placeOrder(orderInCommand)
             .handle((res, ex) -> {
                 if (ex != null) {
                     logger.error(ex.getMessage());
                     return Response.serverError().entity(ex).build();
                 }else{
-                    return Response.accepted().entity(createOrderCommand).build();
+                    return Response.accepted().entity(orderInCommand).build();
                 }
             }).join();
     }

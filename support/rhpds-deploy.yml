@@ -2,19 +2,19 @@
   become: yes
   gather_facts: false
   vars:
-    openshift_token: LLpEpDS_96frN8bWxZL8QRuuFNdGud-H03Pyqlb1xNY
-    openshift_url:  https://api.cluster-lou-8d2b.lou-8d2b.sandbox74.opentlc.com:6443
+    openshift_token: tnV9L0COlG9MMMGfN43rSbiw9Y5jNccDKsg8RBx89pE
+    openshift_url:  https://api.cluster-delta-5388.delta-5388.sandbox1073.opentlc.com:6443
     insecure_skip_tls_verify: true
-    version_barista: 2.1
-    version_core: 2.1
-    version_customermocker: 2.1
-    version_kitchen: 2.1
-    version_web: 2.2.3
     project_namespace: quarkus-cafe
     delete_deployment: false
     default_owner: jeremydavis
     default_group: staff
-    skip_amq_install: true
+    version_barista: 2.2.6
+    version_core: 2.2.3
+    version_customermocker: 2.2
+    version_kitchen: 2.2.3
+    version_web: 2.2.5
+    skip_amq_install: false
     amqstartingCSV: amqstreams.v1.5.3
     skip_quarkus_cafe_barista: false
     skip_quarkus_cafe_core: false

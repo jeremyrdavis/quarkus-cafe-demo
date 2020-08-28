@@ -43,10 +43,10 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         menuItems.add(new LineItem(Item.CAKEPOP, "Harry"));
         menuItems.add(new LineItem(Item.MUFFIN, "Hermione"));
 
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),beverages, menuItems);
+        final OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(),beverages, menuItems);
 
         // send the order to Kafka
-        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(orderInCommand)));
         Thread.sleep(1000);
 
 
@@ -91,10 +91,10 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         final List<LineItem> beverages = new ArrayList<>();
         beverages.add(new LineItem(Item.COFFEE_WITH_ROOM, "Kirk"));
         beverages.add(new LineItem(Item.ESPRESSO_DOUBLE, "Spock"));
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),beverages, null);
+        final OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(),beverages, null);
 
         // send the order to Kafka and wait
-        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(orderInCommand)));
         Thread.sleep(1000);
 
         // intercept the messages from the appropriate consumer
@@ -121,10 +121,10 @@ public class KafkaServiceBaristaAndKitchenOrderIT extends KafkaIT{
         final List<LineItem> menuItems = new ArrayList<>();
         menuItems.add(new LineItem(Item.CAKEPOP, "Mickey"));
         menuItems.add(new LineItem(Item.MUFFIN, "Goofy"));
-        final CreateOrderCommand createOrderCommand = new CreateOrderCommand(UUID.randomUUID().toString(),null, menuItems);
+        final OrderInCommand orderInCommand = new OrderInCommand(UUID.randomUUID().toString(),null, menuItems);
 
         // send the order to Kafka
-        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(createOrderCommand)));
+        producerMap.get("web-in").send(new ProducerRecord("web-in", jsonb.toJson(orderInCommand)));
 
         Thread.sleep(2000);
 
