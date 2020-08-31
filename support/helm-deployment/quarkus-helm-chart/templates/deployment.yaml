@@ -1,0 +1,193 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-barista
+  labels:
+    app: quarkus-cafe-barista
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-barista
+  template:
+    metadata:
+      name: quarkus-cafe-barista-deployment
+      labels:
+        app:  quarkus-cafe-barista
+        release: {{ .Release.Name }}
+        app.kubernetes.io/component: quarkus-cafe-barista
+        app.kubernetes.io/instance: quarkus-cafe-barista
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: {{ .Values.projectnamespace }}
+    spec:
+      containers:
+        - name: quarkus-cafe-barista
+          image: jeremydavis/quarkus-cafe-barista
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8778
+              protocol: TCP
+            - containerPort: 9779
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: {{ .Values.kafka_cluster_name }}-kafka-bootstrap:9092
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-core
+  labels:
+    app: quarkus-cafe-core
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-core
+  template:
+    metadata:
+      name: quarkus-cafe-core-deployment
+      labels:
+        app:  quarkus-cafe-core
+        release: {{ .Release.Name }}
+        app.kubernetes.io/component: quarkus-cafe-core
+        app.kubernetes.io/instance: quarkus-cafe-core
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: {{ .Values.projectnamespace }}
+    spec:
+      containers:
+        - name: quarkus-cafe-core
+          image: jeremydavis/quarkus-cafe-core
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: {{ .Values.kafka_cluster_name }}-kafka-bootstrap:9092
+            - name: MONGO_DB
+              value: cafedb
+            - name: MONGO_URL
+              value: mongodb://mongodb:mongodb@mongodb:27017/cafedb
+            - name: MONGO_USERNAME
+              value: mongodb
+            - name: MONGO_PASSWORD
+              value: mongodb
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-customermocker
+  labels:
+    app: quarkus-cafe-customermocker
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-customermocker
+  template:
+    metadata:
+      name: quarkus-cafe-customermocker-deployment
+      labels:
+        app:  quarkus-cafe-customermocker
+        release: {{ .Release.Name }}
+        app.kubernetes.io/component: quarkus-cafe-customermocker
+        app.kubernetes.io/instance: quarkus-cafe-customermocker
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: {{ .Values.projectnamespace }}
+    spec:
+      containers:
+        - name: quarkus-cafe-customermocker
+          image: jeremydavis/quarkus-cafe-customermocker
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: REST_URL
+              value: http://quarkus-cafe-web-{{ .Values.projectnamespace }}.apps.{{ .Values.domain }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-kitchen
+  labels:
+    app: quarkus-cafe-kitchen
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-kitchen
+  template:
+    metadata:
+      name: quarkus-cafe-kitchen-deployment
+      labels:
+        app:  quarkus-cafe-kitchen
+        release: {{ .Release.Name }}
+        app.kubernetes.io/component: quarkus-cafe-kitchen
+        app.kubernetes.io/instance: quarkus-cafe-kitchen
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: {{ .Values.projectnamespace }}
+    spec:
+      containers:
+        - name: quarkus-cafe-kitchen
+          image: jeremydavis/quarkus-cafe-kitchen
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: {{ .Values.kafka_cluster_name }}-kafka-bootstrap:9092
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-web
+  labels:
+    app: quarkus-cafe-web
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-web
+  template:
+    metadata:
+      name: quarkus-cafe-web
+      labels:
+        app: quarkus-cafe-web
+        release: {{ .Release.Name }}
+        app.kubernetes.io/component: quarkus-cafe-web
+        app.kubernetes.io/instance: quarkus-cafe-web
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: {{ .Values.projectnamespace }}
+    spec:
+      containers:
+        - name: quarkus-cafe-web
+          image: jeremydavis/quarkus-cafe-web
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: {{ .Values.kafka_cluster_name }}-kafka-bootstrap:9092
+            - name: REST_URL
+              value: http://quarkus-cafe-web-{{ .Values.projectnamespace }}.apps.{{ .Values.domain }}
+            - name: STREAM_URL
+              value:  http://quarkus-cafe-web-{{ .Values.projectnamespace }}.apps.{{ .Values.domain }}/dashboard/stream

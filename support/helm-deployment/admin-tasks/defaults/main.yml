@@ -1,0 +1,12 @@
+---
+# defaults file for admin-tasks
+openshift_token: 1234567890
+openshift_url: https://api.ocp4.example.com:6443
+default_owner: root
+default_group: root
+insecure_skip_tls_verify: true
+project_namespace: quarkus-cafe-demo
+delete_deployment: false
+amqstartingCSV: amqstreams.v1.5.3
+config_location: "/tmp/"
+kafka_cluster_name: cafe-cluster
