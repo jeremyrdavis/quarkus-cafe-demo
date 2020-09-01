@@ -1,10 +1,12 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 
+@RegisterForReflection
 public class JsonUtil {
 
     static final Jsonb jsonb = JsonbBuilder.create();
@@ -18,8 +20,8 @@ public class JsonUtil {
         return jsonb.toJson(new OrderReadyUpdate(orderUpEvent));
     }
 
-    public static CreateOrderCommand createOrderCommandFromJson(String payload) {
-        return jsonb.fromJson(payload, CreateOrderCommand.class);
+    public static OrderInCommand createOrderCommandFromJson(String payload) {
+        return jsonb.fromJson(payload, OrderInCommand.class);
     }
 
     public static String toInProgressUpdate(final LineItemEvent lineItemEvent) {

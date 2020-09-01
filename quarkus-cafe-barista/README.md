@@ -13,7 +13,9 @@ This service uses the following environment variables:
 
 This value will need to be set locally:
 ```
-export KAFKA_BOOTSTRAP_URLS=localhost:9092
+export KAFKA_BOOTSTRAP_URLS=localhost:9092;
+docker run -i --network="host" -e KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_URLS} quarkus-cafe-demo/quarkus-cafe-barista:latest
+
 ```
 
 ## Local deveplomnent steps 

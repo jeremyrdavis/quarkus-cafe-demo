@@ -8,6 +8,7 @@ public class OrderUpEvent extends LineItemEvent{
     public String madeBy;
 
     public OrderUpEvent() {
+        super();
     }
 
     public OrderUpEvent(EventType eventType, String orderId, String name, Item item, String itemId, String madeBy) {

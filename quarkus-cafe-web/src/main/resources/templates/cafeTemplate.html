@@ -1,149 +1,1154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quarkus Cafe</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Lava 2.0 - Bootstrap Coffee Shop Theme | HH Themes</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-config" content="favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Base Styles -->
+    <link href="css/styles.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/custom.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cookie%7cMontserrat:300,400,500,600,700%7cRoboto:300,400,500,700" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+    <!-- Customized css -->
+    <link href="css/cafe.css" rel="stylesheet" />
 
-    <link rel="stylesheet" menuItem="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
-    <link rel="stylesheet" menuItem="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-
-<!--
-<div class="container">
-
-    <h1>Order</h1>
-
-    <form id="orderForm" class="form-horizontal">
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="customerName">Name</label>
-            <div class="col-md-6">
-                <input menuItem="text" id="customerName" class="form-control">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand active" href="#banner"><i class="fa fa-coffee"></i> Quarkus Coffee Shop</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#about">About</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#testimonials">Twitter</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<span id="banner"></span>
+<section class="banner">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="content">
+                <h5>Established 2020</h5>
+                <h1>Quarkus Coffee Shop</h1>
+                <a href="#menu" class="btn">Place an Order</a>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="orderMethod">Order method</label>
-            <div class="col-md-10">
-                <select id="orderMethod">
-                    <option value="http">HTTP</option>
-                    <option value="messaging">Messaging / Kafka</option>
-                </select>
+    </div>
+</section>
+<span class="anchor" id="about"></span>
+<section class="about">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Welcome to Quarkus, Kafka, Kubernetes, and Coffee</h3>
+                <hr>
+                <p class="text-center">Quarkus is a Kubernetes Native Java stack tailored for OpenJDK HotSpot and GraalVM, crafted from the best of breed Java libraries and standards.</p>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-2 control-label" for="product">Product</label>
-            <div class="col-md-10">
-                <select id="product">
-                    <option value="frappuccino">Frappuccino</option>
-                    <option value="chai">Chai</option>
-                    <option value="hot-chocolate">Hot Chocolate</option>
-                    <option value="latte">Latte</option>
-                    <option value="espresso">Espresso</option>
-                    <option value="mocha">Mocha</option>
-                </select>
+        <div class="row about-info">
+            <div class="col-sm-12 col-md-6">
+                <div class="box wow fadeIn" data-wow-duration="400ms" data-wow-offset="10">
+                    <img src="images/about.jpg" alt="about" />
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="box wow fadeIn" data-wow-duration="800ms" data-wow-offset="10">
+                    <h5>Our Story</h5>
+                    <p>A Kubernetes Native Java stack tailored for OpenJDK HotSpot and GraalVM, crafted from the best of breed Java libraries and standards.</p>
+                    <p>Quarkus tailors your application for GraalVM and HotSpot. Amazingly fast boot time, incredibly low RSS memory (not just heap size!) offering near instant scale up and high density memory utilization in container orchestration platforms like Kubernetes.</p>
+                    <p>This application is demo showcasing an event driven Quarkus application that uses Apache Kafka for messaging.</p>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-10 col-md-offset-2">
-                <button id="order-button" menuItem="submit" class="btn btn-primary">Place order</button>
+    </div>
+</section>
+<span class="anchor" id="menu"></span>
+<section class="menu">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Menu</h3>
+                <hr>
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. </p>
             </div>
         </div>
-    </form>
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" >
+                            Current Order
+                        </h4>
+                        <div class="pt-10">
+                            <ul class="list-group mt-10" id="current_order">
+                            </ul>
+                        </div>
+                        <div class="alert alert-success" role="alert"id="item_added_alert" >
+                        </div>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form class="form-inline" action="" id="item_form">
+                            <input type="hidden" id="item_type" name="item_type" />
+                            <label for="item" class="mr-sm-2 input-cafe" id="item_label"></label>
+                            <input type="hidden" id="item" name="item" />
+                            <label for="name" class="mr-sm-2 input-cafe">for Name:</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter name" id="name" name="name">
+                            <button type="submit" class="btn-sm btn-primary mb-2" >Add</button>
+                        </form>
+                    </div>
 
-</div>
--->
-<div class="container" id="order-result-message"></div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <form class="form-inline" action="" id="order_form" >
+                            <button type="button" class="btn-sm btn-danger" data-dismiss="modal" >Back to Menu</button>
+                            <button type="submit" class="btn-sm btn-primary mb-2" >Place Order</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row menu-lists">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a data-target="#espresso" data-toggle="tab">BARISTA</a></li>
+                    <!--
+                    <li><a data-target="#breakfast" data-toggle="tab">BREAKFAST</a></li>
+                    <li><a data-target="#lunch" data-toggle="tab">LUNCH</a></li>
+                    -->
+                    <li><a data-target="#bakery" data-toggle="tab">BAKERY</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="espresso">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Coffee (black)</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_BLACK" data-item_type="beverage" data-display_name="Coffee (black)">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>a full cup of coffee</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Coffee (with room)</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="COFFEE_WITH_ROOM" data-item_type="beverage" data-display_name="Coffee (with room)">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>a cup of coffee with room for cream or milk</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Espresso - $3.25</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="ESPRESSO" data-item_type="beverage" data-display_name="Espresso">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>espresso served with seltzer water</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Espresso (Double) - $4.25</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="ESPRESSO_DOUBLE" data-item_type="beverage"data-display_name="Double Espresso">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>2 shots of espresso</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Cappuccino - $3.75</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAPPUCCINO" data-item_type="beverage" data-display_name="Cappucino">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>espresso + 4 oz steamed milk</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Croissant - $4.00</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CROISSANT" data-item_type="kitchen" data-display_name="Butter Croissant">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>fresh baked butter croissant</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Chocolate Croissant - $4.00</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CROISSANT_CHOCOLATE" data-item_type="kitchen" data-display_name="Chocolate Croissant">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>fresh baked butter croissant</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Muffin - $3.25</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="MUFFIN" data-item_type="kitchen" data-display_name="Muffin of the Day">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>blueberry muffin</p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Cakepop - $2.25</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#myModal" data-whatever="CAKEPOP" data-item_type="kitchen" data-display_name="Cakepop">Add</button>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>chocolate cake with strawberry frosting</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="breakfast">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="lunch">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="bakery">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                                <div class="menu-item">
+                                    <div class="name-price-wrap">
+                                        <div class="name pull-left">
+                                            <h6>Lorem Ipsum Dolor</h6>
+                                        </div>
+                                        <div class="price pull-right">
+                                            <h6>$20</h6>
+                                        </div>
+                                    </div>
+                                    <div class="desc">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, duis sed dapibus leo nec ornare diam. </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="statusboard"></span>
+<section class="statusboard">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Orders</h3>
+                <hr/>
+                <p class="text-center">Check Here for Your Order Status</p>
+            </div>
+            <div class="row justify-content-center">
+                <table class="table table-lg table-striped">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th style="width:30%">Customer</th>
+                        <th style="width:30%">Item</th>
+                        <th style="width:20%">Status</th>
+                        <th style="width:20%">Prepared By</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
 
-<div class="container">
-
-    <h1>Queue</h1>
-
-    <table class="table table-striped" id="orders_table">
-        <thead class="thead-dark">
-        <tr>
-            <th>Customer</th>
-            <th>Product</th>
-            <th>Prepared By</th>
-            <th>State</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-
-</div>
-
-
-
-
-
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/js/patternfly.min.js"></script>
-
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="team"></span>
+<section class="team">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Meet Our Team</h3>
+                <hr>
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.
+                </p>
+            </div>
+        </div>
+        <div class="row team-boxes">
+            <div class="col-md-2 col-md-offset-1">
+                <div class="box wow fadeInUp" data-wow-duration="400ms" data-wow-offset="10">
+                    <img src="images/headshots/emmanuel-bernard.jpg" alt="Emmanuel Bernard" />
+                    <h6>Emmanuel Bernard</h6>
+                    <p>Co-Founder / Co-Lead</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="box wow fadeInUp" data-wow-duration="800ms" data-wow-offset="10">
+                    <img src="images/headshots/jason-greene.jpg" alt="Jason Greene" />
+                    <h6>Jason Greene</h6>
+                    <p>Co-Founder / Co-Lead</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="box wow fadeInUp" data-wow-duration="1.2s" data-wow-offset="10">
+                    <img src="images/headshots/ken_avatar_2019.png" alt="Ken Finnigan" />
+                    <h6>Ken Finnigan</h6>
+                    <p>Pre-Quarkus Co-Founder</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="box wow fadeInUp" data-wow-duration="1.6s" data-wow-offset="10">
+                    <img src="images/headshots/max-andersen.jpg" alt="Max Andersen" />
+                    <h6>Max Andersen</h6>
+                    <p>Devex Lead</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="box wow fadeInUp" data-wow-duration="1.6s" data-wow-offset="10">
+                    <img src="images/headshots/clement_escoffier.jpeg" alt="Clement Escoffier" />
+                    <h6>Clement Escoffier</h6>
+                    <p>Reactive Lead</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="testimonials"></span>
+<section class="testimonials">
+    <div id="carousel-testimonials" class="carousel slide" data-ride="carousel">
+        <div class="container-fluid padding-2x">
+            <!-- Wrapper for slides -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h3 class="text-center">Twitter</h3>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3">
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="carousel-content">
+                                <blockquote class="twitter-tweet tw-align-center "><p lang="en" dir="ltr">I really like <a href="https://twitter.com/QuarkusIO?ref_src=twsrc%5Etfw">@QuarkusIO</a>&#39;s extension system. The deployment time (build time) hook allows for a lot of interesting uses I haven&#39;t thought of yet 🚀</p>&mdash; Knut Wannheden (@knutwannheden) <a href="https://twitter.com/knutwannheden/status/1276588974849634304?ref_src=twsrc%5Etfw">June 26, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="carousel-content">
+                                <blockquote class="twitter-tweet tw-align-center "><p lang="en" dir="ltr">“One of the real benefits of <a href="https://twitter.com/hashtag/Java?src=hash&amp;ref_src=twsrc%5Etfw">#Java</a> is that it does have a huge <a href="https://twitter.com/hashtag/ecosystem?src=hash&amp;ref_src=twsrc%5Etfw">#ecosystem</a> of <a href="https://twitter.com/hashtag/libraries?src=hash&amp;ref_src=twsrc%5Etfw">#libraries</a> and <a href="https://twitter.com/hashtag/utilities?src=hash&amp;ref_src=twsrc%5Etfw">#utilities</a> for doing practically everything.&quot; Therefore, consider using the <a href="https://twitter.com/hashtag/Quarkus?src=hash&amp;ref_src=twsrc%5Etfw">#Quarkus</a> <a href="https://twitter.com/hashtag/framework?src=hash&amp;ref_src=twsrc%5Etfw">#framework</a> for your next <a href="https://twitter.com/hashtag/microservice?src=hash&amp;ref_src=twsrc%5Etfw">#microservice</a> project. <a href="https://twitter.com/QuarkusIO?ref_src=twsrc%5Etfw">@QuarkusIO</a><a href="https://t.co/Z6JNMFSxab">https://t.co/Z6JNMFSxab</a></p>&mdash; Felix Seifert (@flx_seifert) <a href="https://twitter.com/flx_seifert/status/1274708071630045185?ref_src=twsrc%5Etfw">June 21, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="carousel-content">
+                                <blockquote class="twitter-tweet tw-align-center "><p lang="en" dir="ltr">⚡️New: Running a native image on AWS <a href="https://twitter.com/hashtag/Lambda?src=hash&amp;ref_src=twsrc%5Etfw">#Lambda</a> through <a href="https://twitter.com/hashtag/Quarkus?src=hash&amp;ref_src=twsrc%5Etfw">#Quarkus</a> and <a href="https://twitter.com/hashtag/GraalVM?src=hash&amp;ref_src=twsrc%5Etfw">#GraalVM</a>, <a href="https://twitter.com/sascha242?ref_src=twsrc%5Etfw">@sascha242</a> and me examine the benefits you can get and describe the build steps required for your <a href="https://twitter.com/hashtag/Java?src=hash&amp;ref_src=twsrc%5Etfw">#Java</a> app. <a href="https://t.co/yRSSEvOSuz">https://t.co/yRSSEvOSuz</a> <a href="https://t.co/6H7OOi3geF">pic.twitter.com/6H7OOi3geF</a></p>&mdash; Steffen Grunwald (@steffeng) <a href="https://twitter.com/steffeng/status/1273485530030903298?ref_src=twsrc%5Etfw">June 18, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                            </div>
+                        </div>
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-testimonials" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-testimonials" data-slide-to="1"></li>
+                            <li data-target="#carousel-testimonials" data-slide-to="2"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="gallery"></span>
+<section class="gallery">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Gallery</h3>
+                <hr>
+                <p class="text-center">Pictures of café like things that lend an air of verisimillitude to our demo.</p>
+            </div>
+        </div>
+        <div class="row gallery-images justify-content-center">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="100ms" >
+                        <a href="images/gallery1.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery1.png" class="img-responsive" alt="gallery1">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="200ms" >
+                        <a href="images/gallery2.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery2.png" class="img-responsive" alt="gallery2">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="300ms" >
+                        <a href="images/gallery3.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery3.png" class="img-responsive" alt="gallery3">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="400ms" >
+                        <a href="images/gallery4.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery4.png" class="img-responsive" alt="gallery4">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="500ms" >
+                        <a href="images/gallery5.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery5.png" class="img-responsive" alt="gallery5">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="600ms" >
+                        <a href="images/gallery6.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery6.png" class="img-responsive" alt="gallery6">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="700ms" >
+                        <a href="images/gallery7.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery7.png" class="img-responsive" alt="gallery6">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="800ms" >
+                        <a href="images/gallery8.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery8.png" class="img-responsive" alt="gallery6">
+                        </a>
+                    </div>
+                    <div class="col-md-4 image wow fadeIn" data-wow-delay="900ms" >
+                        <a href="images/gallery9.png" data-toggle="lightbox" data-gallery="lava-gallery">
+                            <img src="images/gallery9.png" class="img-responsive" alt="gallery6">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="reservation"></span>
+<section class="cat">
+    <div class="container-fluid padding-2x">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h4>Want to make a reservation? <i class="fa fa-phone"></i> Call 012-345-6789</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<span class="anchor" id="contact"></span>
+<section class="contact">
+    <div class="container padding-2x">
+        <div class="row text-wrap">
+            <div class="col-sm-12">
+                <h3 class="text-center">Contact</h3>
+                <hr>
+                <p>Want to talk to a Red Hatter about Quarkus, Kafka, or Kubernetes?  Or let us know what you thought about the demo?</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-8 col-md-offset-2">
+                <form>
+                    <div class="form-group col-md-6">
+                        <input type="text" placeholder="Name" class="form-control" id="name">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <input type="text" placeholder="Email" class="form-control" id="email">
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <input type="text" placeholder="Subject" class="form-control" id="subject">
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <textarea class="form-control" placeholder="How can we help you?" rows="6" id="message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="row contact-boxes">
+            <div class="col-lg-4">
+                <div class="box wow fadeInUp" data-wow-duration="400ms" data-wow-offset="10">
+                    <i class="fa fa-map-marker"></i>
+                    <h6>Visit With Us</h6>
+                    <p><a href="https://quarkus.io">Quarkus.io</a></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box wow fadeInUp" data-wow-duration="800ms" data-wow-offset="10">
+                    <i class="fa fa-phone"></i>
+                    <h6>Get In Touch</h6>
+                    <p><a href="https://quarkusio.zulipchat.com" >Quarkus Zulip Chat</a></p>
+                    <p><a href="https://groups.google.com/forum/#!forum/quarkus-dev">Google Groups</a></p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box wow fadeInUp" data-wow-duration="1.2s" data-wow-offset="10">
+                    <i class="fa fa-clock-o"></i>
+                    <h6>Hours of Operation</h6>
+                    <p>Monday-Friday: 9am-7pm<br />
+                        Saturday &amp; Sunday: 8am-8pm
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul class="list-inline text-center margin-bottom">
+                    <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                    <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                    <li><a href=""><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href=""><i class="fa fa-behance"></i></a></li>
+                </ul>
+                <p class="text-center">© 2018 <a href="http://hh-themes.com/" target="_blank">HH Themes</a></p>
+                <!-- Please do not remove the backlink to us unless you have purchased a license. It is part of the license conditions. Thanks for understanding :) -->
+            </div>
+        </div>
+    </div>
+    <div id="back-to-top"><i class="fa fa-arrow-circle-up"></i></div>
+</section>
+<div class=".d-none"></div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.matchHeight.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/wow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
 <script>
+    new WOW().init();
+</script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+<!-- Custom JS
+<script src="js/cafe.js.original" ></script>
+-->
+<script language="JavaScript">
+    /* Display the modal popup with selected data */
+    $('#myModal').on('show.bs.modal', function (event) {
 
-    $("#orderForm").submit(function(event){
-        var method = $("#orderMethod option:selected").val();
-        var order = {};
-        order.name = $("#customerName").val();
-        console.log("Customer name = " + order.name);
-        order.product = $("#product option:selected").val();
-        if(method==="http") {
-            var state = {};
-            state.order = order;
-            state.state = "IN_PROGRESS";
-            $("tbody").append(line(state));
-            $("#order-button").addClass("disabled").attr("disabled", true);
+        // hide the alert for successfully adding an item
+        $('#item_added_alert').hide();
+
+        var button = $(event.relatedTarget)
+        var item = button.data('whatever')
+        var item_display_name = button.data('display_name');
+        var item_type = button.data('item_type');
+        var modal = $(this);
+        //        modal.find('.modal-body inplut').val(recipient)
+        modal.find('#item_label').text(item_display_name);
+        modal.find('#item').val(item);
+        modal.find('#item_type').val(item_type);
+        displayCurrentOrder();
+    });
+
+    /* Display the current order */
+    function displayCurrentOrder(){
+
+        // clear out the list to start fresh
+        $('#current_order').empty();
+
+        // get the current order
+        let beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
+        let kitchen = $('#order_form').find('input[name="kitchen"]').serializeArray();
+        let current_items = beverages.concat(kitchen);
+
+        if(current_items.length >= 1){
+            current_items.forEach(function(e){
+                console.log(e);
+                let order = JSON.parse(e.value);
+                console.log(order);
+                $('#current_order').append('<li class="borderless input-cafe">'+ displayFriendlyItem(order.item) + ' for ' + order.name + '</li>');
+            });
+        }
+    }
+
+    /* Update the current order after a new item is added */
+    function updateCurrentOrder(item, name){
+        let new_line = $('<li class="borderless input-cafe">'+ displayFriendlyItem(item) + ' for ' + name + '</li>')
+            .fadeIn(500);
+        $('#current_order')
+            .append(new_line);
+    }
+
+    /* Modal popup - add item to the order*/
+    $('#item_form').submit(function( event ) {
+
+        var item_type = $('#item_form').find('input[name="item_type"]').val();
+        var item = $('#item_form').find('input[name="item"]').val();
+        var name = $('#item_form').find('input[name="name"]').val();
+
+        var item_to_add = { 'item' : item, 'name': name};
+
+        if(item_type == 'beverage'){
+            console.log('adding beverage');
+            var beverages = $('#order_form').find('input[name="beverages"]').serializeArray();
+            if(beverages.length === 0){
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'beverages-0',
+                    name: 'beverages',
+                    value: JSON.stringify(item_to_add)
+                }).appendTo('form');
+            }else if(beverages.length >= 1){
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'beverages-' + beverages.length++,
+                    name: 'beverages',
+                    value: JSON.stringify(item_to_add)
+                }).appendTo('form');
+            }
+            console.log('added');
+
+        }else if(item_type == 'kitchen'){
+            console.log('adding kitchen item');
+            var kitchen = $('#order_form').find('input[name="kitchen"]').serializeArray();
+            if(kitchen.length === 0){
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'kitchen-0',
+                    name: 'kitchen',
+                    value: JSON.stringify(item_to_add)
+                }).appendTo('form');
+            }else if(kitchen.length >= 1){
+                $('<input>').attr({
+                    type: 'hidden',
+                    id: 'kithen-' + kitchen.length++,
+                    name: 'kitchen',
+                    value: JSON.stringify(item_to_add)
+                }).appendTo('form');
+            }
+            console.log('added');
         }
 
-        event.preventDefault(); //prevent default action
-        var post_url = "/" + method; //get form action url
-        var request_method = "POST"; //get form GET/POST method
+        // display the alert for successfully adding an item
+        $('#item_added_alert').text(displayFriendlyItem(item) + ' for ' + name + ' added to order.').show();
+        setTimeout(function(){
+            updateCurrentOrder(item, name);
+        }, 2000);
+        setTimeout(function(){
+            $('#item_added_alert').fadeOut(1000);
+        }, 3000);
 
-        $.ajax({
-            url : post_url,
-            menuItem: request_method,
-            data : JSON.stringify(order),
-            contentType: 'application/json',
-            cache: false
-        }).done(function(response){
-            if(method==="http") {
-                var state = {};
-                order.orderId = response.orderId;
-                state.order = order;
-                state.item = {};
-                state.item.preparedBy = response.preparedBy;
-                state.state = "READY";
-                $('tbody tr:last').replaceWith(line(state));
-                $("#order-button").removeClass("disabled").removeAttr("disabled");
-            }
-        }).fail(function(err) {
-            $("#order-result-message").append("<div class='alert alert-danger alert-dismissable'><button menuItem='button' class='close' data-dismiss='alert' aria-label='Close'><span class='pficon pficon-close'></span></button><span class='pficon pficon-error-circle-o'></span><strong>Error</strong>" + err.responseText + "</div>");
-            $('tbody tr:last').remove();
-            $("#order-button").removeClass("disabled").removeAttr("disabled");
-            console.error(err);
-        });
+        event.preventDefault();
     });
+
+    /* Modal popup - submit order */
+    $("#order_form").submit(function(event){
+        console.log("order submitted");
+        var beverages = $('#order_form').find('input[name="beverages"]').map(function(){
+            return JSON.parse($(this).val());
+        }).get();
+        var kitchen = $('#order_form').find('input[name="kitchen"]').map(function(){
+            return JSON.parse($(this).val());
+        }).get();
+
+        // if the user clicks "Place Order" before "Add"
+        if((beverages === undefined || beverages.length == 0 ) && (kitchen === undefined || kitchen.length == 0)){
+
+            let item_type = $('#item_form').find('input[name="item_type"]').val();
+            let item = $('#item_form').find('input[name="item"]').val();
+            let name = $('#item_form').find('input[name="name"]').val();
+            let item_to_add = { 'item' : item, 'name': name};
+
+
+            if(item_type == 'beverage'){
+                console.log('adding beverage');
+                beverages.push(item_to_add);
+            }else if(item_type == 'kitchen'){
+                kitchen.push(item_to_add);
+            }
+
+        }
+
+        let order = {};
+        order.id = uuidv4();
+        if(beverages.length >= 1){
+            order.beverages = beverages;
+        }
+        if(kitchen.length >= 1){
+            order.kitchenOrders = kitchen;
+        }
+
+        console.log(order);
+
+        var jqxhr = $.ajax({
+            beforeSend: function(xhrObj){
+                xhrObj.setRequestHeader("Content-Type","application/json");
+                xhrObj.setRequestHeader("Accept","application/json");
+            },
+            type: "POST",
+            url: "/order",
+            data: JSON.stringify(order),
+            success: function(){ console.log('success for ' + JSON.stringify(order)); },
+            contentType: 'application/json',
+            dataType: 'json'
+        })
+            .done(function() {
+                console.log( "done" );
+                $('#order_form').find('input[name="beverages"]').map(function () {
+                    $(this).remove();
+                })
+                $('#order_form').find('input[name="kitchen"]').map(function () {
+                    $(this).remove();
+                })
+            })
+            .fail(function(jqxhr, errorStatus, errorThrown) {
+                console.log( "error : " + errorThrown + " " + errorStatus);
+            })
+            .always(function() {
+                console.log( "finished" );
+            });
+
+        // close the modal
+        $('#myModal').modal('toggle');
+
+        // prevent form submission
+        event.preventDefault();
+    });
+
+    // create a uuid for the order id
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    //    </script>
+
+//  <script>
+    // Status Board
 
     $(function () {
         /*          var source = new EventSource("http://quarkus-cafe-web-quarkus-cafe.apps.cluster-virtual-1b57.virtual-1b57.sandbox1482.opentlc.com/dashboard/stream"); */
-        /*          var source = new EventSource("http://localhost:8083/dashboard/stream"); */
+//    var source = new EventSource("http://localhost:8080/dashboard/stream");
         var source = new EventSource("{sourceUrl}");
         source.onmessage = function(e) {
             console.log(e);
             var state = JSON.parse(e.data);
             if(state.status=="IN_QUEUE")
-                $("tbody").prepend(line(state));
-            if(state.status=="READY")
-                $("#"+state.itemId).replaceWith(line(state));
+                $("tbody").append(line(state));
+            if(state.status=="READY"){
+                console.log(state);
+//              $("#"+state.itemId).replaceWith(line(state));
+//              setTimeout(cleanup(state.itemId), 15000);
+                display(state);
+            }
 
         };
     });
+
+    function display(state){
+        let count = (Math.floor(Math.random() * 15) * 1000) + 5000;
+        console.log(count);
+        $("#"+state.itemId).replaceWith(line(state));
+        setTimeout(function(){ $("#"+state.itemId).remove(); }, count);
+    }
+
+    function cleanup(itemid){
+        console.log("time to cleanup" + itemid);
+//      $("#"+itemid).remove();
+    }
 
     function line(state) {
         var orderId = state.orderId;
@@ -151,22 +1156,92 @@
         var product = state.item;
         var customer = state.name;
         var status = state.status;
-        var barista = state.madeBy === undefined ? '' : state.madeBy;
+        var preparedBy = state.madeBy;
+        /*
+          if (state.item) {
+              barista = state.item.preparedBy;
+          }
+        */
         return "<tr id='" + id + "'>" +
             "<td>" + customer + "</td>" +
-            "<td>" + product + "</td>" +
-            "<td>" + barista + "</td>" +
-            "<td>" + status + "</td></tr>";
+            "<td>" + displayFriendlyItem(product) + "</td>" +
+            "<td>" + displayFriendlyStatus(status) + "</td>" +
+            "<td>" + displayFriendlyPreparedBy(preparedBy) + "</td></tr>";
     }
 
-    function cleanup(){
-
-        //get all rows
-        var rows = $('#tblID > tbody > tr');
-
-        $("#orders_table tr").remove();
+    /* Display friendly prepared by or nothing */
+    function displayFriendlyPreparedBy(value){
+        return value === undefined ? "" : value;
     }
 
+    /* Display friendly product names
+    */
+    function displayFriendlyItem(item){
+        let result;
 
+        switch(item){
+            // beverages
+            case "COFFEE_BLACK":
+                console.log("Black Coffee");
+                result = "Black Coffee"
+                break;
+            case "COFFEE_WITH_ROOM":
+                console.log("Coffee with room");
+                result = "Cofee with room";
+                break;
+            case "CAPPUCCINO":
+                console.log("Capuccino");
+                result = "Capuccino";
+                break;
+            case "ESPRESSO":
+                console.log("Espresso");
+                result = Espresso
+                break;
+            case "ESPRESSO_DOUBLE":
+                console.log("Double Espresso");
+                result = "Double Espresso";
+                break;
+            // kitchen
+            case "CAKEPOP":
+                console.log("Cakepop");
+                result = "Cakepop";
+                break;
+            case "CROISSANT":
+                console.log("Butter Croissant");
+                result = "Butter Croissant";
+                break;
+            case "CROISSANT_CHOCOLATE":
+                console.log("Chocolate Croissant");
+                result = "Chocoloate Croissant";
+                break;
+            case "MUFFIN":
+                console.log("Blueberry Muffin");
+                result = "Blueberry Muffin";
+                break;
+            // default to the returned value
+            default:
+                result = item;
+                console.log(item);
+        }
+        return result;
+    }
+
+    function displayFriendlyStatus(status){
+        let result;
+        switch(status){
+            case "IN_QUEUE":
+                console.log("In progress");
+                result = "In progress";
+                break;
+            case "READY":
+                console.log("Ready");
+                result = "Ready";
+                break;
+            default:
+                result = status;
+        }
+        return result;
+    }
 </script>
+</body>
 </html>

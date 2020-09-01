@@ -1,9 +1,10 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
 import com.redhat.quarkus.cafe.barista.domain.Barista;
-import com.redhat.quarkus.cafe.domain.EventType;
-import com.redhat.quarkus.cafe.domain.OrderInEvent;
-import com.redhat.quarkus.cafe.domain.OrderUpEvent;
+import com.redhat.quarkus.cafe.barista.domain.EventType;
+import com.redhat.quarkus.cafe.barista.domain.OrderInEvent;
+import com.redhat.quarkus.cafe.barista.domain.OrderUpEvent;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -18,7 +19,7 @@ import javax.json.bind.JsonbBuilder;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
-@ApplicationScoped
+@ApplicationScoped @RegisterForReflection
 public class KafkaService {
 
     Logger logger = LoggerFactory.getLogger(KafkaService.class);

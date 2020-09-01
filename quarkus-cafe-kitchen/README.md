@@ -19,8 +19,15 @@
 
 Quarkus' configuration can be environment specific: https://quarkus.io/guides/config
 
-This service uses the following environment variables when running with the production profile:
+This service uses the following environment variables:
 * KAFKA_BOOTSTRAP_URLS
+
+This value will need to be set locally:
+```
+export KAFKA_BOOTSTRAP_URLS=localhost:9092;
+docker run -i --network="host" -e KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_URLS} quarkus-cafe-demo/quarkus-cafe-kitchen:latest
+
+```
 
 ## OpenShift Deployment 
 **Deploy quarkus-cafe-kitchen on OpenShift**

@@ -1,8 +1,8 @@
 package com.redhat.quarkus.cafe.kitchen.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.EventType;
-import com.redhat.quarkus.cafe.domain.OrderInEvent;
+import com.redhat.quarkus.cafe.kitchen.domain.EventType;
 import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
+import com.redhat.quarkus.cafe.kitchen.domain.OrderInEvent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -30,7 +30,7 @@ public class KafkaResource {
     @Incoming("orders-in")
     public CompletionStage<Void> handleOrderIn(Message message) {
 
-        logger.debug("\nBarista Order In Received: {}", message.getPayload());
+        logger.debug("\nKitchen received: {}", message.getPayload());
         final OrderInEvent orderIn = jsonb.fromJson((String) message.getPayload(), OrderInEvent.class);
         if (orderIn.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
             return kitchen.make(orderIn).thenApply(o -> {
@@ -40,23 +40,4 @@ public class KafkaResource {
             return message.ack();
         }
     }
-/*
-    @Incoming("orders-in")
-    public void orderIn(String message) {
-
-        logger.debug("message received: {}", message);
-
-        JsonReader reader = Json.createReader(new StringReader(message));
-        JsonObject jsonObject = reader.readObject();
-        String eventType = jsonObject.getString("eventType");
-
-        if (eventType.equals(EventType.KITCHEN_ORDER_IN.toString())) {
-
-            OrderEvent orderEvent = jsonb.fromJson(message, OrderEvent.class);
-            logger.debug("kitchen order in: {}", orderEvent);
-            kitchen.orderIn(orderEvent);
-        }
-
-    }
-*/
 }

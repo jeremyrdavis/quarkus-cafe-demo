@@ -1,8 +1,5 @@
 package com.redhat.quarkus.cafe.kitchen.domain;
 
-import com.redhat.quarkus.cafe.domain.EventType;
-import com.redhat.quarkus.cafe.domain.OrderInEvent;
-import com.redhat.quarkus.cafe.domain.OrderUpEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

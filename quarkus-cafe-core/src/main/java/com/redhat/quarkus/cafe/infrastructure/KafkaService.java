@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
 import com.redhat.quarkus.cafe.domain.*;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +11,10 @@ import javax.inject.Inject;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Stream;
 
 import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.*;
 
-@ApplicationScoped
+@ApplicationScoped @RegisterForReflection
 public class KafkaService {
 
     final Logger logger = LoggerFactory.getLogger(KafkaService.class);
@@ -57,10 +56,10 @@ public class KafkaService {
         return webUpdatesOutEmitter.send(toInProgressUpdate(event)).toCompletableFuture();
     }
 
-    protected CompletionStage<Void> handleCreateOrderCommand(final CreateOrderCommand createOrderCommand) {
+    protected CompletionStage<Void> handleCreateOrderCommand(final OrderInCommand orderInCommand) {
 
             // Get the event from the Order domain object
-            OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(createOrderCommand);
+            OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
             orderRepository.persist(orderCreatedEvent.order);
 
             Collection<CompletableFuture<Void>> futures = new ArrayList<>(orderCreatedEvent.getEvents().size() * 2);

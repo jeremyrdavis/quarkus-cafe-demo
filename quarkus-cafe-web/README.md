@@ -8,6 +8,13 @@ Quarkus' configuration can be environment specific: https://quarkus.io/guides/co
 This service uses the following environment variables when running with the production profile:
 * KAFKA_BOOTSTRAP_URLS
 * STREAM_URL
+* CORS_ORIGINS
+
+```
+export KAFKA_BOOTSTRAP_URLS=localhost:9092 STREAM_URL=http://localhost:8080/dashboard/stream CORS_ORIGINS=http://localhost
+
+docker run -i --network="host" -e STREAM_URL=${STREAM_URL} -e CORS_ORIGINS=${CORS_ORIGINS} -e KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_URLS} quarkus-cafe-demo/quarkus-cafe-web:latest
+```
 
 
 

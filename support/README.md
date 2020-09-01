@@ -18,32 +18,40 @@ $ ansible-galaxy install tosin2013.quarkus_cafe_demo_role
 ```yaml
 $ cat >quarkus-cafe-deployment.yml<<YAML
 - hosts: localhost
-    become: yes
-    vars:
-      openshift_token: CHANGEME
-      openshift_url: https://api.ocp4.example.com:6443 #Change this value
-      insecure_skip_tls_verify: true
-      project_namespace: quarkus-cafe-demo
-      delete_deployment: false  
-      skip_amq_install: false
-      skip_quarkus_cafe_barista: false
-      skip_quarkus_cafe_core: false
-      skip_quarkus_cafe_kitchen: false
-      skip_quarkus_cafe_web: false
-      skip_quarkus_cafe_customermock: false
-      quarkus_build_memory_limit: 6Gi
-      quarkus_build_cpu_limit: 1
-      quarkus_core_build_memory_limit: 6Gi
-      domain: ocp4.example.com  # Change This value
-    roles:
+  become: yes
+  gather_facts: false
+  vars:
+    openshift_token: << YOUR_TOKEN >>
+    openshift_url:  << YOUR_URL >>
+    insecure_skip_tls_verify: true
+    version_tag: << DESIRED_VERSION >> # 2.1
+    project_namespace: quarkus-cafe-demo
+    delete_deployment: true
+    default_owner: << YOUR_USER >>
+    default_group: << YOUR_GROUP >>
+    skip_amq_install: false
+    amqstartingCSV: amqstreams.v1.5.3
+    skip_quarkus_cafe_barista: false
+    skip_quarkus_cafe_core: false
+    skip_quarkus_cafe_kitchen: false
+    skip_quarkus_cafe_web: false
+    skip_quarkus_cafe_customermock: false
+    quarkus_build_memory_limit: 6Gi
+    quarkus_build_cpu_limit: 1
+    quarkus_core_build_memory_limit: 6Gi
+    domain: << YOUR_DOMAIN >>  # Change This value
+  roles:
     - tosin2013.quarkus_cafe_demo_role
 YAML
-
 ```
 
 
 **Change other variables as you see fit**  
 
+Extra variables can be added at the command line.  For example, to delete the deployment you can add the following (instead of changing the yaml file):
+```
+--extra-vars "delete_deployment=true"
+```
 **Run ansible playbook**  
 ```shell
 $ ansible-playbook quarkus-cafe-deployment.yml
@@ -106,6 +114,7 @@ ${REST_URL}
 ```shell
 kafka-console-consumer --bootstrap-server localhost:9092 --topic web-updates --from-beginning
 kafka-console-producer --broker-list localhost:9092 --topic barista-in
+kafka-console-producer --broker-list localhost:9092 --topic web-in
 ```
 
 ## Create Orders
@@ -128,6 +137,8 @@ kafka-console-producer --broker-list localhost:9092 --topic barista-in
     "id": "d141c73c-ac62-4534-b5db-7c989040feca"
 }
 ```
+
+{"beverages": [{"item": "COFFEE_WITH_ROOM","itemId": "d141c73c-ac62-4534-b5db-7c989040fecb","name": "Mickey"},{"item": "COFFEE_BLACK","itemId": "d141c73c-ac62-4534-b5db-7c989040fecc","name": "Minnie"}],"id": "d141c73c-ac62-4534-b5db-7c989040feca"}
 ```json
 {
     "item": "CAKEPOP",
@@ -160,6 +171,8 @@ kafka-console-producer --broker-list localhost:9092 --topic barista-in
     ]
 }
 ```
+
+{"beverages": [{"item": "COFFEE_WITH_ROOM","name": "Mickey"},{"item": "COFFEE_BLACK","name": "Minnie"}],"kitchenOrders": [{"item": "CAKEPOP","name": "Mickey"},{"item": "CROISSANT","name": "Minnie"}]}
 
 Kitchen Order Only
 ```json
