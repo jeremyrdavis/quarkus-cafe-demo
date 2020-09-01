@@ -1,5 +1,6 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.core.domain;
 
+import com.redhat.quarkus.cafe.domain.LineItemEvent;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.util.ArrayList;

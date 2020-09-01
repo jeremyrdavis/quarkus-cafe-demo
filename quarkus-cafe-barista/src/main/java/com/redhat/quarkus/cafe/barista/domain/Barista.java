@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
+import com.redhat.quarkus.cafe.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,7 @@
 package com.redhat.quarkus.cafe.barista.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.*;
 import com.redhat.quarkus.cafe.barista.domain.Barista;
-import com.redhat.quarkus.cafe.barista.domain.EventType;
-import com.redhat.quarkus.cafe.barista.domain.OrderInEvent;
-import com.redhat.quarkus.cafe.barista.domain.OrderUpEvent;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;

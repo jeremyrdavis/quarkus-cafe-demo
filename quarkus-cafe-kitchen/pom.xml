@@ -9,10 +9,15 @@
   </parent>
   <groupId>com.redhat.quarkus.cafe</groupId>
   <artifactId>quarkus-cafe-kitchen</artifactId>
-  <version>2.3.0</version>
+  <version>2.4.0</version>
   <properties />
   <dependencyManagement />
   <dependencies>
+    <!-- Application Domain -->
+    <dependency>
+      <groupId>com.redhat.quarkus</groupId>
+      <artifactId>quarkus-cafe-domain</artifactId>
+    </dependency>
     <!-- Testing -->
     <dependency>
       <groupId>com.redhat.quarkus</groupId>

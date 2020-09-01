@@ -1,5 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
+import com.redhat.quarkus.cafe.core.domain.Order;
+import com.redhat.quarkus.cafe.core.domain.OrderCreatedEvent;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
+import com.redhat.quarkus.cafe.domain.*;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

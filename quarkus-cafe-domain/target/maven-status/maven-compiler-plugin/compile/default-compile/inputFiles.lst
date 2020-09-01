@@ -2,9 +2,9 @@
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/Item.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/InQueueUpdate.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/WebUpdate.java
-/Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/CreateOrderCommand.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/OrderReadyUpdate.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/LineItem.java
+/Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/OrderInCommand.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/OrderUpEvent.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/OrderInEvent.java
 /Users/jeremydavis/Workspace/quarkus-cafe-demo/quarkus-cafe-domain/src/main/java/com/redhat/quarkus/cafe/domain/OrderStatus.java

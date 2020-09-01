@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.web.domain;
 
+import com.redhat.quarkus.cafe.domain.*;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 
 @RegisterForReflection

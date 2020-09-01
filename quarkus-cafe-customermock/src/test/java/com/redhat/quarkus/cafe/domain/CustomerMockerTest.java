@@ -23,7 +23,7 @@ public class CustomerMockerTest {
     @Test
     public void testCustomerMocker() {
 
-        List<CreateOrderCommand> createOrderCommands = customerMocker.mockCustomerOrders(15);
+        List<OrderInCommand> createOrderCommands = customerMocker.mockCustomerOrders(15);
         assertEquals(15, createOrderCommands.size());
 
         createOrderCommands.forEach(createOrderCommand -> {
