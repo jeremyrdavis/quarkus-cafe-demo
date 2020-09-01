@@ -1,0 +1,8 @@
+- name: login as super user with token on OpenShift 4
+  command: "/usr/local/bin/oc login --token={{ openshift_token }}  --server={{ openshift_url }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
+  when:
+   - openshift_token is defined
+   - openshift_token is not none
+   - openshift_token|trim() != ""
+  ignore_errors: no
+

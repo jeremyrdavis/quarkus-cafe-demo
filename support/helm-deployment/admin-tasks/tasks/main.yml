@@ -1,0 +1,16 @@
+
+---
+# tasks file for quarkus-cafe-demo-role
+- name: Configure settings environment using OpenShift token
+  block:
+    - name: Login Cluster
+      include_tasks: login-to-cluster.yml
+
+    - name: Create Quarkus project 
+      include_tasks: create-project.yml
+
+    - name: AMQ Streams installation
+      include_tasks: amq-streams-install.yml
+
+    - name: Mongo DB installation
+      include_tasks: monogodb.yml

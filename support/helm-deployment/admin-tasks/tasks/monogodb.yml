@@ -1,0 +1,35 @@
+- name: Create mongodb instance
+  command: "/usr/local/bin/oc new-app --name=mongodb --template=mongodb-ephemeral -e MONGODB_USER=mongodb -e MONGODB_PASSWORD=mongodb -e MONGODB_DATABASE=cafedb -e MONGODB_ADMIN_PASSWORD=mongodb"
+  when: not delete_deployment|bool
+
+- name: Waiting for mongodb build to complete
+  shell: |
+   set -o pipefail &&  /usr/local/bin/oc get pods  | grep Completed | grep mongodb | wc -l
+  register: install_status
+  when: not delete_deployment|bool
+  until: "'1' in install_status.stdout"
+  retries: 120
+  delay: 15
+  args:
+    executable: /bin/bash
+
+- name: Waiting for mongodb deployment
+  shell: |
+    set -o pipefail && /usr/local/bin/oc get pods  | grep Running | grep mongodb | wc -l
+  register: install_status
+  when: not delete_deployment|bool
+  until: "'1' in install_status.stdout"
+  retries: 60
+  delay: 15
+  args:
+    executable: /bin/bash
+
+- name: Delete mongodb instance
+  command: "/usr/local/bin/oc delete all --selector app=mongodb"
+  ignore_errors: yes
+  when: delete_deployment|bool
+
+- name: Delete mongodb instance
+  command: "/usr/local/bin/oc delete secret mongodb"
+  ignore_errors: yes
+  when: delete_deployment|bool
