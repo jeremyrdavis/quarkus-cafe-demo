@@ -1,6 +1,27 @@
 # Quarkus Cafe Deployment Options 
+- [Quarkus Cafe Deployment Options](#quarkus-cafe-deployment-options)
+  * [OpenShift Docker Deployment via Ansible](#openshift-docker-deployment-via-ansible)
+    + [Prerequisites](#prerequisites)
+    + [Installation Steps using Ansible](#installation-steps-using-ansible)
+  * [Local Deployment Instructions](#local-deployment-instructions)
+  * [Deployment via Helm Chart](#deployment-via-helm-chart)
+  * [Deployment via ACM - Red Hat Advanced Cluster Management for Kubernetes](#deployment-via-acm---red-hat-advanced-cluster-management-for-kubernetes)
+- [ConfigMaps Documentation](#configmaps-documentation)
+    + [DeploymentConfig:](#deploymentconfig-)
+    + [ConfigMap](#configmap)
+  * [Properties](#properties)
+    + [Core](#core)
+    + [Barista](#barista)
+    + [Kitchen](#kitchen)
+    + [Customermock](#customermock)
+- [HTTP](#http)
+- [Kafka](#kafka)
+  * [Create Orders](#create-orders)
+    + [2 Beverages](#2-beverages)
+- [Building and deploying](#building-and-deploying)
 
-## OpenShift S2I Deployment via Ansible 
+
+## OpenShift Docker Deployment via Ansible 
 
 ### Prerequisites
 * Install Ansible 
@@ -24,7 +45,11 @@ $ cat >quarkus-cafe-deployment.yml<<YAML
     openshift_token: << YOUR_TOKEN >>
     openshift_url:  << YOUR_URL >>
     insecure_skip_tls_verify: true
-    version_tag: << DESIRED_VERSION >> # 2.1
+    version_barista:  << DESIRED_VERSION >>
+    version_core:  << DESIRED_VERSION >>
+    version_customermocker:  << DESIRED_VERSION >>
+    version_kitchen:  << DESIRED_VERSION >>
+    version_web:  << DESIRED_VERSION >>
     project_namespace: quarkus-cafe-demo
     delete_deployment: true
     default_owner: << YOUR_USER >>
@@ -61,6 +86,13 @@ $ ansible-playbook quarkus-cafe-deployment.yml
 ```
 ....
 ```
+
+##  Deployment via Helm Chart 
+[Helm Deployment for Development](helm-deployment)  
+[Quakrus cafe Helm Repo](https://github.com/tosin2013/quarkus-cafe-helm-chart/releases)
+
+## Deployment via ACM - Red Hat Advanced Cluster Management for Kubernetes
+[Deployment via ACM](acm-deployment)
 
 # ConfigMaps Documentation
 
