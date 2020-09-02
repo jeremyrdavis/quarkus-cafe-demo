@@ -29,12 +29,12 @@ Run the following commands
 ```
 cat >quarkus_vars.json<<EOF
 {
-   "openshift_token": 123456789,
-   "openshift_url": "https://api.ocp4.example.com:6443",
+   "openshift_token": "WZiZiRd1LIigXpP14cZdCZKUDov-zPm9vShfWsfGNao",
+   "openshift_url": "https://api.cluster-2a53.2a53.sandbox1202.opentlc.com:6443",
    "insecure_skip_tls_verify": true,
-   "default_owner": "root",
-   "default_group": "root",
-   "project_namespace": "quarkus-cafe-demo",
+   "default_owner": "jeremydavis",
+   "default_group": "staff",
+   "project_namespace": "quarkus-cafe-helm",
    "delete_deployment": false,
    "remote_username": "root"
 }
