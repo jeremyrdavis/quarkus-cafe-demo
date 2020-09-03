@@ -9,8 +9,7 @@ Requirements
 * Install OpenShift CLi
 * cluster-admin access  to OpenShift cluster
 
-Tested on RHEL based system
-===========================
+**Tested on a RHEL based system**
 
 **Optional: Install OpenShift CLI**
 ```
@@ -29,6 +28,7 @@ Run the following commands
 **cd into support/helm-deployment/admin-tasks**
 
 **Create variables file for inventory**
+`if using a different user or mac make sure you change root`
 ```
 cat >quarkus_vars.json<<EOF
 {
