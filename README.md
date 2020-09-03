@@ -34,7 +34,7 @@ This service handles the business logic of creating
 
 
 ## Documentation and support 
-Supporting scripts and documentation can be found in the "support" folder
+Supporting scripts and documentation can be found in the [support](support/) folder
 
 ## Quarkus Cafe Deployment Options 
 * [Quarkus Cafe Deployment Options ](support/README.md)
