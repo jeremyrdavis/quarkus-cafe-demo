@@ -1,18 +1,15 @@
 package com.redhat.quarkus.cafe.barista.domain;
 
-import com.redhat.quarkus.cafe.domain.*;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import com.redhat.quarkus.cafe.domain.EightySixException;
+import com.redhat.quarkus.cafe.domain.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Consumer;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Stream;
 
 @ApplicationScoped
@@ -33,7 +30,7 @@ public class Inventory {
     private void createStock() {
         stock = new HashMap<>();
         Stream.of(Item.values()).forEach(v ->{
-            stock.put(v, ThreadLocalRandom.current().nextInt(3,9));
+            stock.put(v, ThreadLocalRandom.current().nextInt(55,99));
         });
         stock.entrySet().stream().forEach(entrySet -> {
             logger.debug(entrySet.getKey() + " " + entrySet.getValue());
@@ -73,4 +70,7 @@ public class Inventory {
         return stock.get(Item.COFFEE_BLACK);
     }
 
+    public void restock(Item item) {
+        stock.put(item, ThreadLocalRandom.current().nextInt(55,99));
+    }
 }

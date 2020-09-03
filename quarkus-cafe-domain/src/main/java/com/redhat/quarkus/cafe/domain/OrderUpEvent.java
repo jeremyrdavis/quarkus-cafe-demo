@@ -15,4 +15,9 @@ public class OrderUpEvent extends LineItemEvent{
         super(eventType, orderId, name, item, itemId);
         this.madeBy = madeBy;
     }
+
+    @Override
+    public EventType getEventType() {
+        return this.eventType;
+    }
 }

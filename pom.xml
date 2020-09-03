@@ -33,7 +33,7 @@
     <failsafe-plugin.version>3.0.0-M4</failsafe-plugin.version>
     <testcontainers.version>1.14.3</testcontainers.version>
     <!-- project versions -->
-    <cafe-domain.version>2.4.0</cafe-domain.version>
+    <cafe-domain.version>2.5.0</cafe-domain.version>
     <cafe-test-utils.version>2.4.0</cafe-test-utils.version>
   </properties>
   <dependencyManagement>

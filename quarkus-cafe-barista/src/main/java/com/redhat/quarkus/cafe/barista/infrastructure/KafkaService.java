@@ -37,6 +37,7 @@ public class KafkaService {
         final OrderInEvent orderIn = jsonb.fromJson((String) message.getPayload(), OrderInEvent.class);
         if (orderIn.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
             return barista.make(orderIn).thenApply(o -> {
+                logger.debug("sending: {}", o.toString());
                 return orderUpEmitter.send(jsonb.toJson(o));
             }).thenRun( () -> { message.ack(); });
         }else{

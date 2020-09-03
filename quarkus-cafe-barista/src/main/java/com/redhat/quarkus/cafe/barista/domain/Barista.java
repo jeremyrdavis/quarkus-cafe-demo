@@ -6,8 +6,11 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 
 @ApplicationScoped
@@ -16,6 +19,9 @@ public class Barista {
     static final Logger logger = LoggerFactory.getLogger(Barista.class);
 
     private String madeBy;
+
+    @Inject
+    Inventory inventory;
 
     @PostConstruct
     void setHostName() {
@@ -27,12 +33,13 @@ public class Barista {
         }
     }
 
-    public CompletableFuture<OrderUpEvent> make(final OrderInEvent orderInEvent) {
+    public CompletableFuture<Collection<Event>> make(final OrderInEvent orderInEvent) {
 
-        logger.debug("orderIn: " + orderInEvent.toString());
+        logger.debug("making: {}" + orderInEvent.item);
+
         return CompletableFuture.supplyAsync(() -> {
 
-            switch(orderInEvent.item){
+            switch (orderInEvent.item) {
                 case COFFEE_BLACK:
                     return prepare(orderInEvent, 5);
                 case COFFEE_WITH_ROOM:
@@ -49,21 +56,43 @@ public class Barista {
         });
     }
 
-    private OrderUpEvent prepare(final OrderInEvent orderInEvent, int seconds) {
+    private Collection<Event> prepare(final OrderInEvent orderInEvent, int seconds) {
 
+        // decrement the item in inventory
+        try {
+            inventory.decrementItem(orderInEvent.item);
+        } catch (EightySixException e) {
+            e.printStackTrace();
+            logger.debug(orderInEvent.item + " is 86'd");
+            return Arrays.asList(new EightySixEvent(orderInEvent.item));
+        } catch (EightySixCoffeeException e) {
+            // 86 both coffee items
+            e.printStackTrace();
+            logger.debug("coffee is 86'd");
+            return Arrays.asList(
+                    new EightySixEvent(Item.COFFEE_WITH_ROOM),
+                    new EightySixEvent(Item.COFFEE_BLACK)
+            );
+        }
+
+        // model the barista's time making the drink
         try {
             Thread.sleep(seconds * 1000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        return new OrderUpEvent(
+        // return the completed drink
+        return Arrays.asList(new OrderUpEvent(
                 EventType.BEVERAGE_ORDER_UP,
                 orderInEvent.orderId,
                 orderInEvent.name,
                 orderInEvent.item,
                 orderInEvent.itemId,
-                madeBy);
+                madeBy));
     }
 
+    public void restockItem(Item item) {
+        inventory.restock(item);
+    }
 }
