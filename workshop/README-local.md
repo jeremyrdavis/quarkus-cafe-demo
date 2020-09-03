@@ -5,6 +5,8 @@
 1. Creating a Project with https://code.quarkus.io
 2. Visual Studio Code
 3. Getting Started with Your Project
+4. Dev Mode
+5. Hibernate Panache
 
 ## Creating a Project with https://code.quarkus.io
 
@@ -21,6 +23,8 @@
 ** "SmallRye Reactive Messaging"
 * Click "Generate Your Application" and Push to Github
 * Clone the repository on your filesystem
+
+TODO: Leave out one dependency and add it with the maven plugin later in the tutorial
 
 ## Visual Studio Code
 
@@ -50,9 +54,30 @@ TODO: Quarkus modules
 * There are 2 ways to run tests from within VSCode:
 ** Click "Run Test," which can be found under the @Test annotation and above the "ExampleResourceTest" method
 ** Open a Terminal from within Visual Studio Code and type the following:
+
 ```shell
 
 ./mvnw clean test
 
 ```
+
+## Dev Mode
+
+Start Quarkus in dev mode:
+
+```shell
+
+./mvnw clean compile quarkus:dev
+
+```
+
+Open http://localhost:8080
+Open http://localhost:8080/hello
+
+### Live changes
+
+In VS Code open the ExampleResource class (src/main/java/org/acme/ExampleResource.java)
+
+Change the message from "hello" to something more prosaic, like "hello, world!" and save the file.  Now reload your browser
+
  

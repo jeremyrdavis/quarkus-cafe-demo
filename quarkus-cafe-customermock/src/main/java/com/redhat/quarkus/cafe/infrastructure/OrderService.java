@@ -1,6 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.OrderInCommand;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import javax.ws.rs.POST;
@@ -13,5 +13,5 @@ import java.util.concurrent.CompletionStage;
 public interface OrderService {
 
     @POST
-    CompletionStage<Response> placeOrders(CreateOrderCommand createOrderCommand);
+    CompletionStage<Response> placeOrders(OrderInCommand createOrderCommand);
 }

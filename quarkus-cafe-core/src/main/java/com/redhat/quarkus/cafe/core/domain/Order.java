@@ -1,5 +1,9 @@
-package com.redhat.quarkus.cafe.domain;
+package com.redhat.quarkus.cafe.core.domain;
 
+import com.redhat.quarkus.cafe.domain.EventType;
+import com.redhat.quarkus.cafe.domain.LineItem;
+import com.redhat.quarkus.cafe.domain.OrderInCommand;
+import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bson.codecs.pojo.annotations.BsonId;

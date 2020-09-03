@@ -3,6 +3,7 @@ package com.redhat.quarkus.cafe.kitchen.domain;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 
+import com.redhat.quarkus.cafe.domain.*;
 import javax.inject.Inject;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;

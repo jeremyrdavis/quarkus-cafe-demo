@@ -1,8 +1,7 @@
 package com.redhat.quarkus.cafe.kitchen.infrastructure;
 
-import com.redhat.quarkus.cafe.kitchen.domain.EventType;
+import com.redhat.quarkus.cafe.domain.*;
 import com.redhat.quarkus.cafe.kitchen.domain.Kitchen;
-import com.redhat.quarkus.cafe.kitchen.domain.OrderInEvent;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;

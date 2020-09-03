@@ -1,11 +1,9 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
+import com.redhat.quarkus.cafe.domain.*;
 import com.redhat.quarkus.cafe.web.domain.DashboardUpdate;
-import com.redhat.quarkus.cafe.web.domain.Item;
-import com.redhat.quarkus.cafe.web.domain.OrderStatus;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.jboss.logging.Logger;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

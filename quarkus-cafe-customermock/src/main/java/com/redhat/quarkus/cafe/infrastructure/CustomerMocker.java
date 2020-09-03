@@ -1,6 +1,6 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
+import com.redhat.quarkus.cafe.domain.OrderInCommand;
 import com.redhat.quarkus.cafe.domain.CustomerNames;
 import com.redhat.quarkus.cafe.domain.Item;
 import com.redhat.quarkus.cafe.domain.LineItem;
@@ -40,7 +40,7 @@ public class CustomerMocker {
 */
 //            Thread.sleep(seconds * 5000);
             int orders = new Random().nextInt(5);
-            List<CreateOrderCommand> mockOrders = mockCustomerOrders(orders);
+            List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
             mockOrders.forEach(mockOrder -> {
                 orderService.placeOrders(mockOrder);
                 logger.debug("placed order: {}", toJson(mockOrder));
@@ -53,10 +53,10 @@ public class CustomerMocker {
     }
 
 
-    public List<CreateOrderCommand> mockCustomerOrders(int desiredNumberOfOrders) {
+    public List<OrderInCommand> mockCustomerOrders(int desiredNumberOfOrders) {
 
         return Stream.generate(() -> {
-            CreateOrderCommand createOrderCommand = new CreateOrderCommand();
+            OrderInCommand createOrderCommand = new OrderInCommand();
             createOrderCommand.id = UUID.randomUUID().toString();
             createOrderCommand.beverages = createBeverages();
             // not all orders have kitchen items

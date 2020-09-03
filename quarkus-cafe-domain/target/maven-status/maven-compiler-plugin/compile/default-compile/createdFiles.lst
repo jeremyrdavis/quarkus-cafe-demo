@@ -3,9 +3,12 @@ com/redhat/quarkus/cafe/domain/OrderReadyUpdate.class
 com/redhat/quarkus/cafe/domain/OrderStatus.class
 com/redhat/quarkus/cafe/domain/WebUpdate.class
 com/redhat/quarkus/cafe/domain/EventType.class
+com/redhat/quarkus/cafe/domain/OrderInCommand.class
+com/redhat/quarkus/cafe/domain/LineItem.class
+com/redhat/quarkus/cafe/domain/EightySixException.class
+com/redhat/quarkus/cafe/domain/InQueueUpdate.class
+com/redhat/quarkus/cafe/domain/Event.class
 com/redhat/quarkus/cafe/domain/OrderInEvent.class
 com/redhat/quarkus/cafe/domain/OrderUpEvent.class
-com/redhat/quarkus/cafe/domain/CreateOrderCommand.class
-com/redhat/quarkus/cafe/domain/LineItem.class
+com/redhat/quarkus/cafe/domain/EightySixEvent.class
 com/redhat/quarkus/cafe/domain/Item.class
-com/redhat/quarkus/cafe/domain/InQueueUpdate.class

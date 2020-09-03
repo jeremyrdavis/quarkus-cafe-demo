@@ -1,6 +1,10 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.*;
+import com.redhat.quarkus.cafe.core.domain.Order;
+import com.redhat.quarkus.cafe.core.domain.OrderCreatedEvent;
+import com.redhat.quarkus.cafe.domain.EventType;
+import com.redhat.quarkus.cafe.domain.LineItemEvent;
+import com.redhat.quarkus.cafe.domain.OrderInCommand;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.*;
 import org.slf4j.Logger;

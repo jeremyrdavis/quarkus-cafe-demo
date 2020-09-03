@@ -19,8 +19,8 @@
     skip_quarkus_cafe_barista: true
     skip_quarkus_cafe_core: true
     skip_quarkus_cafe_kitchen: true
-    skip_quarkus_cafe_web: false
-    skip_quarkus_cafe_customermock: false
+    skip_quarkus_cafe_web: skip
+    skip_quarkus_cafe_customermock: skip
     quarkus_build_memory_limit: 6Gi
     quarkus_build_cpu_limit: 1
     quarkus_core_build_memory_limit: 6Gi

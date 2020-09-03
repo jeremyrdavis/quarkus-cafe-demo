@@ -1,18 +1,16 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
 
-import com.redhat.quarkus.cafe.web.domain.OrderInCommand;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.redhat.quarkus.cafe.domain.*;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionStage;
 
 import static com.redhat.quarkus.cafe.web.infrastructure.JsonUtil.toJson;
 
