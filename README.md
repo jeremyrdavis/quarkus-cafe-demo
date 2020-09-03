@@ -14,7 +14,7 @@ There is an additional microservice used for testing: Customermock
 
 ### Web
 
-quarkus-cafe-web
+[quarkus-cafe-web](quarkus-cafe-barista/)
 
 This service hosts the web front end and is the initial entry point for all orders.  Orders are sent to a Kafka topic, web-in, where they are picked up by the Core service.
 
@@ -26,11 +26,15 @@ quarkus-cafe-core
 
 This service handles the business logic of creating
 
-### Support
+### Kitchen
+quarkus-cafe-kitchen
 
-The support folder contains
+### Barista
+quarkus-cafe-barista
+
+
+## Documentation and support 
 Supporting scripts can be found in the "support" folder
-
 
 ## Quarkus Cafe Deployment Options 
 * [Quarkus Cafe Deployment Options ](support/README.md)
