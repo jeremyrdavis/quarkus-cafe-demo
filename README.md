@@ -22,26 +22,26 @@ This services listens to the web-updates topic and pushes updates to the web fro
 
 ### Core
 
-quarkus-cafe-core
+[quarkus-cafe-core](quarkus-cafe-core/)
 
 This service handles the business logic of creating
 
 ### Kitchen
-quarkus-cafe-kitchen
+[quarkus-cafe-kitchen](quarkus-cafe-kitchen)
 
 ### Barista
-quarkus-cafe-barista
+[quarkus-cafe-barista](quarkus-cafe-barista)
 
 
 ## Documentation and support 
-Supporting scripts can be found in the "support" folder
+Supporting scripts and documentation can be found in the "support" folder
 
 ## Quarkus Cafe Deployment Options 
 * [Quarkus Cafe Deployment Options ](support/README.md)
   * [Local Deployment Instructions ](support/README.md#local-deployment-instructions)
   * [OpenShift Docker Deployment via Ansible ](support/README.md#openshift-docker-deployment-via-ansible)
   * [Deployment via Helm Chart](support/README.md#deployment-via-helm-chart)
-  * [Deployment via ACM - Red Hat Advanced Cluster Management for Kubernetes](support/README.md#deployment-via-helm-chart)
+  * [Deployment via ACM - Red Hat Advanced Cluster Management for Kubernetes](support/README.md#deployment-via-acm---red-hat-advanced-cluster-management-for-kubernetes)
 
 ## ScreenShots
 **Landing Page**
