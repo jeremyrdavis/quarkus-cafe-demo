@@ -53,12 +53,5 @@ Supporting scripts and documentation can be found in the "support" folder
 **kafka topics**
 ![quarkus cafe kafka topics](support/images/ams-topics.png "quarkus cafe  kafka topics")
 
-
-http://quarkus-cafe-web-quarkus-cafe-demo.apps.example.com/cafe example
-![quarkus cafe application](support/images/webpage-example.png "quarkus application")
-
-
-
-
 ## Author Information
 This was created in 2020 by [Jeremy Davis](https://github.com/jeremyrdavis)
