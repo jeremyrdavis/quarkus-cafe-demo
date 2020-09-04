@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import com.redhat.quarkus.cafe.domain.*;
 import javax.inject.Inject;
+import java.util.Collection;
+import java.util.EventListener;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -31,11 +33,16 @@ public class KitchenTest {
                 "Moe",
                 Item.CAKEPOP);
 
-        CompletableFuture<OrderUpEvent> result = kitchen.make(orderIn);
-        OrderUpEvent orderUp = result.get();
-        assertEquals(orderIn.item, orderUp.item);
-        assertEquals(orderIn.orderId, orderUp.orderId);
-        assertEquals(orderIn.name, orderUp.name);
-        assertEquals(EventType.KITCHEN_ORDER_UP, orderUp.eventType);
+        CompletableFuture<Collection<Event>> result = kitchen.make(orderIn);
+        Collection<Event> events = result.get();
+        assertEquals(1, events.size());
+        events.forEach(e -> {
+            assertEquals(EventType.KITCHEN_ORDER_UP, e.getEventType());
+            OrderUpEvent orderUpEvent = (OrderUpEvent) e;
+            assertEquals(orderIn.item, orderUpEvent.item);
+            assertEquals(orderIn.orderId, orderUpEvent.orderId);
+            assertEquals(orderIn.name, orderUpEvent.name);
+            assertEquals(EventType.KITCHEN_ORDER_UP, orderUpEvent.eventType);
+        });
     }
 }

@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.redhat.quarkus</groupId>
     <artifactId>quarkus-cafe-demo</artifactId>
-    <version>2.4.0</version>
+    <version>2.5.0</version>
   </parent>
   <groupId>com.redhat.quarkus</groupId>
   <artifactId>quarkus-cafe-barista</artifactId>
