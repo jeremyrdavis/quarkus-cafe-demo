@@ -29,8 +29,8 @@ Run the following commands
 ```
 cat >quarkus_vars.json<<EOF
 {
-   "openshift_token": "WZiZiRd1LIigXpP14cZdCZKUDov-zPm9vShfWsfGNao",
-   "openshift_url": "https://api.cluster-2a53.2a53.sandbox1202.opentlc.com:6443",
+   "openshift_token": "TOKEN",
+   "openshift_url": "URL",
    "insecure_skip_tls_verify": true,
    "default_owner": "jeremydavis",
    "default_group": "staff",
