@@ -9,6 +9,8 @@ Requirements
 * Install OpenShift CLi
 * cluster-admin access  to OpenShift cluster
 
+**Tested on a RHEL based system**
+
 **Optional: Install OpenShift CLI**
 ```
 curl -OL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz
@@ -26,15 +28,16 @@ Run the following commands
 **cd into support/helm-deployment/admin-tasks**
 
 **Create variables file for inventory**
+`if using a different user or mac make sure you change root`
 ```
 cat >quarkus_vars.json<<EOF
 {
-   "openshift_token": "TOKEN",
-   "openshift_url": "URL",
+   "openshift_token": "OPENSHIFT_TOKEN",
+   "openshift_url": "OPENSHIFT_API_URL",
    "insecure_skip_tls_verify": true,
-   "default_owner": "jeremydavis",
-   "default_group": "staff",
-   "project_namespace": "quarkus-cafe-helm",
+   "default_owner": "root",
+   "default_group": "root",
+   "project_namespace": "quarkus-cafe-demo",
    "delete_deployment": false,
    "remote_username": "root"
 }
