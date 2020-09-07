@@ -13,8 +13,8 @@
     <module>quarkus-cafe-barista</module>
     <module>quarkus-cafe-kitchen</module>
     <module>quarkus-cafe-web</module>
-    <!--
     <module>quarkus-cafe-customermock</module>
+    <!--
     -->
   </modules>
 
