@@ -31,7 +31,7 @@ helm install strimzi/strimzi-kafka-operator
 ```
 
 **Deploy monogodb using helm chart**  
-working progress
+work in progress
 
 ## Developer Tasks 
 **cd into support/helm-deployment**

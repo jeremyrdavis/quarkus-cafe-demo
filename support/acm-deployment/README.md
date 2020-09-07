@@ -1,4 +1,5 @@
 # Quarkus Cafe on ACM
+![](../images/acm-quarkus-cafe-app.png)
 
 ## Provision RHPDS Enviornment 
 * OCP4 ACM Hub
