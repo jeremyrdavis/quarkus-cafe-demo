@@ -4,11 +4,18 @@ This repo contains an event-driven demo application built with Quarkus, AMQ Stre
 
 ## Overview
 
-The application consists of 4 microservices:
+The application consists of 4 microservices,:
 * Web
 * Core
 * Kitchen
 * Barista
+
+2 projects containing depencies for the microservices,:
+* Domain
+* Test Utils
+
+and a development utiltiy:
+* JSON Service
 
 There is an additional microservice used for testing: Customermock
 
@@ -24,14 +31,32 @@ This services listens to the web-updates topic and pushes updates to the web fro
 
 [quarkus-cafe-core](quarkus-cafe-core/)
 
-This service handles the business logic of creating
+This service orchestrates order related events between event producers and consumers 
 
 ### Kitchen
 [quarkus-cafe-kitchen](quarkus-cafe-kitchen)
 
+The kitchen services consumes "OrderIn" events, applies the business logic for making the item, and produces, "OrderUp" events
+
 ### Barista
 [quarkus-cafe-barista](quarkus-cafe-barista)
 
+The barista services consumes "OrderIn" events, applies the business logic for making the beverage, and produces, "OrderUp" events
+
+### Domain
+[quarkus-cafe-domain](quarkus-cafe-domain)
+
+The domain contain shared objects representing the current state of the system's ubiquitous language
+
+### Test Utils
+[quarkus-cafe-test-utils](quarkus-cafe-test-utils)
+
+The test utilities have utilities for spinning up MongoDB and Kafka containers for use in integration tests.  It is not part of the production application
+
+### JSON Service
+[quarkus-cafe-json-service](quarkus-cafe-json-service)
+
+This service is a convenient way to view the JSON objects produced and consumed by the system.  It is not part of the production application
 
 ## Documentation and support 
 Supporting scripts and documentation can be found in the [support](support/) folder
