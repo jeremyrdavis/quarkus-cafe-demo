@@ -2,6 +2,7 @@
 *.swp
 *.log
 */lsp/*
+**/target
 .idea/
 lsp/
 support/mongo-volume/
