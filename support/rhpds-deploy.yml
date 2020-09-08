@@ -2,18 +2,18 @@
   become: yes
   gather_facts: false
   vars:
-    openshift_token: Rl5nOoKY-LcXAZnLWVOqjXNF7gtmTugaur2dfYS42no
-    openshift_url:  https://api.cluster-amex-b913.amex-b913.sandbox718.opentlc.com:6443
+    openshift_token: <<TOKEN>>
+    openshift_url:  <<URL>>
     insecure_skip_tls_verify: true
     project_namespace: quarkus-cafe
     delete_deployment: false
-    default_owner: jeremydavis
-    default_group: staff
-    version_barista: 2.3.0
-    version_core: 2.3.0
+    default_owner: <<OWNER>>
+    default_group: <<GROUP>>
+    version_barista: 2.5.0
+    version_core: 2.5.0
     version_customermocker: 2.3.0
-    version_kitchen: 2.3.0
-    version_web: 2.3.0
+    version_kitchen: 2.5.0
+    version_web: 2.5.0
     skip_amq_install: true
     amqstartingCSV: amqstreams.v1.5.3
     skip_quarkus_cafe_barista: true
@@ -24,6 +24,6 @@
     quarkus_build_memory_limit: 6Gi
     quarkus_build_cpu_limit: 1
     quarkus_core_build_memory_limit: 6Gi
-    domain: cluster-amex-b913.amex-b913.sandbox718.opentlc.com  # Change This value
+    domain: <<DOMAIN>>  # Change This value
   roles:
     - tosin2013.quarkus_cafe_demo_role
