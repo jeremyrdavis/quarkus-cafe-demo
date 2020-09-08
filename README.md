@@ -61,21 +61,8 @@ This service is a convenient way to view the JSON objects produced and consumed 
 ## Documentation and support 
 Supporting scripts and documentation can be found in the [support](support/) folder
 
-## Building
-
-This is a (Supersonic, Subatomic) Java application built with Maven.  
-
-* /pom.xml in the main directory is an aggregate pom for conveniently building all of the projects
-* /quarkus-cafe-parent/pom.xml defines project dependencies and standardizes both Quarkus resources and the internal project dependencies quarkus-cafe-domain and quarkus-test-utils
-* Each microservice contains its' own pom.xml that inherits from the parent
-
-From the main directory run:
-
-'''shell
-
-mvn clean install
-
-'''
+## Working Locally
+See [Working Locally](WORKING-LOCALLY.md)
 
 ## Quarkus Cafe Deployment Options 
 * [Quarkus Cafe Deployment Options ](support/README.md)
