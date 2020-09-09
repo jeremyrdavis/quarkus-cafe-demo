@@ -71,7 +71,7 @@ services:
     image: crunchydata/crunchy-pgadmin4:centos7-10.9-2.4.1
     container_name:  'pgadmin4'
     environment:
-      - PGADMIN_SETUP_EMAIL=jeremy.davis@redhat.com
+      - PGADMIN_SETUP_EMAIL=quarkus.cafe@redhat.com
       - PGADMIN_SETUP_PASSWORD=redhat-20
       - SERVER_PORT=5050
     volumes:

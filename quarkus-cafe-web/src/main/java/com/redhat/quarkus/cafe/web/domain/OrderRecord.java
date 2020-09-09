@@ -1,11 +1,16 @@
 package com.redhat.quarkus.cafe.web.domain;
 
+import com.redhat.quarkus.cafe.domain.OrderInCommand;
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 @Entity
 public class OrderRecord extends PanacheEntity {
@@ -14,9 +19,26 @@ public class OrderRecord extends PanacheEntity {
 
     String orderSource = "WEB";
 
-    String payload;
+    @OneToMany(mappedBy = "orderRecord", cascade = CascadeType.ALL)
+    List<OrderLineItem> lineItems;
 
     public OrderRecord() {
+    }
+
+    public OrderRecord(String orderId) {
+        this.orderId = orderId;
+        this.lineItems = new ArrayList<>();
+    }
+
+    public static OrderRecord createFromOrderInCommand(final OrderInCommand orderInCommand) {
+        OrderRecord orderRecord = new OrderRecord(orderInCommand.id);
+        orderRecord.lineItems.addAll(orderInCommand.getBeverages().stream().map(beverage -> {
+            return new OrderLineItem(orderRecord, beverage.item, beverage.name);
+        }).collect(Collectors.toList()));
+        orderRecord.lineItems.addAll(orderInCommand.getKitchenOrders().stream().map(kitchenOrder -> {
+            return new OrderLineItem(orderRecord, kitchenOrder.item, kitchenOrder.name);
+        }).collect(Collectors.toList()));
+        return orderRecord;
     }
 
     @Override
@@ -24,18 +46,14 @@ public class OrderRecord extends PanacheEntity {
         return new StringJoiner(", ", OrderRecord.class.getSimpleName() + "[", "]")
                 .add("orderId='" + orderId + "'")
                 .add("orderSource='" + orderSource + "'")
-                .add("payload='" + payload + "'")
+                .add("lineItems=" + lineItems)
                 .add("id=" + id)
                 .toString();
     }
 
-    public OrderRecord(String orderId, String payload) {
-        this.orderId = orderId;
-        this.payload = payload;
-    }
-
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
@@ -45,7 +63,7 @@ public class OrderRecord extends PanacheEntity {
         return new EqualsBuilder()
                 .append(orderId, that.orderId)
                 .append(orderSource, that.orderSource)
-                .append(payload, that.payload)
+                .append(lineItems, that.lineItems)
                 .isEquals();
     }
 
@@ -54,7 +72,7 @@ public class OrderRecord extends PanacheEntity {
         return new HashCodeBuilder(17, 37)
                 .append(orderId)
                 .append(orderSource)
-                .append(payload)
+                .append(lineItems)
                 .toHashCode();
     }
 
@@ -70,11 +88,15 @@ public class OrderRecord extends PanacheEntity {
         return orderSource;
     }
 
-    public String getPayload() {
-        return payload;
+    public void setOrderSource(String orderSource) {
+        this.orderSource = orderSource;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
+    public List<OrderLineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<OrderLineItem> lineItems) {
+        this.lineItems = lineItems;
     }
 }
