@@ -49,3 +49,32 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  crunchy:
+    image:  'crunchydata/crunchy-postgres:centos7-10.9-2.4.1'
+    container_name:  'crunchy'
+    environment:
+      - PG_MODE=primary
+      - PG_PRIMARY_USER=postgres
+      - PG_PRIMARY_PASSWORD=redhat-20
+      - PG_DATABASE=cafedb
+      - PG_USER=cafeuser
+      - PG_PASSWORD=redhat-20
+      - PG_ROOT_PASSWORD=redhat-20
+      - PG_PRIMARY_PORT=5432
+    volumes:
+      - ./pgvolume
+    ports:
+      - '5432:5432'
+
+  pgadmin4:
+    image: crunchydata/crunchy-pgadmin4:centos7-10.9-2.4.1
+    container_name:  'pgadmin4'
+    environment:
+      - PGADMIN_SETUP_EMAIL=jeremy.davis@redhat.com
+      - PGADMIN_SETUP_PASSWORD=redhat-20
+      - SERVER_PORT=5050
+    volumes:
+      - ./pgadmin4volume
+    ports:
+      - '5050:5050'

@@ -1,5 +1,6 @@
 package com.redhat.quarkus.cafe.web.infrastructure;
 
+import com.redhat.quarkus.cafe.web.domain.OrderRecord;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.quarkus.runtime.annotations.RegisterForReflection;
@@ -10,6 +11,7 @@ import com.redhat.quarkus.cafe.domain.*;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,17 +36,20 @@ public class RestResource {
     Jsonb jsonb = JsonbBuilder.create();
 
     @GET
-    @Path("/cafe")
+    @Path("cafe")
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance getIndex(){
         return cafeTemplate.data("sourceUrl", sourceUrl);
     }
 
     @POST
-    @Path("/order")
+    @Path("order")
+    @Transactional
     public Response orderIn(final OrderInCommand orderInCommand) {
 
         logger.debug("CreateOrderCommand received: {}", toJson(orderInCommand));
+        OrderRecord orderRecord = new OrderRecord(orderInCommand.id, toJson(orderInCommand));
+        orderRecord.persist();
         return orderService.placeOrder(orderInCommand)
             .handle((res, ex) -> {
                 if (ex != null) {
