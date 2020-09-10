@@ -16,17 +16,17 @@ public class JsonResource {
 
     @GET
     @Path("/CreateOrderCommand")
-    public CreateOrderCommand createOrderCommand() {
+    public OrderInCommand createOrderCommand() {
         return mockCreateOrderCommand();
     }
 
-    private CreateOrderCommand mockCreateOrderCommand() {
+    private OrderInCommand mockCreateOrderCommand() {
 
-        CreateOrderCommand createOrderCommand = new CreateOrderCommand();
-        createOrderCommand.beverages = mockBeverages();
-        createOrderCommand.kitchenOrders = mockKitchenOrder();
-        createOrderCommand.id = UUID.randomUUID().toString();
-        return createOrderCommand;
+        OrderInCommand orderInCommand = new OrderInCommand();
+        orderInCommand.beverages = mockBeverages();
+        orderInCommand.kitchenOrders = mockKitchenOrder();
+        orderInCommand.id = UUID.randomUUID().toString();
+        return orderInCommand;
 
     }
 

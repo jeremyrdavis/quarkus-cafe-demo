@@ -55,11 +55,12 @@ public class BaristaIT extends KafkaIT {
 
         for (ConsumerRecord<String, String> record : baristaRecords) {
             System.out.println(record.value());
-            OrderUpEvent orderUp = jsonb.fromJson(record.value(), OrderUpEvent.class);
-            assertEquals(EventType.BEVERAGE_ORDER_UP, orderUp.eventType);
-            assertEquals("Lemmy", orderUp.name);
-            assertEquals(Item.COFFEE_BLACK, orderUp.item);
-            assertNotNull(orderUp.madeBy);
+            //[{"item":"COFFEE_BLACK","itemId":"901f1fb5-7ebf-4d2d-b0cd-0a80fa5a91e2","name":"Lemmy","orderId":"8a44cc4c-df49-4180-b0c5-c4ef34def5be","eventType":"BEVERAGE_ORDER_UP","madeBy":"jedavis-mac"}]
+            OrderUpEvent[] results = jsonb.fromJson(record.value(), new OrderUpEvent[] {}.getClass());
+            assertEquals(EventType.BEVERAGE_ORDER_UP, results[0].eventType);
+            assertEquals("Lemmy", results[0].name);
+            assertEquals(Item.COFFEE_BLACK, results[0].item);
+            assertNotNull(results[0].madeBy);
         }
     }
 

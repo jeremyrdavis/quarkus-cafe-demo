@@ -1,6 +1,5 @@
 package com.redhat.examples;
 
-import com.redhat.quarkus.cafe.domain.CreateOrderCommand;
 import com.redhat.quarkus.cafe.domain.Item;
 import com.redhat.quarkus.cafe.domain.LineItem;
 import io.quarkus.test.junit.QuarkusTest;

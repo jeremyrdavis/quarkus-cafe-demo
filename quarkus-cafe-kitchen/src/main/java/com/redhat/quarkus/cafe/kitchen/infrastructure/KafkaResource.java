@@ -33,6 +33,7 @@ public class KafkaResource {
         final OrderInEvent orderIn = jsonb.fromJson((String) message.getPayload(), OrderInEvent.class);
         if (orderIn.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
             return kitchen.make(orderIn).thenApply(o -> {
+                logger.debug("sending: {}", o.toString());
                 return orderUpEmitter.send(jsonb.toJson(o));
             }).thenRun( () -> { message.ack(); });
         }else{
