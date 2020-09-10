@@ -123,7 +123,7 @@ spec:
   channel: quarkus-cafe-ch-ns/quarkus-cafe-ch
   name: quarkus-helm-chart
   packageFilter:
-    version: "1.0.0"
+    version: "2.4.0"
   placement:
     placementRef:
       kind: PlacementRule
