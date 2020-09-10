@@ -10,7 +10,7 @@ import java.util.concurrent.CompletionStage;
 
 @Path("/order")
 @RegisterRestClient
-public interface OrderService {
+public interface OrderRESTClient {
 
     @POST
     CompletionStage<Response> placeOrders(OrderInCommand createOrderCommand);

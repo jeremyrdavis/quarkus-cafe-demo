@@ -1,11 +1,6 @@
-package com.redhat.quarkus.cafe.infrastructure;
+package com.redhat.quarkus.cafe.domain;
 
-import com.redhat.quarkus.cafe.domain.OrderInCommand;
-import com.redhat.quarkus.cafe.domain.CustomerNames;
-import com.redhat.quarkus.cafe.domain.Item;
-import com.redhat.quarkus.cafe.domain.LineItem;
-import io.quarkus.scheduler.Scheduled;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
+import com.redhat.quarkus.cafe.infrastructure.MockerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,40 +13,48 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.redhat.quarkus.cafe.infrastructure.JsonUtil.toJson;
+import static com.redhat.quarkus.cafe.domain.JsonUtil.toJson;
 
-/**
- * Creates and sends CreateOrderCommand objects to the web application
- */
 @ApplicationScoped
 public class CustomerMocker {
 
     final Logger logger = LoggerFactory.getLogger(CustomerMocker.class);
 
     @Inject
-    @RestClient
-    OrderService orderService;
+    MockerService mockerService;
 
-    @Scheduled(every = "30s")
-    public void placeOrder() {
-//        int seconds = new Random().nextInt(5);
-/*
-        try {
-*/
-//            Thread.sleep(seconds * 5000);
-            int orders = new Random().nextInt(5);
-            List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
-            mockOrders.forEach(mockOrder -> {
-                orderService.placeOrders(mockOrder);
-                logger.debug("placed order: {}", toJson(mockOrder));
-            });
-/*
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-*/
+    private boolean running;
+
+    CustomerVolume customerVolume = CustomerVolume.SLOW;
+
+    public void start() {
+        this.running = true;
+        logger.debug("CustomerMocker now running");
+        placeOrder();
     }
 
+    public void stop() {
+        this.running = false;
+        logger.debug("CustomerMocker now stopped");
+    }
+
+
+    public void placeOrder() {
+        if (running) {
+            try {
+                Thread.sleep(customerVolume.getDelay() * 1000);
+                int orders = new Random().nextInt(4);
+                List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
+                logger.debug("placing orders");
+                mockOrders.forEach(mockOrder -> {
+                    mockerService.placeOrders(mockOrder);
+                    logger.debug("placed order: {}", toJson(mockOrder));
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public List<OrderInCommand> mockCustomerOrders(int desiredNumberOfOrders) {
 
@@ -87,11 +90,41 @@ public class CustomerMocker {
     }
 
     Item randomKitchenItem() {
-        return Item.values()[new Random().nextInt(3)+5];
+        return Item.values()[new Random().nextInt(3) + 5];
     }
 
     String randomCustomerName() {
         return CustomerNames.randomName();
     }
+
+    public void setVolumeToBusy() {
+        setCustomerVolume(CustomerVolume.BUSY);
+    }
+
+    public void setVolumeToDead() {
+        setCustomerVolume(CustomerVolume.DEAD);
+    }
+
+    public void setVolumeToModerate() {
+        setCustomerVolume(CustomerVolume.MODERATE);
+    }
+
+    public void setVolumeToWeeds() {
+        setCustomerVolume(CustomerVolume.WEEDS);
+    }
+
+    //--------------------------------------------------
+    public CustomerVolume getCustomerVolume() {
+        return customerVolume;
+    }
+
+    private void setCustomerVolume(CustomerVolume customerVolume) {
+        this.customerVolume = customerVolume;
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
 
 }

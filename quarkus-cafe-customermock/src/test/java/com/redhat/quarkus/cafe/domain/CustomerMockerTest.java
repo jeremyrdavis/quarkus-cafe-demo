@@ -1,33 +1,63 @@
 package com.redhat.quarkus.cafe.domain;
 
-import com.redhat.quarkus.cafe.infrastructure.CustomerMocker;
+import com.redhat.quarkus.cafe.infrastructure.MockMockerService;
+import com.redhat.quarkus.cafe.infrastructure.MockerService;
+import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectSpy;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 @QuarkusTest
 public class CustomerMockerTest {
 
-
     @Inject
     CustomerMocker customerMocker;
 
-    Jsonb jsonb = JsonbBuilder.create();
+    @Inject
+    MockerService mockerService;
+
+    static MockerService mock;
+
+    @BeforeAll
+    public static void setup() {
+        mock = Mockito.mock(MockerService.class);
+        QuarkusMock.installMockForType(mock, MockerService.class);
+    }
 
     @Test
-    public void testCustomerMocker() {
+    public void testDefaultSetting() {
+        assertEquals(CustomerVolume.SLOW, customerMocker.getCustomerVolume());
+    }
 
-        List<OrderInCommand> createOrderCommands = customerMocker.mockCustomerOrders(15);
-        assertEquals(15, createOrderCommands.size());
+    @Test
+    public void testChangeSetting() {
+        assertEquals(CustomerVolume.SLOW, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToBusy();
+        assertEquals(CustomerVolume.BUSY, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToDead();
+        assertEquals(CustomerVolume.DEAD, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToModerate();
+        assertEquals(CustomerVolume.MODERATE, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToWeeds();
+        assertEquals(CustomerVolume.WEEDS, customerMocker.getCustomerVolume());
+    }
 
-        createOrderCommands.forEach(createOrderCommand -> {
-            System.out.println(jsonb.toJson(createOrderCommand));
-        });
+    @Test
+    public void testDelaySetting() {
+        customerMocker.setVolumeToBusy();
+        customerMocker.start();
+        try {
+            Thread.sleep(31000);
+        } catch (InterruptedException e) {
+            assertNull(e);
+        }
     }
 }
