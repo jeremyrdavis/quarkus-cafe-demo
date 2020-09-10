@@ -1,6 +1,5 @@
 package com.redhat.quarkus.cafe.infrastructure;
 
-import com.redhat.quarkus.cafe.domain.CustomerVolume;
 import com.redhat.quarkus.cafe.domain.OrderInCommand;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
@@ -19,10 +18,10 @@ public class MockerService {
 
     @Inject
     @RestClient
-    OrderRESTClient orderRESTClient;
+    RESTService RESTService;
 
     public void placeOrders(OrderInCommand orderInCommand) {
-        orderRESTClient.placeOrders(orderInCommand);
+        RESTService.placeOrders(orderInCommand);
     }
 
 }

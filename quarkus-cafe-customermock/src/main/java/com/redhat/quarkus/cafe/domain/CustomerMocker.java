@@ -1,6 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
-import com.redhat.quarkus.cafe.infrastructure.MockerService;
+import com.redhat.quarkus.cafe.infrastructure.RESTService;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,8 @@ public class CustomerMocker {
     final Logger logger = LoggerFactory.getLogger(CustomerMocker.class);
 
     @Inject
-    MockerService mockerService;
+    @RestClient
+    RESTService restService;
 
     private boolean running;
 
@@ -40,14 +42,14 @@ public class CustomerMocker {
 
 
     public void placeOrder() {
-        if (running) {
+        while (running) {
             try {
                 Thread.sleep(customerVolume.getDelay() * 1000);
                 int orders = new Random().nextInt(4);
                 List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
                 logger.debug("placing orders");
                 mockOrders.forEach(mockOrder -> {
-                    mockerService.placeOrders(mockOrder);
+                    restService.placeOrders(mockOrder);
                     logger.debug("placed order: {}", toJson(mockOrder));
                 });
             } catch (InterruptedException e) {
@@ -111,6 +113,10 @@ public class CustomerMocker {
 
     public void setVolumeToWeeds() {
         setCustomerVolume(CustomerVolume.WEEDS);
+    }
+
+    public void setVolumeToDev() {
+        setCustomerVolume(CustomerVolume.DEV);
     }
 
     //--------------------------------------------------

@@ -2,7 +2,7 @@ package com.redhat.quarkus.cafe.domain;
 
 public enum CustomerVolume {
 
-    DEAD(120), SLOW(60), MODERATE(45), BUSY(30), WEEDS(10);
+    DEAD(120), DEV(5), SLOW(60), MODERATE(45), BUSY(30), WEEDS(10);
 
     private int delay;
 

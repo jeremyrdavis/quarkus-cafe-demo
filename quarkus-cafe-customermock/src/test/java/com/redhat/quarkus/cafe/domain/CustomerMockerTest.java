@@ -1,10 +1,11 @@
 package com.redhat.quarkus.cafe.domain;
 
-import com.redhat.quarkus.cafe.infrastructure.MockMockerService;
 import com.redhat.quarkus.cafe.infrastructure.MockerService;
+import com.redhat.quarkus.cafe.infrastructure.RESTService;
 import io.quarkus.test.junit.QuarkusMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectSpy;
+import io.quarkus.test.junit.mockito.InjectMock;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -12,7 +13,6 @@ import org.mockito.Mockito;
 import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
 @QuarkusTest
@@ -21,16 +21,9 @@ public class CustomerMockerTest {
     @Inject
     CustomerMocker customerMocker;
 
-    @Inject
-    MockerService mockerService;
-
-    static MockerService mock;
-
-    @BeforeAll
-    public static void setup() {
-        mock = Mockito.mock(MockerService.class);
-        QuarkusMock.installMockForType(mock, MockerService.class);
-    }
+    @InjectMock
+    @RestClient
+    RESTService restService;
 
     @Test
     public void testDefaultSetting() {

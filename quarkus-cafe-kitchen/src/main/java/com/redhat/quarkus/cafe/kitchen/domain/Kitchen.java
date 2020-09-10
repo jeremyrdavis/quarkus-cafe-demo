@@ -36,7 +36,7 @@ public class Kitchen {
         }
     }
 
-    public CompletableFuture<Collection<Event>> make(final OrderInEvent orderInEvent) {
+    public CompletableFuture<Event> make(final OrderInEvent orderInEvent) {
 
         logger.debug("orderIn: " + orderInEvent.toString());
         return CompletableFuture.supplyAsync(() -> {
@@ -56,7 +56,7 @@ public class Kitchen {
         });
     }
 
-    private Collection<Event> prepare(final OrderInEvent orderInEvent, int seconds) {
+    private Event prepare(final OrderInEvent orderInEvent, int seconds) {
 
         // decrement the item in inventory
         try {
@@ -64,7 +64,7 @@ public class Kitchen {
         } catch (EightySixException e) {
             e.printStackTrace();
             logger.debug(orderInEvent.item + " is 86'd");
-            return Arrays.asList(new EightySixEvent(orderInEvent.item));
+            return new EightySixEvent(orderInEvent.item);
         }
 
         // give the kitchen time to make the item
@@ -74,13 +74,13 @@ public class Kitchen {
             Thread.currentThread().interrupt();
         }
 
-        return Arrays.asList(new OrderUpEvent(
+        return new OrderUpEvent(
                 EventType.KITCHEN_ORDER_UP,
                 orderInEvent.orderId,
                 orderInEvent.name,
                 orderInEvent.item,
                 orderInEvent.itemId,
-                madeBy));
+                madeBy);
 
     }
 }

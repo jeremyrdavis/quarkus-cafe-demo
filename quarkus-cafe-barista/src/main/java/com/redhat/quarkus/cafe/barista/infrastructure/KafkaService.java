@@ -14,10 +14,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
-@ApplicationScoped @RegisterForReflection
+@ApplicationScoped
+@RegisterForReflection
 public class KafkaService {
 
     Logger logger = LoggerFactory.getLogger(KafkaService.class);
@@ -25,7 +29,8 @@ public class KafkaService {
     @Inject
     Barista barista;
 
-    @Inject @Channel("orders-out")
+    @Inject
+    @Channel("orders-out")
     Emitter<String> orderUpEmitter;
 
     private Jsonb jsonb = JsonbBuilder.create();
@@ -37,15 +42,32 @@ public class KafkaService {
         final OrderInEvent orderIn = jsonb.fromJson((String) message.getPayload(), OrderInEvent.class);
         if (orderIn.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
             return barista.make(orderIn).thenApply(o -> {
-                logger.debug("sending: {}", o.toString());
-                return orderUpEmitter.send(jsonb.toJson(o));
-            }).thenRun( () -> { message.ack(); });
-        }else{
+                return sendEvents(o);
+            }).thenRun(() -> {
+                message.ack();
+            });
+        } else {
             return message.ack();
         }
     }
 
-    CompletableFuture<Void> sendOrderUpEvent(final OrderUpEvent event) {
+    CompletableFuture<Void> sendEvents(Collection<Event> events) {
+        logger.debug("{} events returned", events.size());
+        if (events.size() == 1) {
+            return sendEvent((Event) events.toArray()[0]);
+        }
+        return CompletableFuture.allOf(
+                events.stream().map(e -> {
+                    return sendEvent(e);
+                }).collect(Collectors.toList()).toArray(CompletableFuture[]::new))
+                .exceptionally(e -> {
+                    logger.error(e.getMessage());
+                    return null;
+                });
+    }
+
+    CompletableFuture<Void> sendEvent(final Event event) {
+        logger.debug("sending: {}", event.toString());
         return orderUpEmitter.send(jsonb.toJson(event)).toCompletableFuture();
     }
 
