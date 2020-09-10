@@ -26,12 +26,9 @@ public class Kitchen {
     @PostConstruct
     void setHostName() {
         try {
-            String hostName = InetAddress.getLocalHost().getHostName();
-            if (hostName == null || hostName.length() <= 0) {
-                madeBy = "default";
-            }
+            madeBy = InetAddress.getLocalHost().getHostName();
         } catch (IOException e) {
-            logger.info("unable to get hostname; using default");
+            logger.debug("unable to get hostname");
             madeBy = "unknown";
         }
     }
