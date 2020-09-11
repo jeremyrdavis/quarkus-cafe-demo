@@ -50,9 +50,34 @@ public class ApiResource {
     }
 
     @POST
+    @Path("/slow")
+    public Response setVolumeToSlow() {
+        logger.info("setting volume to Slow");
+        customerMocker.setToSlow();
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/moderate")
+    public Response setVolumeToModerate() {
+        logger.info("setting volume to Moderate");
+        customerMocker.setToModerate();
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/moderate")
+    public Response setVolumeToBusy() {
+        logger.info("setting volume to Busy");
+        customerMocker.setToBusy();
+        return Response.ok().build();
+    }
+
+    @POST
     @Path("/weeds")
     public Response setVolumeToWeeds() {
         logger.info("setting volume to Weeds");
         customerMocker.setToWeeds();
         return Response.ok().build();
-    }}
+    }
+}

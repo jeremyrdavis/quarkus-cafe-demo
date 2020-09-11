@@ -34,10 +34,8 @@ public class CustomerMocker {
 
     CustomerVolume customerVolume = CustomerVolume.SLOW;
 
-    @Inject
-    ManagedExecutor executor;
-
     Runnable sendMockOrders = () -> {
+        logger.debug("CustomerMocker now running");
 
         while (running) {
             try {
@@ -55,17 +53,9 @@ public class CustomerMocker {
         }
     };
 
-    // used to restart executor with new delay
-    void refreshExecutor() {
-
-        executor.execute(sendMockOrders);
-    }
-
-
-    public void start() {
+    public CompletableFuture<Void> start() {
         this.running = true;
-        executor.execute(sendMockOrders);
-        logger.debug("CustomerMocker now running");
+        return CompletableFuture.runAsync(sendMockOrders);
     }
 
     public void stop() {
@@ -116,13 +106,24 @@ public class CustomerMocker {
 
     public void setToDev() {
         this.customerVolume = CustomerVolume.DEV;
-        refreshExecutor();
+    }
+
+    public void setToSlow() {
+        this.customerVolume = CustomerVolume.SLOW;
+    }
+
+    public void setToModerate() {
+        this.customerVolume = CustomerVolume.MODERATE;
+    }
+
+    public void setToBusy() {
+        this.customerVolume = CustomerVolume.BUSY;
     }
 
     public void setToWeeds() {
         this.customerVolume = CustomerVolume.WEEDS;
-        refreshExecutor();
     }
+
     //--------------------------------------------------
     public boolean isRunning() {
         return running;
