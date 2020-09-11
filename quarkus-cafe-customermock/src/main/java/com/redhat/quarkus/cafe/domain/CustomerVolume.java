@@ -2,15 +2,15 @@ package com.redhat.quarkus.cafe.domain;
 
 public enum CustomerVolume {
 
-    DEAD("120s"), DEV("5s"), SLOW("60s"), MODERATE("45s"), BUSY("30s"), WEEDS("10s");
+    DEAD(120), DEV(5), SLOW(20), MODERATE(45), BUSY(30), WEEDS(10);
 
-    private String delay;
+    private int delay;
 
-    private CustomerVolume(String delayTime) {
+    private CustomerVolume(int delayTime) {
         this.delay = delayTime;
     }
 
-    public String getDelay() {
+    public int getDelay() {
         return this.delay;
     }
 }

@@ -1,10 +1,7 @@
 package com.redhat.quarkus.cafe.domain;
 
 import com.redhat.quarkus.cafe.infrastructure.RESTService;
-import io.quarkus.scheduler.Scheduled;
-import io.quarkus.scheduler.Scheduler;
 import org.eclipse.microprofile.context.ManagedExecutor;
-import org.eclipse.microprofile.context.ThreadContext;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,45 +27,49 @@ public class CustomerMocker {
     final Logger logger = LoggerFactory.getLogger(CustomerMocker.class);
 
     @Inject
-    Scheduler scheduler;
-
-    @Inject
     @RestClient
     RESTService restService;
 
     private boolean running;
 
-    CustomerVolume customerVolume = CustomerVolume.DEV;
+    CustomerVolume customerVolume = CustomerVolume.SLOW;
 
-    @Scheduled(every = "5s", delayed = "{delay}")
-    public void logSomething() {
+    @Inject
+    ManagedExecutor executor;
 
-        if(this.running){
+    Runnable sendMockOrders = () -> {
 
-            int orders = new Random().nextInt(4);
-            List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
-            logger.debug("placing orders");
-            mockOrders.forEach(mockOrder -> {
-                restService.placeOrders(mockOrder);
-                logger.debug("placed order: {}", toJson(mockOrder));
-            });
+        while (running) {
+            try {
+                Thread.sleep(customerVolume.getDelay() * 1000);
+                int orders = new Random().nextInt(4);
+                List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
+                logger.debug("placing orders");
+                mockOrders.forEach(mockOrder -> {
+                    restService.placeOrders(mockOrder);
+                    logger.debug("placed order: {}", toJson(mockOrder));
+                });
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+    };
+
+    // used to restart executor with new delay
+    void refreshExecutor() {
+
+        executor.execute(sendMockOrders);
     }
+
 
     public void start() {
         this.running = true;
-        if (!scheduler.isRunning()) {
-
-            scheduler.resume();
-        }
+        executor.execute(sendMockOrders);
         logger.debug("CustomerMocker now running");
     }
 
     public void stop() {
         this.running = false;
-        if (scheduler.isRunning()) {
-            scheduler.pause();
-        }
         logger.debug("CustomerMocker now stopped");
     }
 
@@ -109,35 +114,16 @@ public class CustomerMocker {
         return CustomerNames.randomName();
     }
 
-    public void setVolumeToBusy() {
-        setCustomerVolume(CustomerVolume.BUSY);
+    public void setToDev() {
+        this.customerVolume = CustomerVolume.DEV;
+        refreshExecutor();
     }
 
-    public void setVolumeToDead() {
-        setCustomerVolume(CustomerVolume.DEAD);
+    public void setToWeeds() {
+        this.customerVolume = CustomerVolume.WEEDS;
+        refreshExecutor();
     }
-
-    public void setVolumeToModerate() {
-        setCustomerVolume(CustomerVolume.MODERATE);
-    }
-
-    public void setVolumeToWeeds() {
-        setCustomerVolume(CustomerVolume.WEEDS);
-    }
-
-    public void setVolumeToDev() {
-        setCustomerVolume(CustomerVolume.DEV);
-    }
-
     //--------------------------------------------------
-    public CustomerVolume getCustomerVolume() {
-        return customerVolume;
-    }
-
-    private void setCustomerVolume(CustomerVolume customerVolume) {
-        this.customerVolume = customerVolume;
-    }
-
     public boolean isRunning() {
         return running;
     }
