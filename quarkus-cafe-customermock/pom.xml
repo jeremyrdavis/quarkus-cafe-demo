@@ -3,29 +3,35 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>quarkus-cafe-demo-parent</artifactId>
     <groupId>com.redhat.demos</groupId>
+    <artifactId>quarkus-cafe-demo-parent</artifactId>
     <version>2.6.1</version>
     <relativePath>../quarkus-cafe-parent</relativePath>
   </parent>
   <groupId>com.redhat.quarkus.cafe</groupId>
   <artifactId>quarkus-cafe-customermocker</artifactId>
   <version>2.5.0</version>
-  <properties />
-  <dependencyManagement />
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-universe-bom</artifactId>
+        <version>1.7.0.Final</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
-    <!-- Application Domain -->
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-domain</artifactId>
     </dependency>
-    <!-- Testing -->
     <dependency>
       <groupId>com.redhat.quarkus</groupId>
       <artifactId>quarkus-cafe-test-utils</artifactId>
       <scope>test</scope>
     </dependency>
-    <!-- Quarkus stuff -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jsonb</artifactId>
@@ -38,12 +44,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-scheduler</artifactId>
     </dependency>
-    <!-- Test stuff -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5-mockito</artifactId>
     </dependency>
   </dependencies>
   <build />
-  <profiles />
 </project>

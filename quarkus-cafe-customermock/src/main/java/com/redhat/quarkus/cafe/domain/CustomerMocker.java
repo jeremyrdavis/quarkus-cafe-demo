@@ -1,6 +1,10 @@
 package com.redhat.quarkus.cafe.domain;
 
 import com.redhat.quarkus.cafe.infrastructure.RESTService;
+import io.quarkus.scheduler.Scheduled;
+import io.quarkus.scheduler.Scheduler;
+import org.eclipse.microprofile.context.ManagedExecutor;
+import org.eclipse.microprofile.context.ThreadContext;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,40 +26,46 @@ public class CustomerMocker {
     final Logger logger = LoggerFactory.getLogger(CustomerMocker.class);
 
     @Inject
+    Scheduler scheduler;
+
+    @Inject
     @RestClient
     RESTService restService;
 
     private boolean running;
 
-    CustomerVolume customerVolume = CustomerVolume.SLOW;
+    CustomerVolume customerVolume = CustomerVolume.DEV;
+
+    @Scheduled(every = "5s", delayed = "{delay}")
+    public void logSomething() {
+
+        if(this.running){
+
+            int orders = new Random().nextInt(4);
+            List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
+            logger.debug("placing orders");
+            mockOrders.forEach(mockOrder -> {
+                restService.placeOrders(mockOrder);
+                logger.debug("placed order: {}", toJson(mockOrder));
+            });
+        }
+    }
 
     public void start() {
         this.running = true;
+        if (!scheduler.isRunning()) {
+
+            scheduler.resume();
+        }
         logger.debug("CustomerMocker now running");
-        placeOrder();
     }
 
     public void stop() {
         this.running = false;
-        logger.debug("CustomerMocker now stopped");
-    }
-
-
-    public void placeOrder() {
-        while (running) {
-            try {
-                Thread.sleep(customerVolume.getDelay() * 1000);
-                int orders = new Random().nextInt(4);
-                List<OrderInCommand> mockOrders = mockCustomerOrders(orders);
-                logger.debug("placing orders");
-                mockOrders.forEach(mockOrder -> {
-                    restService.placeOrders(mockOrder);
-                    logger.debug("placed order: {}", toJson(mockOrder));
-                });
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        if (scheduler.isRunning()) {
+            scheduler.pause();
         }
+        logger.debug("CustomerMocker now stopped");
     }
 
     public List<OrderInCommand> mockCustomerOrders(int desiredNumberOfOrders) {
