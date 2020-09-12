@@ -64,10 +64,15 @@ public class KafkaServiceTest extends KafkaIT {
 
         for (ConsumerRecord<String, String> record : inventoryRecords) {
             logger.info(record.value());
-            //[{"item":"COFFEE_BLACK","itemId":"901f1fb5-7ebf-4d2d-b0cd-0a80fa5a91e2","name":"Lemmy","orderId":"8a44cc4c-df49-4180-b0c5-c4ef34def5be","eventType":"BEVERAGE_ORDER_UP","madeBy":"jedavis-mac"}]
-            RestockItemCommand results = jsonb.fromJson(record.value(), RestockItemCommand.class);
-            assertEquals(CommandType.RESTOCK_BARISTA_COMMAND, results.commandType);
-            assertEquals(Item.COFFEE_BLACK, results.getItem());
+            RestockItemCommand restockItemCommand = jsonb.fromJson(record.value(), RestockItemCommand.class);
+//            assertEquals(CommandType.RESTOCK_BARISTA_COMMAND, restockItemCommand.commandType);
+//            assertEquals(Item.COFFEE_BLACK, restockItemCommand.getItem());
+            if (CommandType.RESTOCK_BARISTA_COMMAND.equals(restockItemCommand.commandType)) {
+                numberOfRestockBaristaCommands++;
+            }
+            if (CommandType.RESTOCK_INVENTORY_COMMAND.equals(restockItemCommand.commandType)) {
+                numberOfRestockInventoryCommands++;
+            }
         }
         assertEquals(1, numberOfRestockBaristaCommands);
         assertEquals(1, numberOfRestockInventoryCommands);
