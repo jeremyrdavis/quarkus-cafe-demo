@@ -1,4 +1,4 @@
-package com.redhat.examples;
+package com.redhat.examples.quarkus.coffeeshop.favfood.infrastructure;
 
 import io.quarkus.test.junit.NativeImageTest;
 
