@@ -22,7 +22,7 @@ public class ExampleResource {
     @Path("/order")
     public Response orderJson() {
 
-        return Response.ok(mockOrder()).build();
+        return Response.accepted(mockOrder()).build();
     }
 
     private Order mockOrder() {

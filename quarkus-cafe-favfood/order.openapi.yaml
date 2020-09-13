@@ -1,0 +1,40 @@
+---
+openapi: 3.0.1
+info:
+  title: FavFood Integration API
+  version: "1.0"
+paths:
+  /api/order:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+components:
+  schemas:
+    LineItem:
+      type: object
+      properties:
+        item:
+          type: string
+        itemId:
+          type: string
+        quantity:
+          format: int32
+          type: integer
+    ListLineItem:
+      type: array
+      items:
+        $ref: '#/components/schemas/LineItem'
+    Order:
+      type: object
+      properties:
+        customerName:
+          type: string
+        id:
+          type: string
+        lineItems:
+          $ref: '#/components/schemas/ListLineItem'
