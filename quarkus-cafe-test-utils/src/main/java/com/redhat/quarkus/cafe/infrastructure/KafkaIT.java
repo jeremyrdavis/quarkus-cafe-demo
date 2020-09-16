@@ -29,7 +29,7 @@ public abstract class KafkaIT {
 
     Jsonb jsonb = JsonbBuilder.create();
 
-    protected static Collection<String> kafkaTopics = Arrays.asList("barista-in", "barista-out", "kitchen-in", "kitchen-out", "orders", "web-in", "web-updates");
+    protected static Collection<String> kafkaTopics = Arrays.asList("barista-in", "barista-out", "kitchen-in", "kitchen-out", "inventory", "orders", "web-in", "web-updates");
 
     protected static Map<String, KafkaConsumer> consumerMap;
 
