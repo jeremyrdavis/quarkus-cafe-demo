@@ -4,7 +4,7 @@
     <groupId>com.redhat.demos</groupId>
     <artifactId>quarkus-cafe-demo-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.6.1</version>
+    <version>2.7.0</version>
     <name>Quarkus, Kafka, and Kubernetes</name>
     <properties>
         <!-- generated -->
@@ -25,8 +25,8 @@
         <testcontainers.version>1.14.3</testcontainers.version>
         <kafka-clients.version>2.6.0</kafka-clients.version>
         <!-- project versions -->
-        <cafe-domain.version>2.5.1</cafe-domain.version>
-        <cafe-test-utils.version>2.4.1</cafe-test-utils.version>
+        <cafe-domain.version>2.7.0</cafe-domain.version>
+        <cafe-test-utils.version>2.7.0</cafe-test-utils.version>
     </properties>
     <dependencyManagement>
         <dependencies>
