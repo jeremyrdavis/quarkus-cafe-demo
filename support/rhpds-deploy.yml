@@ -2,8 +2,8 @@
   become: yes
   gather_facts: false
   vars:
-    openshift_token: aFH9Pf_HbtdrRwkjeqXrknGxuzdescV7qjqoPOtlfqI
-    openshift_url: https://api.cluster-j4k-7209.j4k-7209.sandbox1884.opentlc.com:6443
+    openshift_token: <<TOKEN>>
+    openshift_url: <<URL>>:6443
     insecure_skip_tls_verify: true
     project_namespace: quarkus-coffeeshop
     delete_deployment: false
@@ -24,6 +24,6 @@
     quarkus_build_memory_limit: 6Gi
     quarkus_build_cpu_limit: 1
     quarkus_core_build_memory_limit: 6Gi
-    domain: cluster-j4k-7209.j4k-7209.sandbox1884.opentlc.com:6443  # Change This value
+    domain: <<URL>>  # Change This value
   roles:
     - tosin2013.quarkus_cafe_demo_role
