@@ -7,6 +7,7 @@ import com.redhat.quarkus.cafe.domain.OrderInEvent;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
