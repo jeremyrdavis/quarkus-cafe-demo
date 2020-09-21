@@ -67,14 +67,14 @@ services:
     ports:
       - '5432:5432'
 
-  pgadmin4:
-    image: crunchydata/crunchy-pgadmin4:centos7-10.9-2.4.1
-    container_name:  'pgadmin4'
-    environment:
-      - PGADMIN_SETUP_EMAIL=quarkus.cafe@redhat.com
-      - PGADMIN_SETUP_PASSWORD=redhat-20
-      - SERVER_PORT=5050
-    volumes:
-      - ./pgadmin4volume
-    ports:
-      - '5050:5050'
+#  pgadmin4:
+#    image: crunchydata/crunchy-pgadmin4:centos7-10.9-2.4.1
+#    container_name:  'pgadmin4'
+#    environment:
+#      - PGADMIN_SETUP_EMAIL=quarkus.cafe@redhat.com
+#      - PGADMIN_SETUP_PASSWORD=redhat-20
+#      - SERVER_PORT=5050
+#    volumes:
+#      - ./pgadmin4volume
+#    ports:
+#      - '5050:5050'
