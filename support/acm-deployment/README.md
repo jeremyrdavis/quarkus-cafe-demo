@@ -39,118 +39,108 @@ cd quarkus-cafe-demo/support/helm-deployment/admin-tasks
 **Run ansible playbook to install Red Hat AMQ and mongodb on target cluster**
 * [admin-tasks](https://github.com/jeremyrdavis/quarkus-cafe-demo/blob/master/support/helm-deployment/admin-tasks/README.md)
 
+## Configure OpenShift client context for cluster admin access 
+```
+# Login into hub cluster 
+oc login -u admin -p XXXX --insecure-skip-tls-verify https://api.YOURCLUSTER1.DOMAIN:6443
+# Set the name of the context
+oc config rename-context $(oc config current-context) hubcluster
+# Login into 1st cluster (A environment)
+oc login -u admin -p XXXX --insecure-skip-tls-verify https://api.YOURCLUSTER1.DOMAIN:6443
+# Set the name of the context
+oc config rename-context $(oc config current-context) cluster1
+# Login into 2nd cluster (B environment) ::: OPTIONAL
+oc login -u admin -p XXXX --insecure-skip-tls-verify https://api.YOURCLUSTER2.DOMAIN:6443
+# Set the name of the context
+oc config rename-context $(oc config current-context) cluster2
+# Login into 3rd cluster (C environment) ::: OPTIONAL
+oc login -u admin -p XXXX --insecure-skip-tls-verify https://api.YOURCLUSTER3.DOMAIN:6443
+# Set the name of the context
+oc config rename-context $(oc config current-context) cluster3
+```
+
+# Test the different cluster contexts
+```
+# Switch to hub
+oc config use-context hubcluster
+# Switch to cluster1
+oc config use-context cluster1
+# List the nodes in cluster1
+oc get nodes
+# Switch to cluster2
+oc config use-context cluster2
+# List the nodes in cluster2
+oc get nodes
+# Switch to cluster3 ::: Optional 
+oc config use-context cluster3
+# List the nodes in cluster3 ::: Optional 
+oc get nodes
+# Switch back to cluster1
+oc config use-context cluster1
+```
 
 ## Deploy Quarkus cafe Application on ACM Hub
 **From ACM**
 Login to ACM Managed clusater (OCP4 ACM Hub)
 
-Create namespace for subscription
+**Update routes for Quarkus Cafe Application**
+```
+cp overlays/cluster1/route.yaml.backup overlays/cluster1/route.yaml
+cp overlays/cluster2/route.yaml.backup overlays/cluster2/route.yaml
+cp overlays/cluster3/route.yaml.backup overlays/cluster3/route.yaml
+
+# Define the variable of `ROUTE_CLUSTER1`
+ROUTE_CLUSTER1=web-app.$(oc --context=cluster1 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+# Define the variable of `ROUTE_CLUSTER2`
+ROUTE_CLUSTER2=web-app.$(oc --context=cluster2 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+# Define the variable of `ROUTE_CLUSTER3`
+ROUTE_CLUSTER3=web-app.$(oc --context=cluster3 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+# Replace the value of changeme with `ROUTE_CLUSTER1` in the file `route.yaml`
+sed -i "s/changeme/${ROUTE_CLUSTER1}/" overlays/cluster1/route.yaml
+# Replace the value of changeme with `ROUTE_CLUSTER2` in the file `route.yaml`
+sed -i "s/changeme/${ROUTE_CLUSTER2}/" overlays/cluster2/route.yaml
+# Replace the value of changeme with `ROUTE_CLUSTER3` in the file `route.yaml`
+sed -i "s/changeme/${ROUTE_CLUSTER3}/" overlays/cluster3/route.yaml
+```
+
+**Use context hubcluster**
+```
+oc config use-context hubcluster
+```
+
 **Create namespace for subscription**
 ```
-cat <<EOF | oc create -f -
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: quarkus-cafe-demo
-EOF
+oc create -f acm-configs/01_namespace.yaml
 ```
 
-**Create application definition**
+**Create a Channel**
 ```
-cat <<EOF | oc create -f -
----
-apiVersion: app.k8s.io/v1beta1
-kind: Application
-metadata:
-  labels:
-    app: quarkus-cafe-details
-  name: quarkus-cafe-app
-  namespace: quarkus-cafe-demo
-spec:
-  componentKinds:
-  - group: apps.open-cluster-management.io
-    kind: Subscription
-  selector:
-    matchLabels:
-      app: quarkus-cafe-details
-status: {}
-EOF
-```
-![](https://i.imgur.com/LDOBpeh.png)
-
-**Create namespace channel definition**
-```
-cat <<EOF | oc create -f -
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: quarkus-cafe-ch-ns
-EOF
+oc create -f acm-configs/02_channel.yaml
 ```
 
-**Create Channel definition in this example we are using helm**
+**Create application**
 ```
-cat <<EOF | oc create -f -
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Channel
-metadata:
-  name: quarkus-cafe-ch
-  labels:
-    app: quarkus-cafe-details
-  namespace: quarkus-cafe-ch-ns
-spec:
-  type: HelmRepo
-  pathname: https://tosin2013.github.io/quarkus-cafe-helm-chart/
-EOF
+oc create -f 03_application_webapp.yaml
 ```
 
+**Confirm Clusters are properly labeled**
+*  `clusterid=cluster1`
+*  `clusterid=cluster2`
+*  `clusterid=cluster3`
+*  `clusterid=...`
 
-**Create Subscription definition for application**
+**Create placement rules**
 ```
-cat <<EOF | oc create -f -
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: Subscription
-metadata:
-  name: quarkus-cafe
-  namespace: quarkus-cafe-demo
-  labels:
-    app: quarkus-cafe-details
-spec:
-  channel: quarkus-cafe-ch-ns/quarkus-cafe-ch
-  name: quarkus-helm-chart
-  packageFilter:
-    version: "1.0.0"
-  placement:
-    placementRef:
-      kind: PlacementRule
-      name: towhichcluster
-  overrides:
-  - clusterName: "/"
-    clusterOverrides:
-    - path: "quarkus-cafe-demo"
-      value: default
-EOF
+oc create -f 04_placement_cluster1.yaml
+oc create -f 04_placement_cluster2.yaml
+oc create -f 04_placement_cluster3.yaml
 ```
 
-**Set Placement Rule for application**
+**Create subscription**
 ```
-cat <<EOF | oc create -f -
----
-apiVersion: apps.open-cluster-management.io/v1
-kind: PlacementRule
-metadata:
-  name: towhichcluster
-  namespace: quarkus-cafe-demo
-  labels:
-    app: quarkus-cafe-details
-spec:
-  clusterSelector:
-    matchLabels:
-      purpose: dev
-EOF
+oc create -f 05_subscription_cluster1.yaml
+oc create -f 05_subscription_cluster2.yaml
+oc create -f 05_subscription_cluster3.yaml
 ```
 
+**Verify the deployments have been created on all the clusters.**

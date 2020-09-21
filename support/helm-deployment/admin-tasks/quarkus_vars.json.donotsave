@@ -1,0 +1,10 @@
+{
+  "openshift_token": Y08qYLX3NKpIiz5Yz0W13IAteC8SWOiUXdV0NzA_fsQ,
+   "openshift_url": "https://api.cluster-atlanta-3545.atlanta-3545.sandbox732.opentlc.com:6443",
+   "insecure_skip_tls_verify": true,
+   "default_owner": "root",
+   "default_group": "root",
+   "project_namespace": "quarkus-cafe-demo",
+   "delete_deployment": false,
+   "remote_username": "root"
+}

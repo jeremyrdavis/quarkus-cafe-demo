@@ -1,0 +1,8 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  name: quarkus-cafe-demo-channel
+  namespace: quarkus-cafe-demo
+spec:
+  pathname: 'https://github.com/tosin2013/quarkus-cafe-demo.git'
+  type: GitHub

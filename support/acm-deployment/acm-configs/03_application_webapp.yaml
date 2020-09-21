@@ -1,0 +1,15 @@
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: quarkus-cafe-app     
+  namespace: quarkus-cafe-demo
+spec:
+  selector:
+    matchExpressions:
+      - key: deployment  
+        operator: In
+        values:
+        - quarkus-cafe-app
+  componentKinds:
+  - group: app.ibm.com/v1alpha1
+    kind: Subscription
