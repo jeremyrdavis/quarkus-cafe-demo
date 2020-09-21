@@ -48,8 +48,10 @@ public class RestResource {
     public Response orderIn(final OrderInCommand orderInCommand) {
 
         logger.debug("CreateOrderCommand received: {}", toJson(orderInCommand));
+/*
         OrderRecord orderRecord = OrderRecord.createFromOrderInCommand(orderInCommand);
         orderRecord.persist();
+*/
         return orderService.placeOrder(orderInCommand)
             .handle((res, ex) -> {
                 if (ex != null) {

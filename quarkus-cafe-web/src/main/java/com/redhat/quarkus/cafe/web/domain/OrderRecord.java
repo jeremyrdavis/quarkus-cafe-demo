@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-@Entity
-public class OrderRecord extends PanacheEntity {
+//@Entity
+public class OrderRecord {//extends PanacheEntity {
 
     String orderId;
 
     String orderSource = "WEB";
 
-    @OneToMany(mappedBy = "orderRecord", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "orderRecord", cascade = CascadeType.ALL)
     List<OrderLineItem> lineItems;
 
     public OrderRecord() {
@@ -47,7 +47,7 @@ public class OrderRecord extends PanacheEntity {
                 .add("orderId='" + orderId + "'")
                 .add("orderSource='" + orderSource + "'")
                 .add("lineItems=" + lineItems)
-                .add("id=" + id)
+//                .add("id=" + id)
                 .toString();
     }
 

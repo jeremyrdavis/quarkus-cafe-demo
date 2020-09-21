@@ -1,4 +1,4 @@
-package com.redhat.examples;
+package com.redhat.demos;
 
 import io.quarkus.test.junit.NativeImageTest;
 

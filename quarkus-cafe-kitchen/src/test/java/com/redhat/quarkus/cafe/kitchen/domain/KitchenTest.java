@@ -33,16 +33,12 @@ public class KitchenTest {
                 "Moe",
                 Item.CAKEPOP);
 
-        CompletableFuture<Collection<Event>> result = kitchen.make(orderIn);
-        Collection<Event> events = result.get();
-        assertEquals(1, events.size());
-        events.forEach(e -> {
-            assertEquals(EventType.KITCHEN_ORDER_UP, e.getEventType());
-            OrderUpEvent orderUpEvent = (OrderUpEvent) e;
+        CompletableFuture<Event> result = kitchen.make(orderIn);
+        OrderUpEvent orderUpEvent = (OrderUpEvent) result.get();
+            assertEquals(EventType.KITCHEN_ORDER_UP, orderUpEvent.getEventType());
             assertEquals(orderIn.item, orderUpEvent.item);
             assertEquals(orderIn.orderId, orderUpEvent.orderId);
             assertEquals(orderIn.name, orderUpEvent.name);
             assertEquals(EventType.KITCHEN_ORDER_UP, orderUpEvent.eventType);
-        });
     }
 }

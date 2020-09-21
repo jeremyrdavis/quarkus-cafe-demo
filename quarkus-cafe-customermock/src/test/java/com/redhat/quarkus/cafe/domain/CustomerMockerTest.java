@@ -1,33 +1,54 @@
 package com.redhat.quarkus.cafe.domain;
 
-import com.redhat.quarkus.cafe.infrastructure.CustomerMocker;
+import com.redhat.quarkus.cafe.infrastructure.RESTService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.mockito.InjectMock;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @QuarkusTest
 public class CustomerMockerTest {
 
-
     @Inject
     CustomerMocker customerMocker;
 
-    Jsonb jsonb = JsonbBuilder.create();
+    @InjectMock
+    @RestClient
+    RESTService restService;
+
+/*
+    @Test
+    public void testDefaultSetting() {
+        assertEquals(CustomerVolume.SLOW, customerMocker.getCustomerVolume());
+    }
 
     @Test
-    public void testCustomerMocker() {
-
-        List<OrderInCommand> createOrderCommands = customerMocker.mockCustomerOrders(15);
-        assertEquals(15, createOrderCommands.size());
-
-        createOrderCommands.forEach(createOrderCommand -> {
-            System.out.println(jsonb.toJson(createOrderCommand));
-        });
+    public void testChangeSetting() {
+        assertEquals(CustomerVolume.SLOW, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToBusy();
+        assertEquals(CustomerVolume.BUSY, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToDead();
+        assertEquals(CustomerVolume.DEAD, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToModerate();
+        assertEquals(CustomerVolume.MODERATE, customerMocker.getCustomerVolume());
+        customerMocker.setVolumeToWeeds();
+        assertEquals(CustomerVolume.WEEDS, customerMocker.getCustomerVolume());
     }
+
+    @Test
+    public void testDelaySetting() {
+        customerMocker.setVolumeToBusy();
+        customerMocker.start();
+        try {
+            Thread.sleep(31000);
+        } catch (InterruptedException e) {
+            assertNull(e);
+        }
+    }
+*/
 }

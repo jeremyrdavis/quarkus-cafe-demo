@@ -7,16 +7,16 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 
-@Entity
-public class OrderLineItem extends PanacheEntity {
+//@Entity
+public class OrderLineItem {//extends PanacheEntity {
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     Item item;
 
     String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="order_id", nullable = false)
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name="order_id", nullable = false)
     OrderRecord orderRecord;
 
     public OrderLineItem() {

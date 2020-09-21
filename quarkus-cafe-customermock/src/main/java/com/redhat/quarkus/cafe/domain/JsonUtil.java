@@ -1,4 +1,4 @@
-package com.redhat.quarkus.cafe.infrastructure;
+package com.redhat.quarkus.cafe.domain;
 
 import javax.json.JsonBuilderFactory;
 import javax.json.bind.Jsonb;

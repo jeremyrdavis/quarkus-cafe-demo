@@ -62,24 +62,24 @@ public class KafkaService {
 
     protected CompletionStage<Void> handleCreateOrderCommand(final OrderInCommand orderInCommand) {
 
-            // Get the event from the Order domain object
-            OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
-            orderRepository.persist(orderCreatedEvent.order);
+        // Get the event from the Order domain object
+        OrderCreatedEvent orderCreatedEvent = Order.processCreateOrderCommand(orderInCommand);
+        orderRepository.persist(orderCreatedEvent.order);
 
-            Collection<CompletableFuture<Void>> futures = new ArrayList<>(orderCreatedEvent.getEvents().size() * 2);
-            orderCreatedEvent.getEvents().forEach(e ->{
-                if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
-                    futures.add(sendBaristaOrder(e));
-                } else if (e.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
-                    futures.add(sendKitchenOrder(e));
-                }
-            });
+        Collection<CompletableFuture<Void>> futures = new ArrayList<>(orderCreatedEvent.getEvents().size() * 2);
+        orderCreatedEvent.getEvents().forEach(e ->{
+            if (e.eventType.equals(EventType.BEVERAGE_ORDER_IN)) {
+                futures.add(sendBaristaOrder(e));
+            } else if (e.eventType.equals(EventType.KITCHEN_ORDER_IN)) {
+                futures.add(sendKitchenOrder(e));
+            }
+        });
 
-            return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
-                    .exceptionally(e -> {
-                        logger.error(e.getMessage());
-                        return null;
-                    });
+        return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new))
+                .exceptionally(e -> {
+                    logger.error(e.getMessage());
+                    return null;
+                });
     }
 
     @Incoming("orders-up")
