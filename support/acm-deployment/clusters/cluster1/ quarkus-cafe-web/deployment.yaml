@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-web
+  labels:
+    app: quarkus-cafe-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-web
+  template:
+    metadata:
+      name: quarkus-cafe-web
+      labels:
+        app: quarkus-cafe-web
+        app.kubernetes.io/component: quarkus-cafe-web
+        app.kubernetes.io/instance: quarkus-cafe-web
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: quarkus-cafe-demo
+    spec:
+      containers:
+        - name: quarkus-cafe-web
+          image: jeremydavis/quarkus-cafe-web:2.4.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              value: cafe-cluster-kafka-bootstrap:9092
+            - name: REST_URL
+              value: http://quarkus-cafe-web-quarkus-cafe-demo.apps.ocp4.example.com
+            - name: STREAM_URL
+              value:  http://quarkus-cafe-web-quarkus-cafe-demo.apps.ocp4.example.com/dashboard/stream
+            - name: CORS_ORIGINS
+              value: http://quarkus-cafe-demo.apps.ocp4.example.com

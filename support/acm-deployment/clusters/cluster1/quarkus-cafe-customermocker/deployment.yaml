@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-customermocker
+  labels:
+    app: quarkus-cafe-customermocker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-cafe-customermocker
+  template:
+    metadata:
+      name: quarkus-cafe-customermocker-deployment
+      labels:
+        app:  quarkus-cafe-customermocker
+        app.kubernetes.io/component: quarkus-cafe-customermocker
+        app.kubernetes.io/instance: quarkus-cafe-customermocker
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: quarkus-cafe-demo
+    spec:
+      containers:
+        - name: quarkus-cafe-customermocker
+          image: jeremydavis/quarkus-cafe-customermocker:2.3.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: REST_URL
+              value: http://quarkus-cafe-web-quarkus-cafe-demo.apps.ocp4.example.com
