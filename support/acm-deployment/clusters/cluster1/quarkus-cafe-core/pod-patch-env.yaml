@@ -4,16 +4,17 @@ metadata:
   name: quarkus-cafe-core
 spec:
   template:
-    containers:
-      - name: quarkus-cafe-core
-        env:
-          - name: KAFKA_BOOTSTRAP_URLS
-            value: cafe-cluster-kafka-bootstrap:9092
-          - name: MONGO_DB
-            value: cafedb
-          - name: MONGO_URL
-            value: mongodb://mongodb:mongodb@mongodb:27017/cafedb
-          - name: MONGO_USERNAME
-            value: mongodb
-          - name: MONGO_PASSWORD
-            value: mongodb
+    spec:
+      containers:
+        - name: quarkus-cafe-core
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: cafe-cluster-kafka-bootstrap:9092
+            - name: MONGO_DB
+              value: cafedb
+            - name: MONGO_URL
+              value: mongodb://mongodb:mongodb@mongodb:27017/cafedb
+            - name: MONGO_USERNAME
+              value: mongodb
+            - name: MONGO_PASSWORD
+              value: mongodb
