@@ -36,8 +36,13 @@ oc new-project quarkus-cafe-demo
 cd quarkus-cafe-demo/support/helm-deployment/admin-tasks
 ```
 
-**Run ansible playbook to install Red Hat AMQ and mongodb on target cluster**
+**Run ansible playbook to install Red Hat AMQ and mongodb on target clusters**
 * [admin-tasks](https://github.com/jeremyrdavis/quarkus-cafe-demo/blob/master/support/helm-deployment/admin-tasks/README.md)
+
+**cd back into acm directory**  
+```
+cd ../../acm-deployment/
+```
 
 ## Configure OpenShift client context for cluster admin access 
 ```
@@ -90,16 +95,21 @@ cp overlays/cluster2/route.yaml.backup overlays/cluster2/route.yaml
 cp overlays/cluster3/route.yaml.backup overlays/cluster3/route.yaml
 
 # Define the variable of `ROUTE_CLUSTER1`
-ROUTE_CLUSTER1=web-app.$(oc --context=cluster1 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+ROUTE_CLUSTER1=quarkus-cafe-web-quarkus-cafe-demo.$(oc --context=cluster1 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+
 # Define the variable of `ROUTE_CLUSTER2`
-ROUTE_CLUSTER2=web-app.$(oc --context=cluster2 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
-# Define the variable of `ROUTE_CLUSTER3`
-ROUTE_CLUSTER3=web-app.$(oc --context=cluster3 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+ROUTE_CLUSTER2=quarkus-cafe-web-quarkus-cafe-demo.$(oc --context=cluster2 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+
+# Define the variable of `ROUTE_CLUSTER3`  ::: OPTIONAL
+ROUTE_CLUSTER3=quarkus-cafe-web-quarkus-cafe-demo.$(oc --context=cluster3 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
+
 # Replace the value of changeme with `ROUTE_CLUSTER1` in the file `route.yaml`
 sed -i "s/changeme/${ROUTE_CLUSTER1}/" overlays/cluster1/route.yaml
+
 # Replace the value of changeme with `ROUTE_CLUSTER2` in the file `route.yaml`
 sed -i "s/changeme/${ROUTE_CLUSTER2}/" overlays/cluster2/route.yaml
-# Replace the value of changeme with `ROUTE_CLUSTER3` in the file `route.yaml`
+
+# Replace the value of changeme with `ROUTE_CLUSTER3` in the file `route.yaml`  ::: OPTIONAL
 sed -i "s/changeme/${ROUTE_CLUSTER3}/" overlays/cluster3/route.yaml
 ```
 
