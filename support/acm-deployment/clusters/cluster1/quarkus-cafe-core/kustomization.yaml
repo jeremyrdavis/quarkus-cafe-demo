@@ -7,4 +7,4 @@ images:
 - name: jeremydavis/quarkus-cafe-core
   newTag: 2.4.0
 patchesStrategicMerge:
-  - pod-patch-env.yaml
+  - patch-env.yaml

@@ -6,3 +6,5 @@ kind: Kustomization
 images:
 - name: jeremydavis/quarkus-cafe-barista
   newTag: 2.4.1
+patchesStrategicMerge:
+  - patch-env.yaml

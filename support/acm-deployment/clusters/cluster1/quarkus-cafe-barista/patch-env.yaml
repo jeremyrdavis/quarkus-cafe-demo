@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-barista
+spec:
+  template:
+    spec:
+      containers:
+        - name: quarkus-cafe-barista
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: cafe-cluster-kafka-bootstrap:9092
