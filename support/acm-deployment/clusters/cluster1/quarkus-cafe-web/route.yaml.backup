@@ -4,7 +4,7 @@
     name: quarkus-cafe-web
     namespace: quarkus-cafe-demo
   spec:
-    host: quarkus-cafe-web-quarkus-cafe-demo.apps.ocp4.example.com
+    host: changeme
     port:
       targetPort: 8080-tcp
     to:
