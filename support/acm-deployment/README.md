@@ -90,7 +90,7 @@ Login to ACM Managed clusater (OCP4 ACM Hub)
 
 **Update routes for Quarkus Cafe Application**
 ```
-cp overlays/cluster1/route.yaml.backup overlays/cluster1/route.yaml
+cp  clusters/cluster1/quarkus-cafe-web/route.yaml.backup clusters/cluster1/quarkus-cafe-web/route.yaml
 cp overlays/cluster2/route.yaml.backup overlays/cluster2/route.yaml
 cp overlays/cluster3/route.yaml.backup overlays/cluster3/route.yaml
 
@@ -104,7 +104,7 @@ ROUTE_CLUSTER2=quarkus-cafe-web-quarkus-cafe-demo.$(oc --context=cluster2 get in
 ROUTE_CLUSTER3=quarkus-cafe-web-quarkus-cafe-demo.$(oc --context=cluster3 get ingresses.config.openshift.io cluster -o jsonpath='{ .spec.domain }')
 
 # Replace the value of changeme with `ROUTE_CLUSTER1` in the file `route.yaml`
-sed -i "s/changeme/${ROUTE_CLUSTER1}/" overlays/cluster1/route.yaml
+sed -i "s/changeme/${ROUTE_CLUSTER1}/" clusters/cluster1/quarkus-cafe-web/route.yaml
 
 # Replace the value of changeme with `ROUTE_CLUSTER2` in the file `route.yaml`
 sed -i "s/changeme/${ROUTE_CLUSTER2}/" overlays/cluster2/route.yaml
@@ -130,7 +130,7 @@ oc create -f acm-configs/02_channel.yaml
 
 **Create application**
 ```
-oc create -f 03_application_webapp.yaml
+oc create -f acm-configs/03_application_webapp.yaml
 ```
 
 **Confirm Clusters are properly labeled**
@@ -141,14 +141,14 @@ oc create -f 03_application_webapp.yaml
 
 **Create placement rules**
 ```
-oc create -f 04_placement_cluster1.yaml
+oc create -f acm-configs/04_placement_cluster1.yaml
 oc create -f 04_placement_cluster2.yaml
 oc create -f 04_placement_cluster3.yaml
 ```
 
 **Create subscription**
 ```
-oc create -f 05_subscription_cluster1.yaml
+oc create -f acm-configs/05_subscription_cluster1.yaml
 oc create -f 05_subscription_cluster2.yaml
 oc create -f 05_subscription_cluster3.yaml
 ```
