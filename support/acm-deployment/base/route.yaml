@@ -1,17 +1,6 @@
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
-    annotations:
-      openshift.io/host.generated: "true"
-    labels:
-      app: quarkus-cafe-web
-      app.kubernetes.io/component: quarkus-cafe-web
-      app.kubernetes.io/instance: quarkus-cafe-web
-      app.kubernetes.io/name: ""
-      app.kubernetes.io/part-of: quarkus-cafe
-      app.openshift.io/runtime: ""
-      app.openshift.io/runtime-version: latest
-      jeremydavis/quarkus-cafe-web: ""
     name: quarkus-cafe-web
     namespace: quarkus-cafe-demo
   spec:
