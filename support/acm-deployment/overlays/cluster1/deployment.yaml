@@ -1,0 +1,29 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkus-cafe-barista
+spec:
+  template:
+    metadata:
+      name: quarkus-cafe-barista-deployment
+      labels:
+        app:  quarkus-cafe-barista
+        app.kubernetes.io/component: quarkus-cafe-barista
+        app.kubernetes.io/instance: quarkus-cafe-barista
+        app.kubernetes.io/part-of: quarkus-cafe
+        quarkus-cafe: ""
+        app.openshift.io/runtime-namespace: quarkus-cafe-demo
+    spec:
+      containers:
+        - name: quarkus-cafe-barista
+          image: jeremydavis/quarkus-cafe-barista:2.4.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8778
+              protocol: TCP
+            - containerPort: 9779
+              protocol: TCP
+          env:
+            - name: KAFKA_BOOTSTRAP_URLS
+              value: cafe-cluster-kafka-bootstrap:9092
