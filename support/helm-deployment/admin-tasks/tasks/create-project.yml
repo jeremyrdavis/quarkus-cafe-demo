@@ -1,8 +1,8 @@
 - name: Create new project for quarkus-cafe
-  command: "/usr/local/bin/oc new-project {{ project_namespace }}"
+  command: "{{ oc_location }} new-project {{ project_namespace }}"
   register: create_project_result
   ignore_errors: yes
   when: not delete_deployment|bool
 
 - name: Switch to project for quarkus-cafe
-  command:  "/usr/local/bin/oc project {{ project_namespace }}"
+  command:  "{{ oc_location }} project {{ project_namespace }}"

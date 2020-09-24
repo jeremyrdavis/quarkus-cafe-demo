@@ -1,0 +1,16 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: Subscription
+metadata:
+  name: quarkus-cafe-app-cluster2
+  namespace: quarkus-cafe-demo
+  labels:
+    deployment: quarkus-cafe-app
+  annotations:
+    apps.open-cluster-management.io/github-branch: master
+    apps.open-cluster-management.io/github-path: support/acm-deployment/clusters/cluster2
+spec:
+  channel: quarkus-cafe-demo/quarkus-cafe-demo-channel
+  placement: 
+    placementRef: 
+      kind: PlacementRule
+      name: cluster1
