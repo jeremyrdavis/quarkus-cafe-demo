@@ -1,17 +1,31 @@
-- name: Create mongodb instance
-  command: "{{ oc_location }} new-app --name=mongodb --template=mongodb-ephemeral -e MONGODB_USER=mongodb -e MONGODB_PASSWORD=mongodb -e MONGODB_DATABASE=cafedb -e MONGODB_ADMIN_PASSWORD=mongodb"
+
+- name: Copying over mongodb template
+  template:
+    src: ../templates/mongodb-persistent.yaml.j2
+    dest:  "{{ config_location }}/mongodb-persistent.yaml"
+    owner: "{{ default_owner }}"
+    group: "{{ default_group }}"
+    mode: 0666
+
+- name: Create mongodb template
+  command: "{{ oc_location }} create -f {{ config_location }}/mongodb-persistent.yaml"
+  register: rbac_result
   when: not delete_deployment|bool
 
-- name: Waiting for mongodb build to complete
-  shell: |
-   set -o pipefail &&  {{ oc_location }} get pods  | grep Completed | grep mongodb | wc -l
-  register: install_status
+- name: Create mongodb instance
+  command: "{{ oc_location }} new-app --name=mongodb mongodb-replication-persistent  -e MONGODB_USER=mongodb -e MONGODB_PASSWORD=mongodb -e MONGODB_DATABASE=cafedb -e MONGODB_ADMIN_PASSWORD=mongodb"
   when: not delete_deployment|bool
-  until: "'1' in install_status.stdout"
-  retries: 120
-  delay: 15
-  args:
-    executable: /bin/bash
+
+# - name: Waiting for mongodb build to complete
+#   shell: |
+#    set -o pipefail &&  {{ oc_location }} get pods  | grep Completed | grep mongodb | wc -l
+#   register: install_status
+#   when: not delete_deployment|bool
+#   until: "'1' in install_status.stdout"
+#   retries: 120
+#   delay: 15
+#   args:
+#     executable: /bin/bash
 
 - name: Waiting for mongodb deployment
   shell: |
@@ -24,12 +38,20 @@
   args:
     executable: /bin/bash
 
+- name: Deploy mongoku
+  command: "{{ oc_location }} create -f ../objects/mongoku.yml"
+  when: not delete_deployment|bool
+
+- name: Remove KafDrop
+  command: "{{ oc_location }} delete -f ../objects/mongoku.yml"
+  when: delete_deployment|bool
+
 - name: Delete mongodb instance
   command: "{{ oc_location }} delete all --selector app=mongodb"
   ignore_errors: yes
   when: delete_deployment|bool
 
-- name: Delete mongodb instance
-  command: "{{ oc_location }} delete secret mongodb"
-  ignore_errors: yes
-  when: delete_deployment|bool
+# - name: Delete mongodb instance
+#   command: "{{ oc_location }} delete secret mongodb"
+#   ignore_errors: yes
+#   when: delete_deployment|bool
