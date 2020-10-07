@@ -1,0 +1,77 @@
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: quarkus-cafe-demo-mongoku
+  labels:
+    app: mongoku
+    app.kubernetes.io/part-of: quarkus-cafe-demo-mongoku
+  annotations:
+    app.openshift.io/connects-to: quarkus-cafe-demo-mongoku
+    app.openshift.io/vcs-uri: 'https://github.com/huggingface/Mongoku'
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    name: mongoku
+  template:
+    metadata:
+      name: mongoku
+      labels:
+        name: mongoku
+    spec:
+      containers:
+        - name: mongoku
+          image: huggingface/mongoku
+          ports:
+            - containerPort: 3100
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /actuator/health
+              port: 3100
+              scheme: HTTP
+          readinessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /actuator/health
+              port: 3100
+              scheme: HTTP
+  triggers:
+    - type: ConfigChange
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongoku
+  labels:
+    app: mongoku
+spec:
+  ports:
+    - name: 3100-tcp
+      port: 3100
+      protocol: TCP
+      targetPort: 3100
+  selector:
+    deploymentconfig: quarkus-cafe-demo-mongoku
+---
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  labels:
+    app: mongoku
+  name: mongoku
+spec:
+  port:
+    targetPort: 3100-tcp
+  to:
+    kind: Service
+    name: mongoku
+    weight: 100

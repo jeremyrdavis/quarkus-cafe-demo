@@ -57,6 +57,14 @@
   command: "{{ oc_location }} create -f {{ config_location }}/amq-kafka-topics.yaml"
   when: not delete_deployment|bool
 
+- name: Deploy KafDrop
+  command: "{{ oc_location }} create -f ../objects/kafdrop.yml"
+  when: not delete_deployment|bool
+
+- name: Remove KafDrop
+  command: "{{ oc_location }} delete -f ../objects/kafdrop.yml"
+  when: delete_deployment|bool
+
 - name: Remove kafka topics
   command: "{{ oc_location }} delete -f {{ config_location }}/amq-kafka-topics.yaml"
   ignore_errors: yes
