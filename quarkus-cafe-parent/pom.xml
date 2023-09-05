@@ -23,7 +23,7 @@
         <awaitility.version>4.0.2</awaitility.version>
         <failsafe-plugin.version>3.0.0-M4</failsafe-plugin.version>
         <testcontainers.version>1.14.3</testcontainers.version>
-        <kafka-clients.version>2.6.0</kafka-clients.version>
+        <kafka-clients.version>2.6.3</kafka-clients.version>
         <!-- project versions -->
         <cafe-domain.version>2.7.0</cafe-domain.version>
         <cafe-test-utils.version>2.7.0</cafe-test-utils.version>
